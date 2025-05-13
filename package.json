@@ -61,8 +61,6 @@
     "@emotion/is-prop-valid": "latest",
     "framer-motion": "latest",
     "react-intersection-observer": "latest",
-    "fs": "latest",
-    "path": "latest",
     "gray-matter": "latest"
   },
   "devDependencies": {
