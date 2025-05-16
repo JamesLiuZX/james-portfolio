@@ -40,13 +40,12 @@ export default function Home() {
       <CursorFollower />
       <ScrollProgress />
       <Navbar />
-      <Hero currentTime={currentTime} />
+      <Hero />
       <About />
       <Experience />
       <Projects />
       <TechStack />
       <AcademicAchievements />
-      <Beyond />
       <Contact />
       <Footer />
     </main>

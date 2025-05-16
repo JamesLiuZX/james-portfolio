@@ -187,18 +187,6 @@ export default function HerbalBathProject() {
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>Expanded product line from 3 initial offerings to over 15 products</span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Built a social media following of over 10,000 engaged followers</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Maintained a 4.8/5 customer satisfaction rating across all platforms</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Successfully expanded distribution to neighboring countries in Southeast Asia</span>
-                    </li>
                   </ul>
                 </div>
 
