@@ -1,7 +1,7 @@
 "use client"
-import { useRef } from "react"
+
 import { useInView } from "react-intersection-observer"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
@@ -24,14 +24,6 @@ export default function Projects() {
     threshold: 0.1,
     triggerOnce: true,
   })
-
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
 
   const projects: Project[] = [
     {
@@ -79,31 +71,36 @@ export default function Projects() {
   ]
 
   return (
-    <section
-      id="projects"
-      className="py-20 md:py-32 bg-background relative overflow-hidden bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-gray-100/30 via-background to-background dark:from-gray-800/10 dark:via-background dark:to-background"
-    >
-      {/* Background elements */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern" />
-        <div className="absolute -top-[30%] -right-[10%] w-[40%] h-[70%] rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -bottom-[30%] -left-[10%] w-[40%] h-[70%] rounded-full bg-primary/5 blur-3xl" />
-      </div>
-
+    <section id="projects" className="relative py-32 overflow-hidden bg-gray-50 dark:bg-gray-950">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-12">
-          <div className="space-y-4">
-            <motion.h2
-              className="text-2xl font-semibold"
+        <div ref={ref} className="space-y-16">
+          {/* Header */}
+          <div className="space-y-6 max-w-3xl">
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5"
             >
-              FEATURED PROJECTS
+              <div className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-400 tracking-wide">
+                MY WORK
+              </span>
+            </motion.div>
+
+            <motion.h2
+              className="text-5xl md:text-6xl font-bold tracking-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <span className="text-black dark:text-white">
+                FEATURED PROJECTS
+              </span>
             </motion.h2>
 
             <motion.p
-              className="text-lg text-muted-foreground max-w-3xl"
+              className="text-lg text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -116,105 +113,125 @@ export default function Projects() {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Button asChild className="group" variant="outline">
+              <Button 
+                asChild 
+                className="group border border-gray-200 dark:border-gray-800 hover:border-black dark:hover:border-white bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-all" 
+                variant="outline"
+              >
                 <Link href="/projects">
                   VIEW ALL PROJECTS
-                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </Button>
             </motion.div>
           </div>
 
-          <div ref={containerRef} className="relative">
-            <motion.div
-              style={{ y }}
-              className="absolute -right-20 top-1/2 transform -translate-y-1/2 w-40 h-40 rounded-full bg-primary/5 blur-3xl"
-            />
-            <motion.div
-              style={{ y: useTransform(scrollYProgress, [0, 1], [-100, 100]) }}
-              className="absolute -left-20 top-1/3 transform -translate-y-1/2 w-40 h-40 rounded-full bg-primary/5 blur-3xl"
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  className="group"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm transition-all duration-300 group-hover:shadow-md h-full flex flex-col bg-gradient-to-br from-white to-gray-50/80 dark:from-gray-900 dark:to-gray-800/10">
-                    <div className="relative overflow-hidden aspect-[16/9]">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        width={800}
-                        height={500}
-                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <Badge variant="outline" className="bg-black/50 text-white border-none w-fit mb-2">
-                          {project.category}
-                        </Badge>
-                        <h3 className="text-xl font-medium text-white">{project.title}</h3>
-                      </div>
+          {/* Projects grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+                className="group"
+              >
+                <div className="relative h-full bg-white dark:bg-black border border-gray-200 dark:border-gray-900 hover:border-gray-300 dark:hover:border-gray-800 rounded-2xl overflow-hidden transition-all duration-300">
+                  {/* Image container */}
+                  <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-900">
+                    <Image
+                      src={project.image || "/placeholder.svg"}
+                      alt={project.title}
+                      width={800}
+                      height={500}
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                    />
+                    
+                    {/* Subtle overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300" />
+                    
+                    {/* Category badge */}
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-white/90 dark:bg-black/90 text-black dark:text-white border-0 backdrop-blur-sm">
+                        {project.category}
+                      </Badge>
                     </div>
 
-                    <div className="flex-1 p-6 space-y-4">
-                      <h3 className="text-xl font-medium">{project.title}</h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2">{project.description}</p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.slice(0, 3).map((tech) => (
-                          <Badge
-                            key={tech}
-                            variant="secondary"
-                            className="font-normal bg-secondary/80 text-secondary-foreground/90"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <Badge variant="secondary" className="font-normal">
-                            +{project.technologies.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="p-6 pt-0 flex gap-2 mt-auto">
-                      <Button asChild size="sm" className="flex-1">
-                        <Link href={project.link}>View Details</Link>
-                      </Button>
-
-                      <div className="flex gap-1">
-                        {project.github && (
-                          <Button size="icon" variant="outline" asChild className="h-9 w-9">
-                            <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                              <Github className="h-4 w-4" />
-                            </Link>
-                          </Button>
-                        )}
-
-                        {project.link.startsWith("http") && (
-                          <Button size="icon" variant="outline" asChild className="h-9 w-9">
-                            <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </Link>
-                          </Button>
-                        )}
-                      </div>
+                    {/* Action buttons */}
+                    <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      {project.github && (
+                        <Button 
+                          size="icon" 
+                          className="h-9 w-9 rounded-full bg-white/90 dark:bg-black/90 hover:bg-white dark:hover:bg-black border-0 backdrop-blur-sm"
+                          asChild
+                        >
+                          <Link href={project.github} target="_blank" rel="noopener noreferrer">
+                            <Github className="h-4 w-4 text-black dark:text-white" />
+                          </Link>
+                        </Button>
+                      )}
+                      
+                      {project.link.startsWith("http") && (
+                        <Button 
+                          size="icon" 
+                          className="h-9 w-9 rounded-full bg-white/90 dark:bg-black/90 hover:bg-white dark:hover:bg-black border-0 backdrop-blur-sm"
+                          asChild
+                        >
+                          <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="h-4 w-4 text-black dark:text-white" />
+                          </Link>
+                        </Button>
+                      )}
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+
+                  {/* Content */}
+                  <div className="p-6 space-y-4">
+                    <h3 className="text-xl font-semibold text-black dark:text-white">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.slice(0, 4).map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="font-normal bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-0"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                      {project.technologies.length > 4 && (
+                        <Badge variant="secondary" className="font-normal bg-gray-100 dark:bg-gray-900">
+                          +{project.technologies.length - 4}
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="pt-2">
+                      <Button 
+                        asChild 
+                        className="w-full bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100 border-0"
+                      >
+                        <Link href={project.link}>
+                          <span>View Details</span>
+                          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   )
 }
-

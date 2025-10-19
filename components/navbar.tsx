@@ -32,7 +32,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "ABOUT", href: "/#about" },
     { name: "PROJECTS", href: "/#projects" },
-    { name: "BLOG", href: "/blog" },
+    //{ name: "BLOG", href: "/blog" },
     { name: "CONTACT", href: "/#contact" },
   ]
 
@@ -62,9 +62,6 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-          <div className="bg-secondary/50 px-3 py-1 rounded-full text-xs text-muted-foreground">
-            Open To Work / Web Development Services
-          </div>
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -91,9 +88,6 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <div className="bg-secondary/50 px-4 py-2 rounded-full text-sm text-muted-foreground mt-4">
-              Open To Work / Web Development Services
-            </div>
           </div>
         </div>
       )}
