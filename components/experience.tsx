@@ -2,7 +2,7 @@
 import { useInView } from "react-intersection-observer"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { FileText } from "lucide-react"
+import { FileText, Linkedin } from "lucide-react"
 import ParallaxSection from "./parallax-section"
 
 interface Experience {
@@ -24,22 +24,13 @@ export default function Experience() {
   const experiences: Experience[] = [
     {
       company: "ByteDance",
-      role: "Global Growth Product Manager (Full Time)",
-      period: "MAY  '25 - PRESENT",
+      role: "Growth Product Manager",
+      period: "JUL '24 - SEP '25",
       description: [
-      ],
-      expanded: false,
-      color: "#24C5FF",
-    },
-    {
-      company: "ByteDance",
-      role: "Global Growth Product Manager Intern",
-      period: "JUL '24 - APR '24",
-      description: [
+        "Received full-time conversion in 2024 and Spot Bonus award for full-time employees in Q2 2025, given to top 10% performers.",
         "Co-led the development of a multi-modal AI content generation platform for SEO, utilizing LLMs and RAG, writing technical specs and working with a team of 7, which increased unique monthly visitors by 20% over 3 months.",
-        "Co-led Lark's partnership with Perplexity AI, leading to increased revenue and licenses for over 100k users.",
-        "Spearheaded modular initiatives for the global referral programme expansion for Bytedance B2B Enterprise SaaS, expected to increase ARR by 15%.",
-        "Initiated new website designs in high-traffic pages such as pricing page and events page, increasing weekly leads conversion by 11%.",
+        "Co-led Lark's partnership with Perplexity AI, bringing over $20 million USD in value.",
+        "Initiated revamps of over 20 key pages, resulting in over 40% increased conversion rate on average.",
       ],
       expanded: true,
       color: "#24C5FF",
@@ -49,10 +40,9 @@ export default function Experience() {
       role: "Product Manager Intern",
       period: "AUG '23 - JUL '24",
       description: [
-        "Directed the development of four frontend products such as product similarity recommendation module, achieving a 35% increase in conversion rates in shopping carts and a 100% improvement in user site retention length.",
+        "Worked on optimizing onboarding flow, user acquisition, and incentivizing first transactions.",
+        "Directed the development of four frontend products, achieving a 35% increase in conversion rates in shopping carts and a 100% improvement in user site retention length.",
         "Spearheaded the implementation of Stripe's 3D Secure and advanced Radar rules, leading to a 90% reduction in fraudulent transactions, translating to monthly savings of $20,000 USD.",
-        "Initiated and guided the development of a novel revenue stream through international wholesale overseas freight, anticipated to contribute 25% to Trendsi's annual revenue.",
-        "Co-led Trendsi's strategic venture into the Canadian and Mexican markets, overseeing a comprehensive overhaul of the design, logistics, and optimizing payment processes.",
         "Enhanced website visibility and user experience by boosting SEO rankings by 26% and accelerating page load speeds by 20%.",
       ],
       color: "#FF6B6B",
@@ -119,21 +109,28 @@ export default function Experience() {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              I have a diverse background in SaaS, iPaaS, AI, focusing on product-led growth and platform product
+              I have a diverse background in growth products, AI, focusing on product-led growth and platform product
               management.
             </motion.p>
-
+            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Button className="group" variant="outline">
-                GET RESUME
-                <FileText className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
-              </Button>
+              <a
+                href="https://www.linkedin.com/in/james-liu-zx/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="group" variant="outline">
+                  VIEW LINKEDIN
+                  <Linkedin className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
+                </Button>
+              </a>
             </motion.div>
           </div>
+          
 
           <motion.div
             className="space-y-10"
@@ -142,7 +139,8 @@ export default function Experience() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="relative">
-              <div className="absolute left-9 top-0 bottom-0 w-px bg-border" />
+              {/* move the vertical line down a bit so it doesn't clash with the card border */}
+              <div className="absolute left-9 top-[15px] bottom-6 w-px bg-border" />
 
               {experiences.map((exp, index) => (
                 <ParallaxSection key={index} offset={20} className="mb-12 last:mb-0">
@@ -153,8 +151,8 @@ export default function Experience() {
                     transition={{ duration: 0.5, delay: 0.1 * index }}
                   >
                     <div
-                      className="absolute left-0 w-[18px] h-[18px] rounded-full border-4 border-background z-10"
-                      style={{ backgroundColor: exp.color || "#888", top: "6px" }}
+                      className="absolute left-0 w-[18px] h-[18px] rounded-full border-4 border-background z-20"
+                      style={{ backgroundColor: exp.color || "#888", top: "15px" }}
                     />
 
                     <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
@@ -171,8 +169,8 @@ export default function Experience() {
                       <ul className="space-y-3 text-muted-foreground">
                         {exp.description.map((item, i) => (
                           <li key={i} className="flex items-start">
-                            <span className="mr-2 mt-1.5 text-primary">•</span>
-                            <span>{item}</span>
+                            <span className="mr-3 mt-1 text-primary">•</span>
+                            <span className="flex-1">{item}</span>
                           </li>
                         ))}
                       </ul>
