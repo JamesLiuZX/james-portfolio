@@ -28,7 +28,7 @@ export default function AcademicAchievements() {
       title: "NUS Venture Initiation Program",
       organization: "National University of Singapore",
       date: "2024",
-      description: "$10,000 Grant Recipient for technical startup Calendare",
+      description: "Won $10,000 grant for technical startup from NUS Enterprise.",
       highlight: true,
       color: "#4338ca", // Deeper indigo
     },
@@ -41,18 +41,18 @@ export default function AcademicAchievements() {
       color: "#0369a1", // Deeper sky blue
     },
     {
-      title: "J.P. Morgan FNAF Program",
-      organization: "J.P. Morgan",
+      title: "2nd Place, Stanford Hackathon",
+      organization: "Stanford Startup Society",
       date: "2023",
-      description: "An Early Insight Program for 50 outstanding non-Finance majors from Asia",
+      description: "Achieved 2nd place in Stanford Startup Society hackathon among 100+ participants",
       highlight: true,
       color: "#047857", // Deeper emerald
     },
     {
-      title: "Meta Above and Beyond Computer Science Program",
-      organization: "Meta",
-      date: "2022",
-      description: "Selected for exclusive mentorship and development program",
+      title: "CS2103T Student Mentor for Software Engineering",
+      organization: "NUS School of Computing",
+      date: "2023",
+      description: "Top student for 'CS2103T, Software Engineering in Java' and taught junior students ",
       highlight: true,
       color: "#b45309", // Deeper amber
     },
@@ -118,7 +118,7 @@ export default function AcademicAchievements() {
                 <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm bg-gradient-to-br from-white to-indigo-50 dark:from-gray-900 dark:to-indigo-950/30">
                   <div className="aspect-[4/3] relative overflow-hidden">
                     <Image
-                      src="/placeholder.svg?height=400&width=600"
+                      src="/nuslogo.png"
                       alt="National University of Singapore"
                       width={600}
                       height={400}
