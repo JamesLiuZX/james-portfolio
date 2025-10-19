@@ -154,7 +154,7 @@ export default function CalendareProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>
-                        Created seamless integrations with Google Calendar, Microsoft Outlook, and popular task managers
+                        Created seamless integrations with Google Calendar
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -171,13 +171,6 @@ export default function CalendareProject() {
                         adjustments
                       </span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Built with a privacy-first approach, processing sensitive data locally when possible and using
-                        strong encryption
-                      </span>
-                    </li>
                   </ul>
                 </div>
 
@@ -190,30 +183,10 @@ export default function CalendareProject() {
                         Secured $10,000 in funding from NUS VIP grant, validating the business concept and technology
                       </span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Achieved 87% user retention rate after first month, significantly higher than industry average
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Users reported an average 32% increase in task completion after adopting Calendare</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Featured in several productivity blogs and newsletters, generating organic user growth
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Growing user base with minimal marketing spend through word-of-mouth and referrals</span>
-                    </li>
                   </ul>
                 </div>
 
-                <div className="space-y-4">
+{/*                 <div className="space-y-4">
                   <h2 className="text-2xl font-semibold">Gallery</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="rounded-lg overflow-hidden">
@@ -253,7 +226,7 @@ export default function CalendareProject() {
                       />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </motion.div>
 
               <motion.div
@@ -342,18 +315,6 @@ export default function CalendareProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1 text-purple-500">•</span>
                       <span>NUS VIP Grant Recipient ($10,000)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-purple-500">•</span>
-                      <span>Featured in ProductHunt's "Products to Watch"</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-purple-500">•</span>
-                      <span>Mentioned in "Future of Work" newsletter</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-purple-500">•</span>
-                      <span>Selected for NUS Enterprise Showcase</span>
                     </li>
                   </ul>
                 </div>

@@ -105,7 +105,7 @@ export default function AskShopAIProject() {
                     across every Shopify store. We built the entire platform in just 5 weeks, using TypeScript, AWS,
                     Liquid, Gadget, and JavaScript. Our efforts were recognized with funding from Stanford Startup
                     Society and a 2nd place finish in the Stanford internal hackathon. The platform quickly gained
-                    traction, achieving over 100 business users and maintaining a perfect 5.0/5.0 rating on the Shopify
+                    traction, achieving over 100 installs and maintaining a perfect 5.0/5.0 rating on the Shopify
                     app store.
                   </p>
                 </div>
@@ -240,7 +240,7 @@ export default function AskShopAIProject() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="rounded-lg overflow-hidden">
                       <Image
-                        src="/placeholder.svg?height=400&width=600"
+                        src="/askshopblog1.png"
                         alt="AskShop.ai Dashboard"
                         width={600}
                         height={400}
@@ -377,10 +377,6 @@ export default function AskShopAIProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1 text-purple-500">•</span>
                       <span>2nd Place, Stanford Internal Hackathon</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-purple-500">•</span>
-                      <span>Featured on Shopify Partner Spotlight</span>
                     </li>
                     <li className="flex items-start">
                       <span className="mr-2 mt-1 text-purple-500">•</span>

@@ -95,7 +95,7 @@ export default function NFTSentimentProject() {
                   <h2 className="text-2xl font-semibold">Overview</h2>
                   <p className="text-muted-foreground leading-relaxed">
                     The NFT Sentiment Price Predictor is an innovative platform that combines real-time market data with
-                    social media sentiment analysis to predict NFT price movements. I implemented and optimized over 20
+                    social media sentiment analysis to predict NFT price movements. We implemented and optimized over 20
                     functional components for NFT price charts overlay with predicted prices and sentiment over
                     customizable time series parameters.
                   </p>
@@ -183,26 +183,8 @@ export default function NFTSentimentProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>
-                        Successfully predicted major NFT price movements with 72% accuracy based on sentiment shifts
+                        Successfully completed NUS Orbital Apollo requirements.
                       </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Attracted over 5,000 active users within the first three months of launch</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Processed and analyzed over 1 million social media posts daily related to NFT collections
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Featured in several Web3 publications and newsletters as an innovative analytics tool</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>Established partnerships with three major NFT marketplaces for data integration</span>
                     </li>
                   </ul>
                 </div>
