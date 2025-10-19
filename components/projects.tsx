@@ -1,7 +1,7 @@
 "use client"
-
+import { useRef } from "react"
 import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
@@ -24,6 +24,14 @@ export default function Projects() {
     threshold: 0.1,
     triggerOnce: true,
   })
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
 
   const projects: Project[] = [
     {
@@ -71,41 +79,38 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="relative py-32 overflow-hidden bg-gray-50 dark:bg-gray-950">
+    <section
+      id="projects"
+      className="py-20 md:py-32 bg-gradient-to-b from-background via-secondary/10 to-background relative overflow-hidden"
+    >
+      {/* Enhanced background elements */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      </div>
+
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div ref={ref} className="space-y-16">
-          {/* Header */}
-          <div className="space-y-6 max-w-3xl">
+          {/* Header Section */}
+          <div className="space-y-6 text-center md:text-left max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
-              <span className="text-xs font-medium text-gray-600 dark:text-gray-400 tracking-wide">
-                MY WORK
-              </span>
+              <Badge variant="outline" className="mb-4">Featured Work</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold">
+                SELECTED PROJECTS
+              </h2>
             </motion.div>
 
-            <motion.h2
-              className="text-5xl md:text-6xl font-bold tracking-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <span className="text-black dark:text-white">
-                FEATURED PROJECTS
-              </span>
-            </motion.h2>
-
             <motion.p
-              className="text-lg text-gray-600 dark:text-gray-400"
+              className="text-lg text-muted-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Discover my featured work across various domains, from AI-powered applications to e-commerce platforms.
+              Discover my featured work across various domains—from AI-powered applications to e-commerce platforms. Each project represents a unique challenge and innovative solution.
             </motion.p>
 
             <motion.div
@@ -113,122 +118,113 @@ export default function Projects() {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <Button 
-                asChild 
-                className="group border border-gray-200 dark:border-gray-800 hover:border-black dark:hover:border-white bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-all" 
-                variant="outline"
-              >
+              <Button asChild size="lg" className="group">
                 <Link href="/projects">
                   VIEW ALL PROJECTS
-                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
               </Button>
             </motion.div>
           </div>
 
-          {/* Projects grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="group"
-              >
-                <div className="relative h-full bg-white dark:bg-black border border-gray-200 dark:border-gray-900 hover:border-gray-300 dark:hover:border-gray-800 rounded-2xl overflow-hidden transition-all duration-300">
-                  {/* Image container */}
-                  <div className="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-900">
-                    <Image
-                      src={project.image || "/placeholder.svg"}
-                      alt={project.title}
-                      width={800}
-                      height={500}
-                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                    />
-                    
-                    {/* Subtle overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300" />
-                    
-                    {/* Category badge */}
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-white/90 dark:bg-black/90 text-black dark:text-white border-0 backdrop-blur-sm">
-                        {project.category}
-                      </Badge>
+          {/* Projects Grid */}
+          <div ref={containerRef} className="relative">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+              {projects.map((project, index) => (
+                <motion.div
+                  key={project.title}
+                  className="group relative"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                >
+                  <Link href={project.link}>
+                    <div className="relative h-full bg-card rounded-2xl overflow-hidden border border-border/50 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:border-primary/30">
+                      {/* Image Container */}
+                      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
+                        <Image
+                          src={project.image || "/placeholder.svg"}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                        
+                        {/* Category Badge */}
+                        <div className="absolute top-4 left-4">
+                          <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm text-black border-0">
+                            {project.category}
+                          </Badge>
+                        </div>
+
+                        {/* Links Overlay */}
+                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {project.github && (
+                            <Button 
+                              size="icon" 
+                              variant="secondary" 
+                              className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                window.open(project.github, '_blank')
+                              }}
+                            >
+                              <Github className="h-4 w-4" />
+                            </Button>
+                          )}
+                          <Button 
+                            size="icon" 
+                            variant="secondary" 
+                            className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
+                          >
+                            <ArrowUpRight className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6 space-y-4">
+                        <div className="space-y-2">
+                          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                            {project.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {project.description}
+                          </p>
+                        </div>
+
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-2">
+                          {project.technologies.slice(0, 4).map((tech) => (
+                            <span
+                              key={tech}
+                              className="text-xs px-2.5 py-1 rounded-full bg-secondary/80 text-secondary-foreground"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.technologies.length > 4 && (
+                            <span className="text-xs px-2.5 py-1 rounded-full bg-secondary/80 text-secondary-foreground">
+                              +{project.technologies.length - 4}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* View Details Button */}
+                        <div className="pt-2">
+                          <span className="text-sm font-medium text-primary inline-flex items-center group-hover:gap-2 transition-all">
+                            View Details 
+                            <ArrowUpRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                          </span>
+                        </div>
+                      </div>
                     </div>
-
-                    {/* Action buttons */}
-                    <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      {project.github && (
-                        <Button 
-                          size="icon" 
-                          className="h-9 w-9 rounded-full bg-white/90 dark:bg-black/90 hover:bg-white dark:hover:bg-black border-0 backdrop-blur-sm"
-                          asChild
-                        >
-                          <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                            <Github className="h-4 w-4 text-black dark:text-white" />
-                          </Link>
-                        </Button>
-                      )}
-                      
-                      {project.link.startsWith("http") && (
-                        <Button 
-                          size="icon" 
-                          className="h-9 w-9 rounded-full bg-white/90 dark:bg-black/90 hover:bg-white dark:hover:bg-black border-0 backdrop-blur-sm"
-                          asChild
-                        >
-                          <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="h-4 w-4 text-black dark:text-white" />
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 space-y-4">
-                    <h3 className="text-xl font-semibold text-black dark:text-white">
-                      {project.title}
-                    </h3>
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <Badge
-                          key={tech}
-                          variant="secondary"
-                          className="font-normal bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-0"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                      {project.technologies.length > 4 && (
-                        <Badge variant="secondary" className="font-normal bg-gray-100 dark:bg-gray-900">
-                          +{project.technologies.length - 4}
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* CTA Button */}
-                    <div className="pt-2">
-                      <Button 
-                        asChild 
-                        className="w-full bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100 border-0"
-                      >
-                        <Link href={project.link}>
-                          <span>View Details</span>
-                          <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
