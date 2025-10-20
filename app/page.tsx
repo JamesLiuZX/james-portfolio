@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Navbar from "@/components/navbar"
-import Hero from "@/components/hero"
-import About from "@/components/about"
+import HeroAbout from "@/components/hero-about"
 import Experience from "@/components/experience"
 import Projects from "@/components/projects"
 import TechStack from "@/components/tech-stack"
@@ -40,8 +39,7 @@ export default function Home() {
       <CursorFollower />
       <ScrollProgress />
       <Navbar />
-      <Hero />
-      <About />
+      <HeroAbout />
       <Experience />
       <Projects />
       <TechStack />
@@ -51,4 +49,3 @@ export default function Home() {
     </main>
   )
 }
-
