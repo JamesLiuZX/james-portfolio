@@ -9,13 +9,15 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
-import ParallaxSection from "@/components/parallax-section"
 
 export default function HerbalBathProject() {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   })
+
+  // Use the same image path as in the projects list
+  const projectImage = "/herbalbath.png"
 
   return (
     <main className="min-h-screen">
@@ -26,6 +28,7 @@ export default function HerbalBathProject() {
       <section className="pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="container mx-auto px-4 md:px-6">
           <div ref={ref} className="space-y-12">
+            {/* Header */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
@@ -67,24 +70,27 @@ export default function HerbalBathProject() {
               </motion.div>
             </div>
 
-            <ParallaxSection offset={30}>
-              <motion.div
-                className="rounded-lg overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
+            {/* Main Image - Reduced size */}
+            <motion.div
+              className="rounded-xl overflow-hidden shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
                 <Image
-                  src="/placeholder.svg?height=675&width=1200"
+                  src={projectImage}
                   alt="HerbalBath Singapore Website"
-                  width={1200}
-                  height={675}
-                  className="w-full h-auto object-cover"
+                  fill
+                  className="object-cover"
+                  priority
                 />
-              </motion.div>
-            </ParallaxSection>
+              </div>
+            </motion.div>
 
+            {/* Content Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {/* Main Content */}
               <motion.div
                 className="md:col-span-2 space-y-8"
                 initial={{ opacity: 0, x: -20 }}
@@ -153,8 +159,7 @@ export default function HerbalBathProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>
-                        Established direct relationships with suppliers to ensure ingredient quality and ethical
-                        sourcing
+                        Established direct relationships with suppliers to ensure ingredient quality and ethical sourcing
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -189,60 +194,19 @@ export default function HerbalBathProject() {
                     </li>
                   </ul>
                 </div>
-
-                <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Gallery</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="HerbalBath Products"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="HerbalBath Website"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="HerbalBath Packaging"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="HerbalBath Social Media"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
-                </div>
               </motion.div>
 
+              {/* Sidebar */}
               <motion.div
-                className="space-y-8"
+                className="space-y-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <div className="bg-card rounded-lg border border-border p-6 space-y-6 bg-gradient-to-br from-white to-rose-50 dark:from-gray-900 dark:to-rose-950/30">
+                <div className="bg-card rounded-xl border border-border p-6 space-y-6 sticky top-24">
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Business Details</h3>
-                    <div className="space-y-2">
+                    <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Founded:</span>
                         <span>2022</span>
@@ -270,10 +234,10 @@ export default function HerbalBathProject() {
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-xl font-semibold">Links</h3>
                     <div className="space-y-2">
-                      <Button asChild variant="outline" className="w-full justify-start bg-white dark:bg-gray-800">
+                      <Button asChild variant="outline" className="w-full justify-start">
                         <Link href="https://herbalbathsg.com" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Visit Website
@@ -281,73 +245,54 @@ export default function HerbalBathProject() {
                       </Button>
                     </div>
                   </div>
-                </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4 bg-gradient-to-br from-white to-teal-50 dark:from-gray-900 dark:to-teal-950/30">
-                  <h3 className="text-xl font-semibold">Product Categories</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-teal-500">•</span>
-                      <span>Herbal Bath Sachets</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-teal-500">•</span>
-                      <span>Essential Oil Blends</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-teal-500">•</span>
-                      <span>Natural Body Scrubs</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-teal-500">•</span>
-                      <span>Herbal Teas</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-teal-500">•</span>
-                      <span>Wellness Gift Sets</span>
-                    </li>
-                  </ul>
-                </div>
+                  <div className="space-y-3 pt-4 border-t">
+                    <h3 className="text-xl font-semibold">Product Categories</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Herbal Bath Sachets</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Essential Oil Blends</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Natural Body Scrubs</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Herbal Teas</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Wellness Gift Sets</span>
+                      </li>
+                    </ul>
+                  </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4 bg-gradient-to-br from-white to-orange-50 dark:from-gray-900 dark:to-orange-950/30">
-                  <h3 className="text-xl font-semibold">Business Skills Applied</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>E-commerce Strategy</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>Social Media Marketing</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>Supply Chain Management</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>Product Development</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>Customer Relationship Management</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-orange-500">•</span>
-                      <span>Financial Planning & Analysis</span>
-                    </li>
-                  </ul>
-                </div>
+                  <div className="pt-4 border-t">
+                    <h3 className="text-xl font-semibold mb-3">Business Skills</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {["E-commerce Strategy", "Social Media Marketing", "Supply Chain", "Product Development", "CRM", "Financial Planning"].map(
+                        (skill) => (
+                          <span
+                            key={skill}
+                            className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-medium"
+                          >
+                            {skill}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-                  <h3 className="text-xl font-semibold">Need Something Similar?</h3>
-                  <p className="text-muted-foreground">
-                    Interested in working together on a project like this? Let's discuss how I can help bring your ideas
-                    to life.
-                  </p>
-                  <Button asChild className="w-full">
-                    <Link href="/#contact">Get in Touch</Link>
-                  </Button>
+                  <div className="pt-4 border-t">
+                    <Button asChild className="w-full">
+                      <Link href="/#contact">Get in Touch</Link>
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -359,4 +304,3 @@ export default function HerbalBathProject() {
     </main>
   )
 }
-

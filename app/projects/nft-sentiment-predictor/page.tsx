@@ -9,13 +9,15 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
-import ParallaxSection from "@/components/parallax-section"
 
 export default function NFTSentimentProject() {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   })
+
+  // Use the same image path as in the projects list
+  const projectImage = "/NFinsighT.JPG"
 
   return (
     <main className="min-h-screen">
@@ -26,6 +28,7 @@ export default function NFTSentimentProject() {
       <section className="pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="container mx-auto px-4 md:px-6">
           <div ref={ref} className="space-y-12">
+            {/* Header */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
@@ -67,24 +70,27 @@ export default function NFTSentimentProject() {
               </motion.div>
             </div>
 
-            <ParallaxSection offset={30}>
-              <motion.div
-                className="rounded-lg overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
+            {/* Main Image - Reduced size */}
+            <motion.div
+              className="rounded-xl overflow-hidden shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
                 <Image
-                  src="/placeholder.svg?height=675&width=1200"
+                  src={projectImage}
                   alt="NFT Sentiment Price Predictor Dashboard"
-                  width={1200}
-                  height={675}
-                  className="w-full h-auto object-cover"
+                  fill
+                  className="object-cover"
+                  priority
                 />
-              </motion.div>
-            </ParallaxSection>
+              </div>
+            </motion.div>
 
+            {/* Content Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {/* Main Content */}
               <motion.div
                 className="md:col-span-2 space-y-8"
                 initial={{ opacity: 0, x: -20 }}
@@ -182,103 +188,46 @@ export default function NFTSentimentProject() {
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Successfully completed NUS Orbital Apollo requirements.
-                      </span>
+                      <span>Successfully completed NUS Orbital Apollo requirements</span>
                     </li>
                   </ul>
                 </div>
-
-                <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Gallery</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="NFT Price Charts"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="Sentiment Analysis Dashboard"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="NFT Collection Comparison"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <div className="rounded-lg overflow-hidden">
-                      <Image
-                        src="/placeholder.svg?height=400&width=600"
-                        alt="Predictive Analytics View"
-                        width={600}
-                        height={400}
-                        className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
-                </div>
               </motion.div>
 
+              {/* Sidebar */}
               <motion.div
-                className="space-y-8"
+                className="space-y-6"
                 initial={{ opacity: 0, x: 20 }}
                 animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <div className="bg-card rounded-lg border border-border p-6 space-y-6 bg-gradient-to-br from-white to-indigo-50 dark:from-gray-900 dark:to-indigo-950/30">
+                <div className="bg-card rounded-xl border border-border p-6 space-y-6 sticky top-24">
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Tech Stack</h3>
                     <div className="flex flex-wrap gap-2">
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        TypeScript
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        Next.js
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        Tailwind CSS
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        PostgreSQL
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        tRPC
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        Python
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        PySpark
-                      </span>
-                      <span className="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 px-3 py-1 rounded-full text-xs">
-                        SparkNLP
-                      </span>
+                      {["TypeScript", "Next.js", "Tailwind CSS", "PostgreSQL", "tRPC", "Python", "PySpark", "SparkNLP"].map(
+                        (tech) => (
+                          <span
+                            key={tech}
+                            className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-medium"
+                          >
+                            {tech}
+                          </span>
+                        )
+                      )}
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-xl font-semibold">Links</h3>
                     <div className="space-y-2">
-                      <Button asChild variant="outline" className="w-full justify-start bg-white dark:bg-gray-800">
+                      <Button asChild variant="outline" className="w-full justify-start">
                         <Link href="https://nfinsight.vercel.app/" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="mr-2 h-4 w-4" />
                           Live Demo
                         </Link>
                       </Button>
-                      <Button asChild variant="outline" className="w-full justify-start bg-white dark:bg-gray-800">
+                      <Button asChild variant="outline" className="w-full justify-start">
                         <Link href="https://github.com/JamesLiuZX" target="_blank" rel="noopener noreferrer">
                           <Github className="mr-2 h-4 w-4" />
                           View Code
@@ -286,73 +235,68 @@ export default function NFTSentimentProject() {
                       </Button>
                     </div>
                   </div>
-                </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4 bg-gradient-to-br from-white to-cyan-50 dark:from-gray-900 dark:to-cyan-950/30">
-                  <h3 className="text-xl font-semibold">Key Features</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Real-time sentiment analysis</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Price prediction algorithms</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Interactive data visualizations</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Customizable time series parameters</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Collection comparison tools</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-cyan-500">•</span>
-                      <span>Market trend alerts</span>
-                    </li>
-                  </ul>
-                </div>
+                  <div className="space-y-3 pt-4 border-t">
+                    <h3 className="text-xl font-semibold">Key Features</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Real-time sentiment analysis</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Price prediction algorithms</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Interactive data visualizations</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Customizable time series parameters</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Collection comparison tools</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5 text-primary">✓</span>
+                        <span>Market trend alerts</span>
+                      </li>
+                    </ul>
+                  </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4 bg-gradient-to-br from-white to-violet-50 dark:from-gray-900 dark:to-violet-950/30">
-                  <h3 className="text-xl font-semibold">Data Sources</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-violet-500">•</span>
-                      <span>Twitter/X API</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-violet-500">•</span>
-                      <span>Discord channels</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-violet-500">•</span>
-                      <span>Reddit communities</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-violet-500">•</span>
-                      <span>OpenSea API</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1 text-violet-500">•</span>
-                      <span>Ethereum blockchain data</span>
-                    </li>
-                  </ul>
-                </div>
+                  <div className="pt-4 border-t">
+                    <h3 className="text-xl font-semibold mb-3">Data Sources</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5">📊</span>
+                        <span>Twitter/X API</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5">💬</span>
+                        <span>Discord Channels</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5">🌐</span>
+                        <span>Reddit Communities</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5">🎨</span>
+                        <span>OpenSea API</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="mr-2 mt-0.5">⛓️</span>
+                        <span>Ethereum Blockchain</span>
+                      </li>
+                    </ul>
+                  </div>
 
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-                  <h3 className="text-xl font-semibold">Need Something Similar?</h3>
-                  <p className="text-muted-foreground">
-                    Interested in working together on a project like this? Let's discuss how I can help bring your ideas
-                    to life.
-                  </p>
-                  <Button asChild className="w-full">
-                    <Link href="/#contact">Get in Touch</Link>
-                  </Button>
+                  <div className="pt-4 border-t">
+                    <Button asChild className="w-full">
+                      <Link href="/#contact">Get in Touch</Link>
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -364,4 +308,3 @@ export default function NFTSentimentProject() {
     </main>
   )
 }
-
