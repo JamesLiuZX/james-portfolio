@@ -57,7 +57,7 @@ export default function Hero() {
               JAMES LIU
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-[700px] mx-auto">
-              Product Manager & Software Engineer
+              Product Manager
             </p>
           </motion.div>
 
