@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | James Liu",
   },
   description:
-    "Product Manager at Crypto.com — building AI-powered, product-led experiences that drive measurable growth. Previously ByteDance, Trendsi, and founder of AskShop.ai.",
+    "AI-native Product Manager. Sole product owner of Prediction Markets at Crypto.com (10M+ MAU). Previously growth & AI at ByteDance; founder of AskShop.ai.",
   keywords: [
     "James Liu",
     "Product Manager",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "James Liu | Product Manager",
     description:
-      "Building AI-powered, product-led experiences that drive measurable growth.",
+      "Sole product owner of Prediction Markets at Crypto.com. Previously growth & AI at ByteDance.",
     url: "https://jamesliuzx.com",
     siteName: "James Liu",
     locale: "en_SG",

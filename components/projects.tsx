@@ -67,10 +67,10 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="py-24 md:py-32 bg-secondary/40 relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-14">
-          <div className="space-y-5 max-w-3xl">
+    <section id="projects" className="py-16 sm:py-24 lg:py-32 bg-secondary/40 relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-10">
+        <div ref={ref} className="space-y-10 sm:space-y-14">
+          <div className="space-y-4 sm:space-y-5 max-w-3xl">
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
@@ -81,7 +81,7 @@ export default function Projects() {
             </motion.p>
 
             <motion.h2
-              className="font-display text-4xl md:text-6xl font-bold tracking-tight"
+              className="font-display text-[clamp(1.75rem,4.5vw,3.75rem)] font-bold tracking-tight"
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.55, delay: 0.05 }}
@@ -112,7 +112,7 @@ export default function Projects() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}

@@ -26,8 +26,10 @@ export default function Experience() {
       period: "SEP '25 – PRESENT",
       current: true,
       description: [
-        "Building AI-powered, product-led experiences that drive measurable growth across the Crypto.com product surface.",
-        "Partnering with design, engineering, and growth to ship high-impact features with clear outcome ownership.",
+        "Sole product owner of Prediction Markets inside a 10M+ MAU app — trading mechanics, growth, rewards, and market ops.",
+        "Grew MAU 60% QoQ and doubled quarterly revenue via market launches, rewards, and lifecycle campaigns.",
+        "Own Options & Strike Options roadmap; previously owned onboarding/activation for 200K+ monthly funnel users.",
+        "Grew referred users 120% and referral trading volume 200%+ in 3 months; +8% first-trade conversion via guided KYC flow.",
       ],
     },
     {
@@ -35,10 +37,9 @@ export default function Experience() {
       role: "Growth Product Manager",
       period: "JUL '24 – SEP '25",
       description: [
-        "Received full-time conversion in 2024 and Spot Bonus award for full-time employees in Q2 2025, given to top 10% performers.",
-        "Co-led the development of a multi-modal AI content generation platform for SEO, utilizing LLMs and RAG, writing technical specs and working with a team of 7, which increased unique monthly visitors by 20% over 3 months.",
-        "Co-led Lark's partnership with Perplexity AI, bringing over $20 million USD in value.",
-        "Initiated revamps of over 20 key pages, resulting in over 40% increased conversion rate on average.",
+        "Owned Perplexity AI partnership end-to-end — secured a $24M enterprise deal covering 200K+ user licenses.",
+        "Co-led a 16-person team on a multi-modal AI SEO content platform; +20% unique monthly visitors in 3 months.",
+        "Grew ARR 7% through modular initiatives for the global B2B SaaS referral program; Q2 2025 spot bonus.",
       ],
     },
     {
@@ -46,20 +47,16 @@ export default function Experience() {
       role: "Product Manager Intern",
       period: "AUG '23 – JUL '24",
       description: [
-        "Worked on optimizing onboarding flow, user acquisition, and incentivizing first transactions.",
-        "Directed the development of four frontend products, achieving a 35% increase in conversion rates in shopping carts and a 100% improvement in user site retention length.",
-        "Spearheaded the implementation of Stripe's 3D Secure and advanced Radar rules, leading to a 90% reduction in fraudulent transactions, translating to monthly savings of $20,000 USD.",
-        "Enhanced website visibility and user experience by boosting SEO rankings by 26% and accelerating page load speeds by 20%.",
+        "+35% shopping cart conversion by leading a product similarity recommendation engine (Series A Shopify/TikTok app).",
+        "Cut fraudulent transactions 90% (~$20K/mo saved) via Stripe 3D Secure and Radar fraud rules.",
       ],
     },
     {
       company: "AskShop.ai",
-      role: "CEO, Co-Founder",
+      role: "Founder",
       period: "FEB '24 – JUL '24",
       description: [
-        "Led the development of a B2B e-commerce SaaS focused on product discovery and recommendation, that can be distributed across every Shopify store, in just 5 weeks. (TypeScript, AWS, Liquid, Gadget, JavaScript)",
-        "Achieved funding from Stanford Startup Society and 2nd place in Stanford internal hackathon.",
-        "Achieved >100 business users and 5 reviews on the Shopify app store. (5.0/5.0 app rating)",
+        "Led a team of 5 to ship AI e-commerce product discovery SaaS — 100+ merchants, 5.0 Shopify rating, Stanford grant + 2nd place hackathon.",
       ],
     },
     {
@@ -67,62 +64,47 @@ export default function Experience() {
       role: "Software Engineer Intern",
       period: "MAY '23 – AUG '23",
       description: [
-        "Spearheaded frontend development of an internal real-time dashboard for an international client, which will impact over a million users per year, while communicating with clients to solve evolving software needs. (ReactJS, .NET Framework, jQuery, C#, SQL, Microsoft Azure)",
-      ],
-    },
-    {
-      company: "NUS TSMI",
-      role: "Software Engineer Intern",
-      period: "FEB '23 – MAY '23",
-      description: [
-        "In charge of front-end development for a real-time research data platform under the National University of Singapore Tropical Marine Science Institute (NUS-TMSI) using TypeScript, React and Tailwind CSS.",
-        "Contributed to the establishment of an operational research data platform with multi-layered access and analytics that allows for incorporation to national networks. (Java, Java EE, Spring Boot, SQL)",
-      ],
-    },
-    {
-      company: "Pantas",
-      role: "Software Engineer Intern",
-      period: "MAY '22 – AUG '22",
-      description: [
-        "Improved application performance using AWS Lambda, S3 and AWS API Gateways for serverless computing.",
-        "Improved security and reduced inbox spam by over 90% by implementing 4 backend features including reCAPTCHA and stricter input validations. (SQL, Python)",
+        "Led frontend for a real-time analytics dashboard for an international enterprise client (1M+ users/year).",
       ],
     },
   ]
 
   return (
-    <section id="experience" className="relative py-24 md:py-32 overflow-hidden bg-background">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-14">
-          <div className="space-y-5 max-w-3xl">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.5 }}
-              className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground"
-            >
-              Professional journey
-            </motion.p>
+    <section id="experience" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-10">
+        <div ref={ref} className="space-y-10 sm:space-y-14">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
+            <div className="lg:col-span-8 space-y-4 sm:space-y-5">
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                transition={{ duration: 0.5 }}
+                className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground"
+              >
+                Professional journey
+              </motion.p>
 
-            <motion.h2
-              className="font-display text-4xl md:text-6xl font-bold tracking-tight"
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.55, delay: 0.05 }}
-            >
-              Experience
-            </motion.h2>
+              <motion.h2
+                className="font-display text-[clamp(2rem,4.5vw,3.75rem)] font-bold tracking-tight"
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                transition={{ duration: 0.55, delay: 0.05 }}
+              >
+                Experience
+              </motion.h2>
 
-            <motion.p
-              className="text-lg text-muted-foreground leading-relaxed"
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-            >
-              Growth products, AI platforms, and measurable outcomes — from founding to enterprise scale.
-            </motion.p>
+              <motion.p
+                className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl"
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                transition={{ duration: 0.55, delay: 0.1 }}
+              >
+                What I own and what moved — prediction markets, AI growth, and 0-to-1 products.
+              </motion.p>
+            </div>
 
             <motion.div
+              className="lg:col-span-4 lg:flex lg:justify-end"
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.55, delay: 0.15 }}
@@ -144,19 +126,19 @@ export default function Experience() {
             </motion.div>
           </div>
 
-          <div className="relative">
+          <div className="relative max-w-5xl xl:max-w-6xl">
             <div className="absolute left-3 md:left-5 top-4 bottom-0 w-px bg-border" />
 
-            <div className="space-y-10">
+            <div className="space-y-8 sm:space-y-10">
               {experiences.map((exp, index) => (
                 <motion.div
                   key={`${exp.company}-${exp.period}`}
                   className="relative"
                   initial={{ opacity: 0, x: -24 }}
                   animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -24 }}
-                  transition={{ duration: 0.45, delay: 0.06 * index }}
+                  transition={{ duration: 0.45, delay: 0.05 * index }}
                 >
-                  <div className="flex gap-5 md:gap-8">
+                  <div className="flex gap-4 sm:gap-6 md:gap-8">
                     <div className="relative flex-shrink-0">
                       <div
                         className={`w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center border-[3px] border-background z-20 relative ${
@@ -167,13 +149,13 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    <div className="flex-1 pb-2">
-                      <div className="relative border border-border/80 hover:border-foreground/20 rounded-2xl p-5 md:p-7 transition-colors bg-card/40">
-                        <div className="space-y-5">
-                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-display text-xl md:text-2xl font-semibold tracking-tight">
+                    <div className="flex-1 pb-1 min-w-0">
+                      <div className="relative border border-border/80 hover:border-foreground/20 rounded-2xl p-4 sm:p-6 md:p-7 transition-colors bg-card/40">
+                        <div className="space-y-4 sm:space-y-5">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
+                                <h3 className="font-display text-lg sm:text-xl md:text-2xl font-semibold tracking-tight">
                                   {exp.company}
                                 </h3>
                                 {exp.current && (
@@ -182,14 +164,14 @@ export default function Experience() {
                                   </span>
                                 )}
                               </div>
-                              <p className="text-base text-muted-foreground font-medium">{exp.role}</p>
+                              <p className="text-sm sm:text-base text-muted-foreground font-medium">{exp.role}</p>
                             </div>
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary text-muted-foreground whitespace-nowrap">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary text-muted-foreground whitespace-nowrap w-fit">
                               {exp.period}
                             </span>
                           </div>
 
-                          <ul className="space-y-3">
+                          <ul className="space-y-2.5">
                             {exp.description.map((item) => (
                               <li
                                 key={item}

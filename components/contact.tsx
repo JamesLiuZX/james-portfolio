@@ -72,10 +72,10 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 overflow-hidden bg-background">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-14">
-          <div className="max-w-2xl space-y-4">
+    <section id="contact" className="relative py-16 sm:py-24 lg:py-32 overflow-hidden bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 relative z-10">
+        <div ref={ref} className="space-y-10 sm:space-y-14">
+          <div className="max-w-2xl space-y-3 sm:space-y-4">
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
@@ -86,7 +86,7 @@ export default function Contact() {
             </motion.p>
 
             <motion.h2
-              className="font-display text-4xl md:text-6xl font-bold tracking-tight"
+              className="font-display text-[clamp(1.75rem,4.5vw,3.75rem)] font-bold tracking-tight"
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.55, delay: 0.05 }}

@@ -37,22 +37,22 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-8 py-4",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-10 xl:px-12 py-3 sm:py-4",
         scrolled || !isHome || isOpen
           ? "bg-background/85 backdrop-blur-md border-b border-border/60 text-foreground"
           : "bg-transparent text-white",
       )}
     >
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
+      <nav className="flex items-center justify-between max-w-[1536px] mx-auto">
         <Link
           href="/"
-          className="font-display text-xl font-bold tracking-tight"
+          className="font-display text-lg sm:text-xl font-bold tracking-tight"
           onClick={() => setIsOpen(false)}
         >
           JAMES LIU
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-5 lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
