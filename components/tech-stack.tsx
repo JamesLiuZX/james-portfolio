@@ -1,85 +1,102 @@
 "use client"
 
-import type React from "react"
-
-import { useInView } from "react-intersection-observer"
 import { motion } from "framer-motion"
-import { Framer, Figma, Code2, Database, PenTool, Trello, FileCode, Terminal, Server } from "lucide-react"
+import { Boxes, Code2, LineChart, PenTool } from "lucide-react"
+import { EASE, SectionHeading } from "@/components/ui/section"
 
-interface TechItem {
-  name: string
-  category: string
-  icon: React.ReactNode
-}
+const groups = [
+  {
+    name: "Product",
+    icon: Boxes,
+    tools: ["Jira & Confluence", "Notion", "Figma", "Linear", "Amplitude"],
+    note: "Specs, roadmaps and the boring rigour that makes launches land.",
+  },
+  {
+    name: "Engineering",
+    icon: Code2,
+    tools: ["TypeScript", "React & Next.js", "Python", "Node.js", "AWS"],
+    note: "Enough depth to write the spec, read the PR and unblock the team.",
+  },
+  {
+    name: "Data & AI",
+    icon: LineChart,
+    tools: ["SQL", "LLMs & RAG", "PySpark", "Mixpanel", "A/B testing"],
+    note: "Instrumenting the funnel, then arguing with the numbers.",
+  },
+  {
+    name: "Design",
+    icon: PenTool,
+    tools: ["Figma", "Framer", "Webflow", "Adobe CC", "Design systems"],
+    note: "Prototyping fast so decisions get made on artefacts, not opinions.",
+  },
+]
+
+// Flattened, de-duplicated list for the scrolling band.
+const marqueeItems = Array.from(new Set(groups.flatMap((group) => group.tools)))
 
 export default function TechStack() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
-
-  const techStack: TechItem[] = [
-    { name: "Framer", category: "Web Development", icon: <Framer className="h-8 w-8" /> },
-    { name: "Webflow", category: "Web Development", icon: <Code2 className="h-8 w-8" /> },
-    { name: "Figma", category: "UI/UX Design", icon: <Figma className="h-8 w-8" /> },
-    { name: "Adobe CC", category: "Design", icon: <PenTool className="h-8 w-8" /> },
-    { name: "Atlassian", category: "Productivity", icon: <Trello className="h-8 w-8" /> },
-    { name: "Notion", category: "Productivity", icon: <FileCode className="h-8 w-8" /> },
-    { name: "React", category: "Programming", icon: <Code2 className="h-8 w-8" /> },
-    { name: "Python", category: "Programming", icon: <Terminal className="h-8 w-8" /> },
-    { name: "SQL", category: "Programming", icon: <Database className="h-8 w-8" /> },
-    { name: "Next.js", category: "Web Development", icon: <Code2 className="h-8 w-8" /> },
-    { name: "TypeScript", category: "Programming", icon: <FileCode className="h-8 w-8" /> },
-    { name: "AWS", category: "Cloud", icon: <Server className="h-8 w-8" /> },
-  ]
-
   return (
-    <section id="tech-stack" className="py-20 md:py-32 bg-secondary/20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div ref={ref} className="space-y-12">
-          <div className="space-y-4">
-            <motion.h2
-              className="text-2xl font-semibold"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-            >
-              MY FAVOURITE STACK
-            </motion.h2>
+    <section id="toolkit" className="section-y relative border-y border-border/70 bg-surface-muted/40">
+      <div className="shell">
+        <SectionHeading
+          eyebrow="Toolkit"
+          title={
+            <>
+              The stack I reach for, from{" "}
+              <span className="serif-accent text-brand">spec</span> to ship.
+            </>
+          }
+          lede="I started as an engineer and moved into product, so I work comfortably across the whole path — discovery, design, implementation and the analytics that tell you whether it worked."
+        />
 
-            <motion.p
-              className="text-lg text-muted-foreground max-w-3xl"
+        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2 lg:grid-cols-4">
+          {groups.map((group, index) => (
+            <motion.div
+              key={group.name}
               initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: index * 0.07, ease: EASE }}
+              className="group relative bg-surface p-6 transition-colors duration-300 hover:bg-elevated md:p-7"
             >
-              Well-versed in web development, UI/UX design tools, and modern programming technologies.
-            </motion.p>
-          </div>
+              <div className="flex items-center gap-2.5">
+                <span className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-surface-muted text-muted-foreground transition-colors duration-300 group-hover:border-brand/30 group-hover:text-brand">
+                  <group.icon className="h-4 w-4" />
+                </span>
+                <h3 className="text-sm font-semibold tracking-tight">{group.name}</h3>
+              </div>
 
-          <motion.div
-            className="tech-stack-grid"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {techStack.map((tech, index) => (
-              <motion.div
-                key={index}
-                className="tech-item p-4 rounded-lg bg-background shadow-sm"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.4, delay: 0.1 * index }}
-              >
-                <div className="flex justify-center mb-3 text-primary">{tech.icon}</div>
-                <h3 className="text-sm font-medium">{tech.name}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{tech.category}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+              <ul className="mt-5 space-y-2.5">
+                {group.tools.map((tool) => (
+                  <li key={tool} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                    <span aria-hidden="true" className="h-px w-2.5 shrink-0 bg-brand/40" />
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-6 border-t border-border/70 pt-4 text-xs leading-relaxed text-subtle">
+                {group.note}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Continuous band — duplicated once so the -50% translate loops seamlessly. */}
+      <div className="mask-fade-x mt-14 flex select-none overflow-hidden" aria-hidden="true">
+        <div className="flex shrink-0 animate-marquee items-center gap-8 pr-8 motion-reduce:animate-none">
+          {[...marqueeItems, ...marqueeItems].map((item, index) => (
+            <span
+              key={`${item}-${index}`}
+              className="flex items-center gap-8 whitespace-nowrap font-mono text-sm uppercase tracking-[0.14em] text-subtle"
+            >
+              {item}
+              <span className="h-1 w-1 rounded-full bg-brand/40" />
+            </span>
+          ))}
         </div>
       </div>
     </section>
   )
 }
-

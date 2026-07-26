@@ -2,50 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Design tokens
+   Warm paper / ink neutrals with a single restrained brand accent.
+   All values are HSL channels so they compose with `hsl(var(--x) / <alpha>)`.
+   ========================================================================== */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    /* Surfaces */
+    --background: 40 24% 98%;
+    --surface: 0 0% 100%;
+    --surface-muted: 40 14% 96%;
+    --elevated: 0 0% 100%;
+
+    /* Ink */
+    --foreground: 240 8% 8%;
+    --muted-foreground: 240 4% 42%;
+    --subtle-foreground: 240 4% 58%;
+
+    /* Brand */
+    --brand: 252 76% 58%;
+    --brand-foreground: 0 0% 100%;
+    --brand-soft: 252 80% 96%;
+    --brand-2: 199 89% 48%;
+
+    /* shadcn compatibility layer */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 240 8% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 240 8% 8%;
+    --primary: 240 8% 8%;
+    --primary-foreground: 40 24% 98%;
+    --secondary: 40 14% 95%;
+    --secondary-foreground: 240 8% 12%;
+    --muted: 40 14% 95%;
+    --accent: 40 14% 94%;
+    --accent-foreground: 240 8% 12%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
+    --border: 40 10% 89%;
+    --input: 40 10% 89%;
+    --ring: 252 76% 58%;
+    --radius: 0.75rem;
+
+    /* Decorative */
+    --hairline: 240 6% 10%;
+    --hairline-opacity: 0.08;
+    --grain-opacity: 0.035;
+    --glow-a: 252 76% 58%;
+    --glow-b: 199 89% 48%;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 240 9% 5%;
+    --surface: 240 8% 8%;
+    --surface-muted: 240 8% 10%;
+    --elevated: 240 8% 10%;
+
+    --foreground: 40 20% 97%;
+    --muted-foreground: 240 5% 64%;
+    --subtle-foreground: 240 5% 48%;
+
+    --brand: 252 92% 74%;
+    --brand-foreground: 240 9% 6%;
+    --brand-soft: 252 40% 16%;
+    --brand-2: 199 90% 62%;
+
+    --card: 240 8% 8%;
+    --card-foreground: 40 20% 97%;
+    --popover: 240 8% 8%;
+    --popover-foreground: 40 20% 97%;
+    --primary: 40 20% 97%;
+    --primary-foreground: 240 9% 6%;
+    --secondary: 240 6% 13%;
+    --secondary-foreground: 40 20% 97%;
+    --muted: 240 6% 13%;
+    --accent: 240 6% 15%;
+    --accent-foreground: 40 20% 97%;
+    --destructive: 0 63% 45%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 240 6% 16%;
+    --input: 240 6% 18%;
+    --ring: 252 92% 74%;
+
+    --hairline: 40 20% 97%;
+    --hairline-opacity: 0.1;
+    --grain-opacity: 0.05;
+    --glow-a: 252 92% 68%;
+    --glow-b: 199 90% 55%;
   }
 }
 
@@ -53,163 +98,314 @@
   * {
     @apply border-border;
   }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Lenis drives scrolling; native smooth-scroll would fight it. */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: hsl(var(--brand) / 0.22);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
+    background-clip: content-box;
   }
 }
 
-.animate-in {
-  animation: fadeIn 1.5s ease forwards;
+/* ==========================================================================
+   Component utilities
+   ========================================================================== */
+
+@layer components {
+  /* Small uppercase mono label used above every section title. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  /*
+   * Serif italic used to emphasise a single word inside a sans headline.
+   * The trailing padding keeps the italic's overhang off following punctuation.
+   */
+  .serif-accent {
+    font-family: var(--font-display), Georgia, serif;
+    font-style: italic;
+    padding-right: 0.06em;
+  }
+
+  /* Frosted pill used for eyebrows, chips and tags. */
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface/60 px-3 py-1.5 backdrop-blur-md;
+  }
+
+  /* Standard surface card. */
+  .card-surface {
+    @apply rounded-2xl border border-border/70 bg-surface transition-colors duration-300;
+  }
+
+  .card-surface-hover {
+    @apply hover:border-brand/30 hover:shadow-glow;
+  }
+
+  /* Hairline rule that adapts to theme. */
+  .hairline {
+    background: linear-gradient(
+      to right,
+      transparent,
+      hsl(var(--hairline) / calc(var(--hairline-opacity) * 3)),
+      transparent
+    );
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-brand {
+    background-image: linear-gradient(
+      110deg,
+      hsl(var(--brand)),
+      hsl(var(--brand-2)),
+      hsl(var(--brand))
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Animated underline for inline links. */
+  .link-underline {
+    @apply relative inline-flex items-center;
+  }
+
+  .link-underline::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 ease-out;
+  }
+
+  .link-underline:hover::after {
+    @apply origin-left scale-x-100;
+  }
+
+  /* Fades long scrollable / marquee rows out at their edges. */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
 }
 
-.slide-up {
-  animation: slideUp 1s ease forwards;
+@layer utilities {
+  /* Blueprint grid + dot backgrounds that read correctly in both themes. */
+  .bg-grid {
+    background-image: linear-gradient(
+        to right,
+        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
+        transparent 1px
+      );
+    background-size: 64px 64px;
+  }
+
+  .bg-grid-sm {
+    background-image: linear-gradient(
+        to right,
+        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
+        transparent 1px
+      );
+    background-size: 24px 24px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(
+      hsl(var(--hairline) / calc(var(--hairline-opacity) * 2.5)) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+
+  /* Fine film grain layered over hero surfaces. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* Section rhythm — one source of truth for vertical spacing. */
+  .section-y {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .shell {
+    @apply mx-auto w-full max-w-6xl px-6 md:px-8;
+  }
+
+  .shell-wide {
+    @apply mx-auto w-full max-w-7xl px-6 md:px-8;
+  }
 }
 
-.slide-down {
-  animation: slideDown 1s ease forwards;
-}
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
 
-.slide-left {
-  animation: slideLeft 1s ease forwards;
-}
-
-.slide-right {
-  animation: slideRight 1s ease forwards;
-}
-
-.delay-100 {
-  animation-delay: 100ms;
-}
-
-.delay-200 {
-  animation-delay: 200ms;
-}
-
-.delay-300 {
-  animation-delay: 300ms;
-}
-
-.delay-400 {
-  animation-delay: 400ms;
-}
-
-.delay-500 {
-  animation-delay: 500ms;
-}
-
-@keyframes fadeIn {
+@keyframes marquee {
   from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideLeft {
-  from {
-    transform: translateX(20px);
-    opacity: 0;
-  }
-  to {
     transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideRight {
-  from {
-    transform: translateX(-20px);
-    opacity: 0;
   }
   to {
-    transform: translateX(0);
-    opacity: 1;
+    transform: translateX(-50%);
   }
 }
 
-.image-gallery {
-  display: flex;
-  gap: 10px;
-  transform-style: preserve-3d;
-  perspective: 500px;
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
-.image-gallery img {
-  transition: transform 0.5s ease;
-}
-
-.image-gallery:hover img:nth-child(1) {
-  transform: rotateY(-15deg) translateZ(20px);
-}
-
-.image-gallery:hover img:nth-child(2) {
-  transform: rotateY(0deg) translateZ(40px);
-}
-
-.image-gallery:hover img:nth-child(3) {
-  transform: rotateY(15deg) translateZ(20px);
-}
-
-.scroll-indicator {
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
+@keyframes drift {
   0%,
-  20%,
-  50%,
-  80%,
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
-  40% {
-    transform: translateY(-10px);
+  33% {
+    transform: translate3d(3%, -4%, 0) scale(1.08);
   }
-  60% {
-    transform: translateY(-5px);
+  66% {
+    transform: translate3d(-3%, 3%, 0) scale(0.96);
   }
 }
 
-.tech-stack-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 20px;
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
-.tech-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
 
-.tech-item:hover {
-  transform: translateY(-5px);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-

@@ -1,217 +1,297 @@
 "use client"
 
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Linkedin } from "lucide-react"
+import { useRef, useState } from "react"
+import { motion, useScroll, useSpring, useTransform } from "framer-motion"
+import { ArrowUpRight, Linkedin } from "lucide-react"
+import { EASE, Reveal, SectionHeading } from "@/components/ui/section"
+import { cn } from "@/lib/utils"
 
-interface Experience {
+interface Role {
   company: string
   role: string
   period: string
+  /** Headline numbers pulled out of the bullets so they read at a glance. */
+  metrics?: { value: string; label: string }[]
   description: string[]
-  color?: string
+  tags?: string[]
 }
 
+const experiences: Role[] = [
+  {
+    company: "ByteDance",
+    role: "Growth Product Manager",
+    period: "Jul 2024 — Sep 2025",
+    metrics: [
+      { value: "+20%", label: "Monthly visitors" },
+      { value: "$20M", label: "Partnership value" },
+      { value: "+40%", label: "Avg. conversion" },
+    ],
+    description: [
+      "Received full-time conversion in 2024 and a Spot Bonus award in Q2 2025, given to the top 10% of performers.",
+      "Co-led development of a multi-modal AI content generation platform for SEO using LLMs and RAG — wrote the technical specs and worked with a team of 7, increasing unique monthly visitors by 20% over 3 months.",
+      "Co-led Lark's partnership with Perplexity AI, bringing over $20 million USD in value.",
+      "Initiated revamps of over 20 key pages, resulting in a 40%+ increase in conversion rate on average.",
+    ],
+    tags: ["LLMs & RAG", "SEO growth", "Partnerships"],
+  },
+  {
+    company: "Trendsi",
+    role: "Product Manager Intern",
+    period: "Aug 2023 — Jul 2024",
+    metrics: [
+      { value: "+35%", label: "Cart conversion" },
+      { value: "−90%", label: "Fraudulent txns" },
+      { value: "$20K", label: "Saved monthly" },
+    ],
+    description: [
+      "Owned onboarding flow optimisation, user acquisition and first-transaction incentives.",
+      "Directed development of four frontend products, achieving a 35% increase in cart conversion and a 100% improvement in site retention length.",
+      "Spearheaded Stripe 3D Secure and advanced Radar rules, cutting fraudulent transactions by 90% — roughly $20,000 USD saved each month.",
+      "Boosted SEO rankings by 26% and accelerated page load speeds by 20%.",
+    ],
+    tags: ["Onboarding", "Payments", "Conversion"],
+  },
+  {
+    company: "AskShop.ai",
+    role: "CEO, Co-Founder",
+    period: "Feb 2024 — Jul 2024",
+    metrics: [
+      { value: "100+", label: "Business users" },
+      { value: "5.0", label: "Shopify rating" },
+      { value: "5 wks", label: "Zero to launch" },
+    ],
+    description: [
+      "Led development of a B2B e-commerce SaaS for product discovery and recommendation, distributable across every Shopify store — built in 5 weeks.",
+      "Secured funding from Stanford Startup Society and placed 2nd in the Stanford internal hackathon.",
+      "Grew to 100+ business users with a 5.0/5.0 rating on the Shopify app store.",
+    ],
+    tags: ["TypeScript", "AWS", "Shopify"],
+  },
+  {
+    company: "Ernst & Young",
+    role: "Software Engineer Intern",
+    period: "May 2023 — Aug 2023",
+    metrics: [{ value: "1M+", label: "Users impacted / yr" }],
+    description: [
+      "Spearheaded frontend development of an internal real-time dashboard for an international client, projected to impact over a million users per year, working directly with clients on evolving software needs.",
+    ],
+    tags: ["ReactJS", ".NET", "C#", "Azure"],
+  },
+  {
+    company: "NUS TMSI",
+    role: "Software Engineer Intern",
+    period: "Feb 2023 — May 2023",
+    description: [
+      "Led front-end development for a real-time research data platform at the NUS Tropical Marine Science Institute.",
+      "Contributed to an operational research data platform with multi-layered access and analytics, built for incorporation into national networks.",
+    ],
+    tags: ["TypeScript", "React", "Spring Boot"],
+  },
+  {
+    company: "Pantas",
+    role: "Software Engineer Intern",
+    period: "May 2022 — Aug 2022",
+    metrics: [{ value: "−90%", label: "Inbox spam" }],
+    description: [
+      "Improved application performance using AWS Lambda, S3 and API Gateway for serverless computing.",
+      "Improved security and reduced inbox spam by over 90% by implementing 4 backend features including reCAPTCHA and stricter input validation.",
+    ],
+    tags: ["AWS", "Python", "SQL"],
+  },
+]
+
 export default function Experience() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const [expanded, setExpanded] = useState<number | null>(0)
+
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 70%", "end 60%"],
+  })
+  const lineScale = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), {
+    stiffness: 120,
+    damping: 30,
   })
 
-  const experiences: Experience[] = [
-    {
-      company: "ByteDance",
-      role: "Growth Product Manager",
-      period: "JUL '24 - SEP '25",
-      description: [
-        "Received full-time conversion in 2024 and Spot Bonus award for full-time employees in Q2 2025, given to top 10% performers.",
-        "Co-led the development of a multi-modal AI content generation platform for SEO, utilizing LLMs and RAG, writing technical specs and working with a team of 7, which increased unique monthly visitors by 20% over 3 months.",
-        "Co-led Lark's partnership with Perplexity AI, bringing over $20 million USD in value.",
-        "Initiated revamps of over 20 key pages, resulting in over 40% increased conversion rate on average.",
-      ],
-      color: "#000000",
-    },
-    {
-      company: "Trendsi",
-      role: "Product Manager Intern",
-      period: "AUG '23 - JUL '24",
-      description: [
-        "Worked on optimizing onboarding flow, user acquisition, and incentivizing first transactions.",
-        "Directed the development of four frontend products, achieving a 35% increase in conversion rates in shopping carts and a 100% improvement in user site retention length.",
-        "Spearheaded the implementation of Stripe's 3D Secure and advanced Radar rules, leading to a 90% reduction in fraudulent transactions, translating to monthly savings of $20,000 USD.",
-        "Enhanced website visibility and user experience by boosting SEO rankings by 26% and accelerating page load speeds by 20%.",
-      ],
-      color: "#1a1a1a",
-    },
-    {
-      company: "AskShop.ai",
-      role: "CEO, Co-Founder",
-      period: "FEB '24 - JUL '24",
-      description: [
-        "Led the development of a B2B e-commerce SaaS focused on product discovery and recommendation, that can be distributed across every Shopify store, in just 5 weeks. (Typescript, AWS, Liquid, Gadget, Javascript)",
-        "Achieved funding from Stanford Startup Society and 2nd place in Stanford internal hackathon.",
-        "Achieved >100 business users and 5 reviews on the Shopify app store. (5.0/5.0 app rating)",
-      ],
-      color: "#2a2a2a",
-    },
-    {
-      company: "Ernst & Young",
-      role: "Software Engineer Intern",
-      period: "MAY '23 - AUG '23",
-      description: [
-        "Spearheaded frontend development of an internal real-time dashboard for an international client, which will impact over a million users per year, while communicating with clients to solve evolving software needs. (ReactJS, .NET Framework, JQuery, C#, SQL, Microsoft Azure)",
-      ],
-      color: "#3a3a3a",
-    },
-    {
-      company: "NUS TSMI",
-      role: "Software Engineer Intern",
-      period: "FEB '23 - MAY '23",
-      description: [
-        "In charge of front-end development for a real-time research data platform under the National University of Singapore Tropical Marine Science Institute (NUS-TMSI) using Typescript, React and Tailwind CSS.",
-        "Contributed to the establishment of an operational research data platform with multi-layered access and analytics that allows for incorporation to national networks. (Java, Java EE, Spring Boot, SQL)",
-      ],
-      color: "#4a4a4a",
-    },
-    {
-      company: "Pantas",
-      role: "Software Engineer Intern",
-      period: "MAY '22 - AUG '22",
-      description: [
-        "Improved application performance using AWS Lambda, S3 and AWS API Gateways for serverless computing (Amazon Web Services AWS).",
-        "Improved security and reduced inbox spam by over 90% by implementing 4 backend features including reCAPTCHA and stricter input validations. (SQL, Python)",
-      ],
-      color: "#5a5a5a",
-    },
-  ]
-
   return (
-    <section id="experience" className="relative py-32 overflow-hidden bg-white dark:bg-black">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-16">
-          {/* Header */}
-          <div className="space-y-6 max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5"
+    <section id="experience" className="section-y relative">
+      <div className="shell">
+        <SectionHeading
+          eyebrow="Professional journey"
+          title={
+            <>
+              Experience across{" "}
+              <span className="serif-accent text-brand">growth</span>, AI and platform
+              product.
+            </>
+          }
+          lede="Six years of building — from serverless backends to multi-modal AI platforms and a company of my own. The through-line is shipping things that move a number."
+          action={
+            <a
+              href="https://www.linkedin.com/in/james-liu-zx/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-5 py-2.5 text-sm font-medium transition-all duration-300 hover:border-brand/40"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-black dark:bg-white" />
-              <span className="text-xs font-medium text-gray-600 dark:text-gray-400 tracking-wide">
-                PROFESSIONAL JOURNEY
-              </span>
-            </motion.div>
+              <Linkedin className="h-4 w-4" />
+              View LinkedIn
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          }
+        />
 
-            <motion.h2
-              className="text-5xl md:text-6xl font-bold tracking-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <span className="text-black dark:text-white">
-                EXPERIENCE
-              </span>
-            </motion.h2>
-
-            <motion.p
-              className="text-lg text-gray-600 dark:text-gray-400"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              I have a diverse background in growth products and AI, focusing on product-led growth and platform product management.
-            </motion.p>
-            
+        <div ref={timelineRef} className="relative mt-20">
+          {/* Rail: static track with a scroll-linked fill. */}
+          <div className="absolute left-[7px] top-2 h-full w-px bg-border md:left-[calc(13rem+7px)]">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Button 
-                className="group border border-gray-200 dark:border-gray-800 hover:border-black dark:hover:border-white bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-all" 
-                variant="outline"
-                asChild
-              >
-                <a
-                  href="https://www.linkedin.com/in/james-liu-zx/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  VIEW LINKEDIN
-                  <Linkedin className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
-                </a>
-              </Button>
-            </motion.div>
+              className="h-full w-px origin-top bg-gradient-to-b from-brand to-brand-alt"
+              style={{ scaleY: lineScale }}
+            />
           </div>
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-4 md:left-6 top-6 bottom-0 w-px bg-gray-200 dark:bg-gray-800" />
+          <div className="space-y-4">
+            {experiences.map((exp, index) => {
+              const isOpen = expanded === index
 
-            <div className="space-y-12">
-              {experiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  className="relative"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
+              return (
+                <motion.article
+                  key={exp.company}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: Math.min(index, 3) * 0.06, ease: EASE }}
+                  className="relative pl-8 md:grid md:grid-cols-[13rem_1fr] md:gap-0 md:pl-0"
                 >
-                  <div className="flex gap-6 md:gap-8">
-                    {/* Timeline dot */}
-                    <div className="relative flex-shrink-0">
-                      <div 
-                        className="w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center border-4 border-white dark:border-black bg-black dark:bg-white z-20 relative"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-white dark:bg-black" />
-                      </div>
-                    </div>
+                  {/* Period column doubles as the rail label on desktop. */}
+                  <div className="mb-2 md:mb-0 md:pr-8 md:pt-[26px] md:text-right">
+                    <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-subtle">
+                      {exp.period}
+                    </span>
+                  </div>
 
-                    {/* Content card */}
-                    <motion.div
-                      className="flex-1 group pb-4"
-                      whileHover={{ x: 4 }}
-                      transition={{ type: "spring", stiffness: 400 }}
+                  {/* Node */}
+                  <span
+                    className={cn(
+                      "absolute left-0 top-[7px] z-10 grid h-[15px] w-[15px] place-items-center rounded-full border-2 bg-background transition-colors duration-300 md:left-[13rem] md:top-[27px]",
+                      isOpen ? "border-brand" : "border-border",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-full transition-colors duration-300",
+                        isOpen ? "bg-brand" : "bg-border",
+                      )}
+                    />
+                  </span>
+
+                  <div className="md:pl-8">
+                    <div
+                      className={cn(
+                        "card-surface overflow-hidden",
+                        isOpen ? "border-brand/25 shadow-soft" : "hover:border-border",
+                      )}
                     >
-                      <div className="relative bg-white dark:bg-black border border-gray-100 dark:border-gray-900 hover:border-gray-200 dark:hover:border-gray-800 rounded-2xl p-6 md:p-8 transition-all duration-300">
-                        <div className="space-y-6">
-                          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-                            <div>
-                              <h3 className="text-xl md:text-2xl font-semibold text-black dark:text-white mb-1">
-                                {exp.company}
-                              </h3>
-                              <p className="text-base text-gray-600 dark:text-gray-400 font-medium">
-                                {exp.role}
-                              </p>
-                            </div>
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border border-gray-100 dark:border-gray-900 whitespace-nowrap">
-                              {exp.period}
-                            </span>
-                          </div>
+                      <button
+                        type="button"
+                        onClick={() => setExpanded(isOpen ? null : index)}
+                        aria-expanded={isOpen}
+                        className="flex w-full items-start justify-between gap-4 p-6 text-left md:p-7"
+                      >
+                        <div className="space-y-1">
+                          <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
+                            {exp.company}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">{exp.role}</p>
+                        </div>
+                        <span
+                          className={cn(
+                            "mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-transform duration-300",
+                            isOpen && "rotate-45 border-brand/40 text-brand",
+                          )}
+                          aria-hidden="true"
+                        >
+                          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                            <path
+                              d="M6 1v10M1 6h10"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                      </button>
 
+                      {exp.metrics && (
+                        <div
+                          className={cn(
+                            "grid gap-px border-y border-border/70 bg-border/60",
+                            exp.metrics.length === 1 && "grid-cols-1",
+                            exp.metrics.length === 2 && "grid-cols-2",
+                            exp.metrics.length >= 3 && "grid-cols-3",
+                          )}
+                        >
+                          {exp.metrics.map((metric) => (
+                            <div key={metric.label} className="bg-surface px-5 py-4">
+                              <div className="text-xl font-semibold tracking-tight md:text-2xl">
+                                {metric.value}
+                              </div>
+                              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-subtle">
+                                {metric.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <motion.div
+                        initial={false}
+                        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                        className="overflow-hidden"
+                      >
+                        <div className="space-y-5 p-6 pt-5 md:p-7 md:pt-6">
                           <ul className="space-y-3">
-                            {exp.description.map((item, i) => (
+                            {exp.description.map((item) => (
                               <li
-                                key={i}
-                                className="flex items-start gap-3 text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+                                key={item}
+                                className="flex gap-3 text-sm leading-relaxed text-muted-foreground"
                               >
-                                <div className="w-1 h-1 rounded-full bg-black dark:bg-white mt-2 flex-shrink-0" />
-                                <span className="flex-1">{item}</span>
+                                <span
+                                  aria-hidden="true"
+                                  className="mt-[9px] h-px w-3 shrink-0 bg-brand/50"
+                                />
+                                <span>{item}</span>
                               </li>
                             ))}
                           </ul>
+
+                          {exp.tags && (
+                            <div className="flex flex-wrap gap-2">
+                              {exp.tags.map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+                    </div>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </motion.article>
+              )
+            })}
           </div>
         </div>
+
+        <Reveal delay={0.1} className="mt-10">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
+            Select a role to read the detail
+          </p>
+        </Reveal>
       </div>
     </section>
   )

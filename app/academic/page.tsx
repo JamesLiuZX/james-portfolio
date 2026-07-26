@@ -4,10 +4,12 @@ import { useInView } from "react-intersection-observer"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Award, BookOpen, Calendar, GraduationCap, MapPin } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Award, BookOpen, Calendar, GraduationCap, MapPin } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import CursorFollower from "@/components/cursor-follower"
+import ScrollProgress from "@/components/scroll-progress"
+import PageHeader from "@/components/page-header"
 
 interface Education {
   institution: string
@@ -48,7 +50,7 @@ export default function Academic() {
         "Student mentor (Top 5%) for CS2103T, Software Engineering.",
         "Selected for Meta Above and Beyond CS Program and JP Morgan Finance for Non-Finance Program.",
       ],
-      image: "../../public/nuslogo.png",
+      image: "/nuslogo.png",
     },
     {
       institution: "Stanford University",
@@ -88,28 +90,26 @@ export default function Academic() {
   ]
 
   return (
-    <main className="min-h-screen">
+    <>
+      <CursorFollower />
+      <ScrollProgress />
       <Navbar />
 
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-        <div className="container mx-auto px-4 md:px-6">
+      <main className="min-h-screen">
+        <PageHeader
+          eyebrow="Academic"
+          title={
+            <>
+              The degree, the detour, and the{" "}
+              <span className="serif-accent text-brand">awards</span> along the way.
+            </>
+          }
+          lede="Computer Science at NUS, a quarter at Stanford, and the programmes and competitions that shaped how I build."
+        />
+
+      <section className="pb-24 md:pb-32">
+        <div className="shell">
           <div className="space-y-16">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Button variant="ghost" size="sm" className="group">
-                    <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Back to Home
-                  </Button>
-                </Link>
-              </div>
-
-              <h1 className="text-3xl md:text-4xl font-bold">Academic Journey</h1>
-              <p className="text-lg text-muted-foreground max-w-3xl">
-                My educational background, achievements, and academic milestones.
-              </p>
-            </div>
-
             <div ref={educationRef} className="space-y-12">
               <h2 className="text-2xl font-semibold flex items-center">
                 <GraduationCap className="mr-2 h-5 w-5" />
@@ -204,9 +204,10 @@ export default function Academic() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
-    </main>
+    </>
   )
 }
 

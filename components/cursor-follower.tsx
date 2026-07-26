@@ -1,82 +1,82 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useSpring } from "framer-motion"
 
+/**
+ * A soft trailing ring plus a precise dot. The ring lags behind the pointer via
+ * a spring; the dot tracks it exactly. Hidden on touch devices and when the
+ * visitor prefers reduced motion.
+ */
 export default function CursorFollower() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [cursorVariant, setCursorVariant] = useState("default")
+  const [enabled, setEnabled] = useState(false)
+  const [hovering, setHovering] = useState(false)
+  const [pressed, setPressed] = useState(false)
+  const [visible, setVisible] = useState(false)
+
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const ringX = useSpring(x, { stiffness: 220, damping: 26, mass: 0.4 })
+  const ringY = useSpring(y, { stiffness: 220, damping: 26, mass: 0.4 })
 
   useEffect(() => {
-    const mouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY,
-      })
+    const finePointer = window.matchMedia("(pointer: fine)").matches
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (!finePointer || reducedMotion) return
+
+    setEnabled(true)
+
+    const onMove = (event: MouseEvent) => {
+      x.set(event.clientX)
+      y.set(event.clientY)
+      setVisible(true)
+
+      // Delegated hit-testing keeps this correct for content rendered later.
+      const target = event.target as HTMLElement | null
+      setHovering(Boolean(target?.closest("a, button, [role='button'], input, textarea")))
     }
 
-    const mouseDown = () => setCursorVariant("click")
-    const mouseUp = () => setCursorVariant("default")
-    const mouseEnterLink = () => setCursorVariant("hover")
-    const mouseLeaveLink = () => setCursorVariant("default")
+    const onLeave = () => setVisible(false)
+    const onDown = () => setPressed(true)
+    const onUp = () => setPressed(false)
 
-    window.addEventListener("mousemove", mouseMove)
-    window.addEventListener("mousedown", mouseDown)
-    window.addEventListener("mouseup", mouseUp)
-
-    // Add hover effect for links and buttons
-    const links = document.querySelectorAll("a, button")
-    links.forEach((link) => {
-      link.addEventListener("mouseenter", mouseEnterLink)
-      link.addEventListener("mouseleave", mouseLeaveLink)
-    })
+    window.addEventListener("mousemove", onMove, { passive: true })
+    document.addEventListener("mouseleave", onLeave)
+    window.addEventListener("mousedown", onDown)
+    window.addEventListener("mouseup", onUp)
 
     return () => {
-      window.removeEventListener("mousemove", mouseMove)
-      window.removeEventListener("mousedown", mouseDown)
-      window.removeEventListener("mouseup", mouseUp)
-
-      links.forEach((link) => {
-        link.removeEventListener("mouseenter", mouseEnterLink)
-        link.removeEventListener("mouseleave", mouseLeaveLink)
-      })
+      window.removeEventListener("mousemove", onMove)
+      document.removeEventListener("mouseleave", onLeave)
+      window.removeEventListener("mousedown", onDown)
+      window.removeEventListener("mouseup", onUp)
     }
-  }, [])
+  }, [x, y])
 
-  const variants = {
-    default: {
-      x: mousePosition.x - 16,
-      y: mousePosition.y - 16,
-      height: 32,
-      width: 32,
-      backgroundColor: "rgba(0, 0, 0, 0.05)",
-      mixBlendMode: "difference" as const,
-    },
-    hover: {
-      x: mousePosition.x - 24,
-      y: mousePosition.y - 24,
-      height: 48,
-      width: 48,
-      backgroundColor: "rgba(255, 255, 255, 0.2)",
-      mixBlendMode: "difference" as const,
-    },
-    click: {
-      x: mousePosition.x - 16,
-      y: mousePosition.y - 16,
-      height: 32,
-      width: 32,
-      backgroundColor: "rgba(255, 255, 255, 0.3)",
-      mixBlendMode: "difference" as const,
-    },
-  }
+  if (!enabled) return null
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 rounded-full pointer-events-none z-50 hidden md:block"
-      variants={variants}
-      animate={cursorVariant}
-      transition={{ type: "spring", stiffness: 500, damping: 28 }}
-    />
+    <>
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[70] hidden rounded-full border border-brand/50 md:block"
+        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
+        animate={{
+          width: hovering ? 44 : 28,
+          height: hovering ? 44 : 28,
+          opacity: visible ? (hovering ? 1 : 0.55) : 0,
+          scale: pressed ? 0.82 : 1,
+          backgroundColor: hovering ? "hsl(var(--brand) / 0.1)" : "hsl(var(--brand) / 0)",
+        }}
+        transition={{ type: "spring", stiffness: 320, damping: 26 }}
+      />
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-1.5 w-1.5 rounded-full bg-brand md:block"
+        style={{ x, y, translateX: "-50%", translateY: "-50%" }}
+        animate={{ opacity: visible && !hovering ? 0.9 : 0 }}
+        transition={{ duration: 0.2 }}
+      />
+    </>
   )
 }
-

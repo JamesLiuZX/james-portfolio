@@ -1,56 +1,46 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion, useScroll } from "framer-motion"
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion"
+import { ArrowUp } from "lucide-react"
 
 export default function ScrollProgress() {
   const { scrollYProgress } = useScroll()
-  const [scrolled, setScrolled] = useState(false)
+  const scaleX = useSpring(scrollYProgress, { stiffness: 220, damping: 40, restDelta: 0.001 })
+  const [showTop, setShowTop] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      if (scrollPosition > 100) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
+    const handleScroll = () => setShowTop(window.scrollY > window.innerHeight * 0.8)
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left"
-        style={{ scaleX: scrollYProgress }}
+        aria-hidden="true"
+        className="fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-brand via-brand-alt to-brand"
+        style={{ scaleX }}
       />
-      {scrolled && (
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          className="fixed bottom-8 right-8 bg-primary text-primary-foreground w-10 h-10 rounded-full flex items-center justify-center z-50 shadow-lg"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+
+      <AnimatePresence>
+        {showTop && (
+          <motion.button
+            type="button"
+            aria-label="Back to top"
+            initial={{ opacity: 0, y: 12, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.9 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ y: -2 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 z-50 grid h-11 w-11 place-items-center rounded-full border border-border/70 bg-background/70 text-foreground shadow-soft backdrop-blur-xl transition-colors hover:border-brand/40 md:bottom-8 md:right-8"
           >
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-        </motion.button>
-      )}
+            <ArrowUp className="h-4 w-4" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </>
   )
 }
-

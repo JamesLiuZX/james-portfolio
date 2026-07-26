@@ -1,97 +1,107 @@
 import { getBlogPosts } from "@/lib/mdx"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ArrowUpRight, Clock } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import PageHeader from "@/components/page-header"
+
+/** Posts without real artwork fall back to a typographic row. */
+const hasArtwork = (image?: string) => Boolean(image) && !image!.startsWith("/placeholder")
 
 export default async function Blog() {
   const posts = await getBlogPosts()
 
   return (
-    <main className="min-h-screen">
+    <>
       <Navbar />
 
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="space-y-12">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Button variant="ghost" size="sm" className="group">
-                    <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Back to Home
-                  </Button>
-                </Link>
-              </div>
+      <main className="min-h-screen">
+        <PageHeader
+          eyebrow="Writing"
+          title={
+            <>
+              Notes on product, <span className="serif-accent text-brand">AI</span> and
+              building things.
+            </>
+          }
+          lede="Book breakdowns, product teardowns and the occasional deep dive into whatever I've been reading lately."
+        />
 
-              <h1 className="text-3xl md:text-4xl font-bold">Blog</h1>
-              <p className="text-lg text-muted-foreground max-w-3xl">
-                Thoughts, insights, and experiences from my journey in product management, engineering, and
-                entrepreneurship.
-              </p>
-            </div>
+        <section className="shell pb-24 md:pb-32">
+          {posts.length > 0 ? (
+            <ol className="border-t border-border/70">
+              {posts.map((post, index) => (
+                <li key={post.slug}>
+                  <article className="group relative border-b border-border/70">
+                    <div className="flex items-start gap-5 py-8 transition-transform duration-500 ease-out-expo group-hover:translate-x-1 md:gap-8 md:py-10">
+                      <span className="hidden pt-1 font-mono text-[11px] tracking-[0.12em] text-subtle sm:block">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
 
-            {posts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {posts.map((post) => (
-                  <article key={post.slug} className="group">
-                    <Link href={`/blog/${post.metadata.slug}`}>
-                      <div className="space-y-4">
-                        <div className="overflow-hidden rounded-lg">
+                      {hasArtwork(post.metadata.image) && (
+                        <div className="relative hidden h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-surface-muted md:block">
                           <Image
-                            src={post.metadata.image || "/placeholder.svg"}
+                            src={post.metadata.image}
                             alt={post.metadata.title}
-                            width={800}
-                            height={600}
-                            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                            fill
+                            sizes="112px"
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         </div>
+                      )}
 
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                          <div className="flex items-center">
-                            <Calendar className="mr-1 h-4 w-4" />
-                            <span>{post.metadata.date}</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Clock className="mr-1 h-4 w-4" />
-                            <span>{post.metadata.readTime}</span>
-                          </div>
+                      <div className="min-w-0 flex-1 space-y-3">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
+                          {post.metadata.category && (
+                            <span className="text-brand">{post.metadata.category}</span>
+                          )}
+                          {post.metadata.date && <span>{post.metadata.date}</span>}
+                          {post.metadata.readTime && (
+                            <span className="inline-flex items-center gap-1.5">
+                              <Clock className="h-3 w-3" />
+                              {post.metadata.readTime}
+                            </span>
+                          )}
                         </div>
 
-                        <div>
-                          <div className="inline-flex items-center rounded-full bg-secondary/50 px-3 py-1 text-xs">
-                            <Tag className="mr-1 h-3 w-3" />
-                            {post.metadata.category}
-                          </div>
-                        </div>
-
-                        <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                        <h2 className="max-w-2xl text-xl font-semibold leading-snug tracking-tight transition-colors duration-300 group-hover:text-brand md:text-2xl">
                           {post.metadata.title}
                         </h2>
 
-                        <p className="text-muted-foreground">{post.metadata.description}</p>
-
-                        <div className="pt-2">
-                          <span className="text-sm font-medium text-primary">Read more →</span>
-                        </div>
+                        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                          {post.metadata.description}
+                        </p>
                       </div>
-                    </Link>
+
+                      <span
+                        aria-hidden="true"
+                        className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-brand/40 group-hover:bg-brand group-hover:text-brand-foreground"
+                      >
+                        <ArrowUpRight className="h-4 w-4" />
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/blog/${post.metadata.slug}`}
+                      className="absolute inset-0"
+                      aria-label={`Read ${post.metadata.title}`}
+                    />
                   </article>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">No blog posts found. Check back soon for new content!</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="card-surface px-6 py-20 text-center">
+              <p className="text-muted-foreground">
+                No posts yet — check back soon for new writing.
+              </p>
+            </div>
+          )}
+        </section>
+      </main>
 
       <Footer />
-    </main>
+    </>
   )
 }
-

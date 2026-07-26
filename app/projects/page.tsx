@@ -1,17 +1,17 @@
 "use client"
 
-import { useState } from "react"
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, ExternalLink, Github, Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowUpRight, ExternalLink, Github, Star } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
+import PageHeader from "@/components/page-header"
+import { EASE } from "@/components/ui/section"
+import { cn } from "@/lib/utils"
 
 interface Project {
   id: string
@@ -25,296 +25,295 @@ interface Project {
   featured: boolean
 }
 
-export default function Projects() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
+const projects: Project[] = [
+  {
+    id: "askshop-ai",
+    title: "AskShop.ai",
+    description:
+      "A B2B e-commerce SaaS focused on product discovery and recommendation, distributed across Shopify stores. Funded by Stanford Startup Society and 2nd place in the Stanford internal hackathon.",
+    technologies: ["TypeScript", "AWS", "Liquid", "Gadget", "JavaScript"],
+    category: "SaaS",
+    image: "/askshopai.png",
+    liveUrl: "https://apps.shopify.com/askshop-ai",
+    githubUrl: "https://github.com/JamesLiuZX",
+    featured: true,
+  },
+  {
+    id: "calendare",
+    title: "Calendare",
+    description:
+      "An AI-powered productivity app that automatically schedules locally scraped events and personalised tasks around your goals and calendar. Won a $10K NUS VIP grant.",
+    technologies: ["Next.js", "TypeScript", "MongoDB", "AWS"],
+    category: "Productivity",
+    image: "/calendare.png",
+    githubUrl: "https://github.com/JamesLiuZX",
+    featured: true,
+  },
+  {
+    id: "herbalbath-singapore",
+    title: "HerbalBath Singapore",
+    description:
+      "Founded and grew a healthcare product company past $100K in yearly revenue on a 40% profit margin, leading a team across social media marketing, logistics and sales.",
+    technologies: ["Ruby", "HTML", "CSS", "JavaScript", "Figma", "Shopify"],
+    category: "E-Commerce",
+    image: "/herbalbath.png",
+    liveUrl: "https://herbalbathsg.com",
+    featured: true,
+  },
+  {
+    id: "nft-sentiment-predictor",
+    title: "NFT Sentiment Price Predictor",
+    description:
+      "Built and optimised 20+ functional components for NFT price charts overlaid with predicted prices and sentiment across customisable time-series parameters.",
+    technologies: ["TypeScript", "Next.js", "Tailwind CSS", "PostgreSQL", "tRPC", "Python", "PySpark"],
+    category: "Web3",
+    image: "/NFinsighT.JPG",
+    liveUrl: "https://nfinsight.vercel.app/",
+    githubUrl: "https://github.com/JamesLiuZX",
+    featured: true,
+  },
+  {
+    id: "dunman-helper",
+    title: "Dunman Helper",
+    description:
+      "A school chatbot serving 500+ users a year, built on Dialogflow's natural language platform.",
+    technologies: ["Dialogflow", "Python", "HTML", "JavaScript"],
+    category: "AI",
+    image: "/placeholder.svg",
+    liveUrl: "https://jamesliuzx.github.io/AI-Chatbot/",
+    githubUrl: "https://github.com/JamesLiuZX/AI-Chatbot",
+    featured: false,
+  },
+  {
+    id: "ey-dashboard",
+    title: "EY Client Dashboard",
+    description:
+      "Frontend development of an internal real-time dashboard for an international client, projected to impact over a million users per year.",
+    technologies: ["ReactJS", ".NET Framework", "JQuery", "C#", "SQL", "Microsoft Azure"],
+    category: "Enterprise",
+    image: "/placeholder.svg",
+    featured: false,
+  },
+]
 
+// Detail pages only exist for the four featured case studies.
+const hasCaseStudy = (id: string) =>
+  ["askshop-ai", "calendare", "herbalbath-singapore", "nft-sentiment-predictor"].includes(id)
+
+const hasArtwork = (image: string) => Boolean(image) && !image.startsWith("/placeholder")
+
+export default function ProjectsPage() {
   const [filter, setFilter] = useState<string | null>(null)
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false)
-
-  const projects: Project[] = [
-    {
-      id: "askshop-ai",
-      title: "AskShop.ai",
-      description:
-        "A B2B e-commerce SaaS focused on product discovery and recommendation, distributed across Shopify stores. Achieved funding from Stanford Startup Society and 2nd place in Stanford internal hackathon.",
-      technologies: ["TypeScript", "AWS", "Liquid", "Gadget", "JavaScript"],
-      category: "SaaS",
-      image: "/askshopai.png",
-      liveUrl: "https://apps.shopify.com/askshop-ai",
-      githubUrl: "https://github.com/JamesLiuZX",
-      featured: true,
-    },
-    {
-      id: "calendare",
-      title: "Calendare",
-      description:
-        "An AI-powered productivity app that automatically schedules locally scraped events and personalized tasks based on goals and user schedule. Achieved 10k in funding from NUS VIP grant.",
-      technologies: ["Next.js", "TypeScript", "MongoDB", "AWS"],
-      category: "Productivity",
-      image: "/calendare.png",
-      githubUrl: "https://github.com/JamesLiuZX",
-      featured: true,
-    },
-    {
-      id: "herbalbath-singapore",
-      title: "HerbalBath Singapore",
-      description:
-        "Founded and grew a healthcare product company to over 100k in yearly revenue on 40% profit margin, leading a team in social media marketing, logistics and sales.",
-      technologies: ["Ruby", "HTML", "CSS", "JavaScript", "Figma", "Shopify"],
-      category: "E-Commerce",
-      image: "/herbalbath.png",
-      liveUrl: "https://herbalbathsg.com",
-      featured: true,
-    },
-    {
-      id: "nft-sentiment-predictor",
-      title: "NFT Sentiment Price Predictor",
-      description:
-        "Implemented and optimised over 20 functional components for NFT price charts overlay with predicted prices and sentiment over customisable time series parameters.",
-      technologies: ["TypeScript", "Next.js", "Tailwind CSS", "PostgreSQL", "tRPC", "Python", "PySpark", "SparkNLP"],
-      category: "Web3",
-      image: "/NFinsighT.JPG",
-      liveUrl: "https://nfinsight.vercel.app/",
-      githubUrl: "https://github.com/JamesLiuZX",
-      featured: true,
-    },
-    {
-      id: "dunman-helper",
-      title: "Dunman Helper",
-      description:
-        "Developed and deployed a chatbot for school used by over 500 users per year using Dialogflow AI, a powerful natural language processing platform.",
-      technologies: ["Dialogflow", "Python", "HTML", "JavaScript"],
-      category: "AI",
-      image: "/placeholder.svg?height=600&width=800",
-      liveUrl: "https://jamesliuzx.github.io/AI-Chatbot/",
-      githubUrl: "https://github.com/JamesLiuZX/AI-Chatbot",
-      featured: false,
-    },
-    {
-      id: "ey-dashboard",
-      title: "EY Client Dashboard",
-      description:
-        "Spearheaded frontend development of an internal real-time dashboard for an international client, which impacts over a million users per year.",
-      technologies: ["ReactJS", ".NET Framework", "JQuery", "C#", "SQL", "Microsoft Azure"],
-      category: "Enterprise",
-      image: "/placeholder.svg?height=600&width=800",
-      featured: false,
-    },
-  ]
-
-  const categories = Array.from(new Set(projects.map((project) => project.category)))
-
-  const filteredProjects = projects
-    .filter((project) => (filter ? project.category === filter : true))
-    .filter((project) => (showFeaturedOnly ? project.featured : true))
+  const categories = useMemo(() => Array.from(new Set(projects.map((p) => p.category))), [])
+  const filtered = filter ? projects.filter((p) => p.category === filter) : projects
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background via-secondary/5 to-background">
+    <>
       <CursorFollower />
       <ScrollProgress />
       <Navbar />
 
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="space-y-12">
-            {/* Header */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-2">
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Button variant="ghost" size="sm" className="group">
-                    <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Back to Home
-                  </Button>
-                </Link>
-              </div>
-
-              <motion.div
-                ref={ref}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-4"
+      <main className="min-h-screen">
+        <PageHeader
+          eyebrow="Portfolio"
+          title={
+            <>
+              Everything I&apos;ve <span className="serif-accent text-brand">shipped</span>,
+              in one place.
+            </>
+          }
+          lede="Case studies and side projects across AI, e-commerce, Web3 and enterprise — each one built for real users, not a portfolio slot."
+        >
+          <div className="flex flex-wrap gap-2 pt-2">
+            <FilterChip active={filter === null} onClick={() => setFilter(null)}>
+              All
+              <span className="ml-1.5 font-mono text-[10px] opacity-60">{projects.length}</span>
+            </FilterChip>
+            {categories.map((category) => (
+              <FilterChip
+                key={category}
+                active={filter === category}
+                onClick={() => setFilter(category)}
               >
-                <Badge variant="outline" className="mb-2">
-                  <Sparkles className="mr-1 h-3 w-3" />
-                  Portfolio
-                </Badge>
-                <h1 className="text-4xl md:text-5xl font-bold">All Projects</h1>
-                <p className="text-lg text-muted-foreground max-w-3xl">
-                  A comprehensive showcase of my work across various domains—from AI-powered applications to e-commerce platforms. Each project demonstrates unique technical challenges and innovative solutions.
-                </p>
-              </motion.div>
-            </div>
+                {category}
+                <span className="ml-1.5 font-mono text-[10px] opacity-60">
+                  {projects.filter((p) => p.category === category).length}
+                </span>
+              </FilterChip>
+            ))}
+          </div>
+        </PageHeader>
 
-            {/* Filters */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap gap-3"
-            >
-              <Button 
-                variant={filter === null ? "default" : "outline"} 
-                size="sm" 
-                onClick={() => setFilter(null)}
-                className="rounded-full"
-              >
-                All Categories
-              </Button>
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={filter === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setFilter(category)}
-                  className="rounded-full"
-                >
-                  {category}
-                </Button>
-              ))}
-              <div className="ml-auto">
-                <Button
-                  variant={showFeaturedOnly ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
-                  className="rounded-full"
-                >
-                  <Sparkles className="mr-1 h-3 w-3" />
-                  {showFeaturedOnly ? "Show All" : "Featured Only"}
-                </Button>
-              </div>
-            </motion.div>
+        <section className="shell pb-24 md:pb-32">
+          <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project, index) => {
+                const detailHref = hasCaseStudy(project.id) ? `/projects/${project.id}` : null
+                const primaryHref = detailHref ?? project.liveUrl ?? project.githubUrl ?? null
 
-            {/* Projects Grid */}
-            <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project, index) => (
-                <motion.article
-                  key={project.id}
-                  className="group relative h-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <div className="flex flex-col h-full bg-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/30 shadow-sm hover:shadow-xl transition-all duration-500">
-                    {/* Image */}
-                    <Link href={`/projects/${project.id}`} className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
-                      
-                      {project.featured && (
-                        <div className="absolute top-3 right-3">
-                          <Badge className="bg-primary text-primary-foreground border-0 shadow-lg">
-                            <Sparkles className="mr-1 h-3 w-3" />
-                            Featured
-                          </Badge>
+                return (
+                  <motion.article
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.45, delay: index * 0.04, ease: EASE }}
+                    className="group card-surface relative isolate flex flex-col overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lifted"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
+                      {hasArtwork(project.image) ? (
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                          className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
+                        />
+                      ) : (
+                        // No screenshot on file — fall back to a typographic plate.
+                        <div className="absolute inset-0 grid place-items-center bg-dots">
+                          <span className="text-5xl font-semibold tracking-tighter text-foreground/[0.12] transition-transform duration-700 group-hover:scale-105">
+                            {project.title
+                              .split(" ")
+                              .slice(0, 2)
+                              .map((word) => word[0])
+                              .join("")}
+                          </span>
                         </div>
                       )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
 
-                      {/* Category Badge */}
-                      <div className="absolute bottom-3 left-3">
-                        <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm text-black border-0">
-                          {project.category}
-                        </Badge>
-                      </div>
-                    </Link>
+                      <span className="absolute left-4 top-4 rounded-full border border-border/60 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground backdrop-blur-md">
+                        {project.category}
+                      </span>
 
-                    {/* Content */}
-                    <div className="flex-1 p-5 space-y-4 flex flex-col">
-                      <Link href={`/projects/${project.id}`}>
-                        <h2 className="text-lg font-semibold group-hover:text-primary transition-colors line-clamp-1">
-                          {project.title}
-                        </h2>
-                      </Link>
+                      {project.featured && (
+                        <span
+                          className="absolute right-4 top-4 grid h-7 w-7 place-items-center rounded-full border border-brand/30 bg-background/80 text-brand backdrop-blur-md"
+                          title="Featured project"
+                        >
+                          <Star className="h-3 w-3 fill-current" />
+                        </span>
+                      )}
+                    </div>
 
-                      <p className="text-sm text-muted-foreground line-clamp-3 flex-1">
-                        {project.description}
-                      </p>
-
-                      {/* Technologies */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.technologies.slice(0, 3).map((tech) => (
-                          <span key={tech} className="text-xs bg-secondary/80 px-2 py-0.5 rounded-md">
-                            {tech}
-                          </span>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <span className="text-xs bg-secondary/80 px-2 py-0.5 rounded-md">
-                            +{project.technologies.length - 3}
+                    <div className="flex flex-1 flex-col gap-4 p-6">
+                      <div className="flex items-start justify-between gap-3">
+                        <h2 className="text-lg font-semibold tracking-tight">{project.title}</h2>
+                        {primaryHref && (
+                          <span
+                            aria-hidden="true"
+                            className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-brand/40 group-hover:bg-brand group-hover:text-brand-foreground"
+                          >
+                            <ArrowUpRight className="h-3.5 w-3.5" />
                           </span>
                         )}
                       </div>
 
-                      {/* Actions */}
-                      <div className="flex gap-2 pt-2">
-                        <Button size="sm" variant="default" asChild className="flex-1 rounded-lg">
-                          <Link href={`/projects/${project.id}`}>View Details</Link>
-                        </Button>
+                      <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
+                        {project.description}
+                      </p>
 
-                        <div className="flex gap-1">
-                          {project.liveUrl && (
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              asChild 
-                              className="w-9 h-9 p-0 rounded-lg"
-                            >
-                              <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                              </Link>
-                            </Button>
-                          )}
-
-                          {project.githubUrl && (
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              asChild 
-                              className="w-9 h-9 p-0 rounded-lg"
-                            >
-                              <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                <Github className="h-4 w-4" />
-                              </Link>
-                            </Button>
-                          )}
-                        </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.technologies.slice(0, 3).map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 3 && (
+                          <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                            +{project.technologies.length - 3}
+                          </span>
+                        )}
                       </div>
                     </div>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
 
-            {/* Empty State */}
-            {filteredProjects.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-muted-foreground text-lg">
-                  No projects found matching your filters.
-                </p>
-                <Button 
-                  variant="outline" 
-                  className="mt-4"
-                  onClick={() => {
-                    setFilter(null)
-                    setShowFeaturedOnly(false)
-                  }}
-                >
-                  Clear Filters
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+                    {/* Stretched primary link, with secondary links layered above it. */}
+                    {primaryHref &&
+                      (detailHref ? (
+                        <Link
+                          href={detailHref}
+                          className="absolute inset-0 z-10 rounded-2xl"
+                          aria-label={`View ${project.title}`}
+                        />
+                      ) : (
+                        <a
+                          href={primaryHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute inset-0 z-10 rounded-2xl"
+                          aria-label={`View ${project.title}`}
+                        />
+                      ))}
+
+                    <div className="absolute bottom-6 right-6 z-20 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-within:opacity-100">
+                      {project.liveUrl && detailHref && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} live site`}
+                          className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${project.title} on GitHub`}
+                          className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+                        >
+                          <Github className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </motion.article>
+                )
+              })}
+            </AnimatePresence>
+          </motion.div>
+
+          {filtered.length === 0 && (
+            <div className="py-24 text-center">
+              <p className="text-muted-foreground">No projects in this category yet.</p>
+            </div>
+          )}
+        </section>
+      </main>
 
       <Footer />
-    </main>
+    </>
+  )
+}
+
+function FilterChip({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center rounded-full border px-4 py-2 text-sm transition-all duration-300",
+        active
+          ? "border-transparent bg-foreground text-background"
+          : "border-border bg-surface/60 text-muted-foreground hover:border-brand/40 hover:text-foreground",
+      )}
+    >
+      {children}
+    </button>
   )
 }

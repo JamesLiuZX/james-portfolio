@@ -1,12 +1,11 @@
 "use client"
-import { useRef } from "react"
-import { useInView } from "react-intersection-observer"
-import { motion, useScroll, useTransform } from "framer-motion"
+
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { motion } from "framer-motion"
+import { ArrowUpRight, Github } from "lucide-react"
+import { EASE, SectionHeading } from "@/components/ui/section"
+import { cn } from "@/lib/utils"
 
 interface Project {
   title: string
@@ -15,217 +14,187 @@ interface Project {
   link: string
   description: string
   technologies: string[]
-  featured: boolean
+  /** Single headline outcome shown on the card. */
+  result?: string
   github?: string
 }
 
+const projects: Project[] = [
+  {
+    title: "AskShop.ai",
+    category: "AI · E-Commerce",
+    image: "/askshopai.png",
+    link: "/projects/askshop-ai",
+    description:
+      "A B2B e-commerce SaaS for product discovery and recommendation, distributable across every Shopify store. Built and shipped in five weeks.",
+    technologies: ["TypeScript", "AWS", "React", "OpenAI", "Shopify API"],
+    result: "100+ business users · 5.0 rating",
+    github: "https://github.com/JamesLiuZX",
+  },
+  {
+    title: "Calendare",
+    category: "Productivity · AI",
+    image: "/calendare.png",
+    link: "/projects/calendare",
+    description:
+      "An AI-powered productivity app that automatically schedules events and tasks around your goals, calendar and preferences.",
+    technologies: ["Next.js", "TypeScript", "MongoDB", "AWS"],
+    result: "$10K NUS VIP grant",
+    github: "https://github.com/JamesLiuZX",
+  },
+  {
+    title: "HerbalBath Singapore",
+    category: "E-Commerce · Health",
+    image: "/herbalbath.png",
+    link: "/projects/herbalbath-singapore",
+    description:
+      "Founded and grew a healthcare product company, leading social media marketing, logistics and sales end to end.",
+    technologies: ["Shopify", "Marketing", "Analytics"],
+    result: "$100K+ yearly revenue · 40% margin",
+  },
+  {
+    title: "NFT Sentiment Predictor",
+    category: "Web3 · Data",
+    image: "/NFinsighT.JPG",
+    link: "/projects/nft-sentiment-predictor",
+    description:
+      "NFT price charts overlaid with predicted prices and market sentiment across customisable time-series parameters.",
+    technologies: ["TypeScript", "Next.js", "tRPC", "Python", "PySpark"],
+    result: "20+ functional components",
+    github: "https://github.com/JamesLiuZX",
+  },
+]
+
 export default function Projects() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
-
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100])
-
-  const projects: Project[] = [
-    {
-      title: "ASKSHOP.AI",
-      category: "AI, E-Commerce",
-      image: "/askshopai.png",
-      link: "/projects/askshop-ai",
-      description:
-        "A B2B e-commerce SaaS focused on product discovery and recommendation, distributed across Shopify stores.",
-      technologies: ["TypeScript", "AWS", "React", "OpenAI", "Shopify API"],
-      featured: true,
-      github: "https://github.com/JamesLiuZX",
-    },
-    {
-      title: "CALENDARE",
-      category: "Productivity, AI",
-      image: "/calendare.png",
-      link: "/projects/calendare",
-      description:
-        "AI-powered productivity app that automatically schedules events and tasks based on goals and preferences.",
-      technologies: ["Next.js", "TypeScript", "MongoDB", "AWS"],
-      featured: true,
-      github: "https://github.com/JamesLiuZX",
-    },
-    {
-      title: "HERBALBATH SINGAPORE",
-      category: "E-Commerce, Health",
-      image: "/herbalbath.png",
-      link: "/projects/herbalbath-singapore",
-      description: "Founded and grew a healthcare product company to over 100k in yearly revenue on 40% profit margin.",
-      technologies: ["Shopify", "Marketing", "E-commerce", "Analytics"],
-      featured: true,
-    },
-    {
-      title: "NFT SENTIMENT PREDICTOR",
-      category: "Web3, Data Analysis",
-      image: "/NFinsighT.JPG",
-      link: "/projects/nft-sentiment-predictor",
-      description:
-        "Implemented NFT price charts with predicted prices and sentiment over customizable time series parameters.",
-      technologies: ["TypeScript", "Next.js", "tRPC", "Python", "PySpark"],
-      featured: true,
-      github: "https://github.com/JamesLiuZX",
-    },
-  ]
-
   return (
-    <section
-      id="projects"
-      className="py-20 md:py-32 bg-gradient-to-b from-background via-secondary/10 to-background relative overflow-hidden"
-    >
-      {/* Enhanced background elements */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+    <section id="projects" className="section-y relative overflow-hidden">
+      {/* Soft brand wash behind the grid */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-[30rem] w-[60rem] -translate-x-1/2 rounded-full bg-brand/[0.07] blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div ref={ref} className="space-y-16">
-          {/* Header Section */}
-          <div className="space-y-6 text-center md:text-left max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
+      <div className="shell">
+        <SectionHeading
+          eyebrow="Selected work"
+          title={
+            <>
+              Things I&apos;ve <span className="serif-accent text-brand">built</span> and
+              taken to market.
+            </>
+          }
+          lede="A founder-led SaaS, an AI scheduling app, a profitable D2C brand and a Web3 analytics tool — each one shipped to real users."
+          action={
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-lifted"
             >
-              <Badge variant="outline" className="mb-4">Featured Work</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">
-                SELECTED PROJECTS
-              </h2>
-            </motion.div>
+              View all projects
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          }
+        />
 
-            <motion.p
-              className="text-lg text-muted-foreground"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+        <div className="mt-20 grid gap-6 md:grid-cols-2 md:gap-7">
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.title}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: (index % 2) * 0.08, ease: EASE }}
+              className={cn(
+                "group card-surface relative isolate overflow-hidden transition-all duration-500",
+                "hover:-translate-y-1 hover:border-brand/25 hover:shadow-lifted",
+              )}
             >
-              Discover my featured work across various domains—from AI-powered applications to e-commerce platforms. Each project represents a unique challenge and innovative solution.
-            </motion.p>
+              {/* Media */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
+                <Image
+                  src={project.image || "/placeholder.svg"}
+                  alt={project.title}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-50" />
+                <div className="absolute inset-0 bg-brand/0 transition-colors duration-500 group-hover:bg-brand/[0.06]" />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Button asChild size="lg" className="group">
-                <Link href="/projects">
-                  VIEW ALL PROJECTS
-                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </Link>
-              </Button>
-            </motion.div>
-          </div>
+                <span className="absolute left-4 top-4 rounded-full border border-border/60 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground backdrop-blur-md">
+                  {project.category}
+                </span>
 
-          {/* Projects Grid */}
-          <div ref={containerRef} className="relative">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  className="group relative"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                <span className="absolute right-4 top-4 font-mono text-[10px] tracking-[0.12em] text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              {/* Body */}
+              <div className="space-y-4 p-6 md:p-7">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
+                    {project.title}
+                  </h3>
+                  <span
+                    aria-hidden="true"
+                    className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-brand/40 group-hover:bg-brand group-hover:text-brand-foreground"
+                  >
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {project.description}
+                </p>
+
+                {project.result && (
+                  <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-brand">
+                    {project.result}
+                  </p>
+                )}
+
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {project.technologies.slice(0, 4).map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.technologies.length > 4 && (
+                    <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                      +{project.technologies.length - 4}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/*
+                Stretched link: covers the whole card without nesting the other
+                interactive elements inside an anchor.
+              */}
+              <Link
+                href={project.link}
+                className="absolute inset-0 z-10 rounded-2xl"
+                aria-label={`View ${project.title} case study`}
+              >
+                <span className="sr-only">View {project.title} case study</span>
+              </Link>
+
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(event) => event.stopPropagation()}
+                  aria-label={`${project.title} on GitHub`}
+                  className="absolute right-4 top-16 z-20 grid h-8 w-8 place-items-center rounded-full border border-border/60 bg-background/80 text-muted-foreground opacity-0 backdrop-blur-md transition-all duration-300 hover:text-foreground group-hover:opacity-100 focus-visible:opacity-100"
                 >
-                  <Link href={project.link}>
-                    <div className="relative h-full bg-card rounded-2xl overflow-hidden border border-border/50 shadow-sm hover:shadow-xl transition-all duration-500 group-hover:border-primary/30">
-                      {/* Image Container */}
-                      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
-                        <Image
-                          src={project.image || "/placeholder.svg"}
-                          alt={project.title}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                        
-                        {/* Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                        
-                        {/* Category Badge */}
-                        <div className="absolute top-4 left-4">
-                          <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm text-black border-0">
-                            {project.category}
-                          </Badge>
-                        </div>
-
-                        {/* Links Overlay */}
-                        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {project.github && (
-                            <Button 
-                              size="icon" 
-                              variant="secondary" 
-                              className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
-                              onClick={(e) => {
-                                e.preventDefault()
-                                window.open(project.github, '_blank')
-                              }}
-                            >
-                              <Github className="h-4 w-4" />
-                            </Button>
-                          )}
-                          <Button 
-                            size="icon" 
-                            variant="secondary" 
-                            className="h-8 w-8 bg-white/90 backdrop-blur-sm hover:bg-white"
-                          >
-                            <ArrowUpRight className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                            {project.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {project.description}
-                          </p>
-                        </div>
-
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.slice(0, 4).map((tech) => (
-                            <span
-                              key={tech}
-                              className="text-xs px-2.5 py-1 rounded-full bg-secondary/80 text-secondary-foreground"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                          {project.technologies.length > 4 && (
-                            <span className="text-xs px-2.5 py-1 rounded-full bg-secondary/80 text-secondary-foreground">
-                              +{project.technologies.length - 4}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* View Details Button */}
-                        <div className="pt-2">
-                          <span className="text-sm font-medium text-primary inline-flex items-center group-hover:gap-2 transition-all">
-                            View Details 
-                            <ArrowUpRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                  <Github className="h-3.5 w-3.5" />
+                </a>
+              )}
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>
