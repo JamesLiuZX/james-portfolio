@@ -7,6 +7,10 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // The site is published to GitHub Pages, which serves plain files. Declaring
+  // the export here rather than letting actions/configure-pages patch this file
+  // at build time keeps `next build` locally identical to CI.
+  output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -14,6 +18,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // Required by `output: 'export'` — there is no server to optimise images.
     unoptimized: true,
   },
   experimental: {

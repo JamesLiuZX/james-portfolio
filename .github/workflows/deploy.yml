@@ -1,73 +1,73 @@
-name: Deploy Next.js site to Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# One deployment at a time. In-progress production deploys are allowed to
+# finish rather than being cancelled by a newer push.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      # Version comes from the "packageManager" field in package.json, so the
+      # lockfile format and the pnpm that reads it cannot drift apart.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
+          cache: pnpm
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 7
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
+      # No `static_site_generator: next` on purpose: that option rewrites
+      # next.config at build time to inject `output: 'export'` plus a basePath.
+      # The export is already declared in next.config.mjs, and the site is
+      # served from an apex custom domain, so it must not carry a basePath.
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
+
+      - name: Restore Next.js cache
+        uses: actions/cache@v4
         with:
-          static_site_generator: next
-      - name: Build with Next.js
-        run: pnpm next build
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
+
+      # `next export` was removed in Next 13; `output: 'export'` makes
+      # `next build` write the static site straight to ./out.
+      - name: Build
+        run: pnpm build
+
+      - name: Verify export output
+        run: |
+          test -f out/index.html || { echo "::error::out/index.html missing — the export did not run"; exit 1; }
+          test -f out/CNAME    || { echo "::error::out/CNAME missing — the custom domain would be dropped"; exit 1; }
+          echo "Exported $(find out -name '*.html' | wc -l) HTML pages"
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
@@ -77,4 +77,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
