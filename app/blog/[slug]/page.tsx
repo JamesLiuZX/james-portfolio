@@ -1,3 +1,4 @@
+import { markdownToHtml } from "@/lib/markdown"
 import { getBlogPost } from "@/lib/mdx"
 import { notFound } from "next/navigation"
 import Image from "next/image"
@@ -94,7 +95,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   prose-pre:bg-secondary/50 prose-pre:border prose-pre:border-border prose-pre:rounded-lg
                   prose-img:rounded-lg prose-img:shadow-md
                   prose-hr:my-12 prose-hr:border-border"
-                dangerouslySetInnerHTML={{ __html: convertMarkdownToHtml(content) }}
+                dangerouslySetInnerHTML={{ __html: markdownToHtml(content) }}
               />
 
               {/* Footer Navigation */}
@@ -117,46 +118,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     console.error("Error loading blog post:", error)
     notFound()
   }
-}
-
-// Simple markdown to HTML converter
-// In production, you'd want to use a proper MDX renderer like next-mdx-remote
-function convertMarkdownToHtml(markdown: string): string {
-  let html = markdown
-
-  // Headers
-  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
-  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
-  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-
-  // Bold
-  html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-
-  // Italic
-  html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>')
-
-  // Code blocks
-  html = html.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>')
-
-  // Inline code
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
-
-  // Links
-  html = html.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2">$1</a>')
-
-  // Lists
-  html = html.replace(/^\- (.*$)/gim, '<li>$1</li>')
-  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-
-  // Paragraphs
-  html = html.split('\n\n').map(paragraph => {
-    if (paragraph.match(/^<[h|u|o|l|p]/)) {
-      return paragraph
-    }
-    return `<p>${paragraph}</p>`
-  }).join('\n')
-
-  return html
 }
 
 // Generate static params for all blog posts

@@ -80,6 +80,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  // The blog post template was already written against @tailwindcss/typography
+  // (it sets prose-headings:, prose-a:, prose-li: and friends), but the plugin
+  // was never installed, so every one of those classes silently did nothing and
+  // posts rendered as unstyled running text. Registering it turns that markup on.
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 }
 
