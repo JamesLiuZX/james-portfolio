@@ -39,7 +39,7 @@ const experiences: Role[] = [
   },
   {
     company: "ByteDance",
-    role: "Growth Product Manager",
+    role: "Product Manager",
     period: "Jul 2024 — Sep 2025",
     metrics: [
       { value: "+20%", label: "Monthly visitors" },

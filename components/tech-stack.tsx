@@ -1,14 +1,33 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Boxes, Code2, LineChart, PenTool } from "lucide-react"
+import { Boxes, CandlestickChart, Code2, Gift, LineChart, ShieldCheck } from "lucide-react"
 import { EASE, SectionHeading } from "@/components/ui/section"
 
+// Domain first, craft second — the domain columns are the differentiator.
 const groups = [
   {
-    name: "Product",
+    name: "Trading & Markets",
+    icon: CandlestickChart,
+    tools: ["Options", "Futures", "Prediction markets", "Trading infrastructure", "Spot & derivatives"],
+    note: "The main app's trading surface and the plumbing underneath it.",
+  },
+  {
+    name: "Growth & Rewards",
+    icon: Gift,
+    tools: ["Referral programmes", "Welcome bonuses", "Incentive design", "Onboarding funnels", "Product-led growth"],
+    note: "Getting the first trade to happen, then the second.",
+  },
+  {
+    name: "Risk & Compliance",
+    icon: ShieldCheck,
+    tools: ["KYC & AML", "Anti-fraud", "Geo expansion (EEA, US)", "Stripe 3DS & Radar", "Market onboarding"],
+    note: "The unglamorous work that decides which markets you can launch in.",
+  },
+  {
+    name: "Product & Design",
     icon: Boxes,
-    tools: ["Jira & Confluence", "Notion", "Figma", "Linear", "Amplitude"],
+    tools: ["Jira & Confluence", "Notion", "Figma", "Framer", "Linear"],
     note: "Specs, roadmaps and the boring rigour that makes launches land.",
   },
   {
@@ -23,12 +42,6 @@ const groups = [
     tools: ["SQL", "LLMs & RAG", "Claude Code & MCP", "Multi-agent workflows", "A/B testing"],
     note: "Instrumenting the funnel, then arguing with the numbers.",
   },
-  {
-    name: "Design",
-    icon: PenTool,
-    tools: ["Figma", "Framer", "Webflow", "Adobe CC", "Design systems"],
-    note: "Prototyping fast so decisions get made on artefacts, not opinions.",
-  },
 ]
 
 // Flattened, de-duplicated list for the scrolling band.
@@ -42,14 +55,14 @@ export default function TechStack() {
           eyebrow="Toolkit"
           title={
             <>
-              The stack I reach for, from{" "}
-              <span className="serif-accent text-brand">spec</span> to ship.
+              What I know, from{" "}
+              <span className="serif-accent text-brand">markets</span> to the stack underneath.
             </>
           }
-          lede="I started as an engineer and moved into product, so I work comfortably across the whole path — discovery, design, implementation and the analytics that tell you whether it worked."
+          lede="Three domains I've shipped in and three I build with. I started as an engineer and moved into product, so I work across the whole path — discovery, design, implementation and the analytics that tell you whether it worked."
         />
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2 lg:grid-cols-3">
           {groups.map((group, index) => (
             <motion.div
               key={group.name}

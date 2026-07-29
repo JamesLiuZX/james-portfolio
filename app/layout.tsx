@@ -28,7 +28,7 @@ const display = Instrument_Serif({
 
 const siteUrl = "https://jamesliu.dev"
 const description =
-  "James Liu — Product Manager at Crypto.com, based in Singapore. Building AI-powered, product-led experiences that drive measurable growth. Previously ByteDance, Lark, Trendsi and Ernst & Young."
+  "James Liu — Trading & AI Product Manager at Crypto.com, based in Singapore. Building derivatives, trading and AI-powered products that drive measurable growth. Previously ByteDance, Lark, Trendsi and Ernst & Young."
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     "James Liu",
     "Product Manager",
     "Singapore",
+    "trading products",
+    "derivatives",
+    "prediction markets",
     "AI product",
     "growth product management",
     "Crypto.com",

@@ -39,7 +39,7 @@ export default function Footer() {
               <span className="text-base font-medium tracking-tight">James Liu</span>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Product Manager in Singapore building AI-powered, product-led experiences.
+              Product manager in Singapore building derivatives, trading and AI products.
               Currently at Crypto.com.
             </p>
             <a

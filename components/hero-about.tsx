@@ -9,7 +9,7 @@ const companies = ["Crypto.com", "ByteDance", "Lark", "Trendsi", "Ernst & Young"
 
 const facts = [
   { label: "Based in", value: "Singapore" },
-  { label: "Focus", value: "AI & Growth" },
+  { label: "Focus", value: "Trading & applied AI" },
   { label: "Now", value: "PM, Crypto.com" },
   { label: "Studied", value: "Computer Science, NUS" },
 ]
@@ -133,10 +133,9 @@ export default function HeroAbout() {
           className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
         >
           I&apos;m <span className="font-medium text-foreground">James</span> — a product manager at
-          Crypto.com. I work where{" "}
-          <span className="serif-accent text-[1.15em] text-foreground">growth</span>,
-          engineering and applied AI overlap, turning research-grade models into products people
-          actually keep using.
+          Crypto.com, building derivatives and trading products. I work where{" "}
+          <span className="serif-accent text-[1.15em] text-foreground">markets</span>, growth and
+          applied AI overlap, turning research-grade models into things people actually keep using.
         </motion.p>
 
         {/* Actions */}
