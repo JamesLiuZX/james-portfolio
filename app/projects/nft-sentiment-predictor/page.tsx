@@ -17,7 +17,7 @@ export default function NFTSentimentProject() {
   })
 
   // Use the same image path as in the projects list
-  const projectImage = "/NFinsighT.JPG"
+  const projectImage = "/NFinsighT.webp"
 
   return (
     <main className="min-h-screen">

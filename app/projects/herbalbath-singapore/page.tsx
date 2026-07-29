@@ -17,7 +17,7 @@ export default function HerbalBathProject() {
   })
 
   // Use the same image path as in the projects list
-  const projectImage = "/herbalbath.png"
+  const projectImage = "/herbalbath.webp"
 
   return (
     <main className="min-h-screen">

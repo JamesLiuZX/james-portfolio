@@ -17,7 +17,7 @@ export default function AskShopAIProject() {
   })
 
   // Use the same image path as in the projects list
-  const projectImage = "/askshopai.png"
+  const projectImage = "/askshopai.webp"
 
   return (
     <main className="min-h-screen">
@@ -246,7 +246,7 @@ export default function AskShopAIProject() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                       <Image
-                        src="/askshopblog1.png"
+                        src="/askshopblog1.webp"
                         alt="AskShop.ai Dashboard"
                         width={600}
                         height={400}

@@ -17,7 +17,7 @@ export default function CalendareProject() {
   })
 
   // Use the same image path as in the projects list
-  const projectImage = "/calendare.png"
+  const projectImage = "/calendare.webp"
 
   return (
     <main className="min-h-screen">

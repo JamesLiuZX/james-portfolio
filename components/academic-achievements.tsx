@@ -109,7 +109,7 @@ export default function AcademicAchievements() {
                 <div className="relative flex items-center gap-4">
                   <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl border border-border/70 bg-white p-1.5">
                     <Image
-                      src="/nuslogo.png"
+                      src="/nuslogo.webp"
                       alt="National University of Singapore"
                       width={120}
                       height={80}

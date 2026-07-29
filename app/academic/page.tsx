@@ -50,7 +50,7 @@ export default function Academic() {
         "Student mentor (Top 5%) for CS2103T, Software Engineering.",
         "Selected for Meta Above and Beyond CS Program and JP Morgan Finance for Non-Finance Program.",
       ],
-      image: "/nuslogo.png",
+      image: "/nuslogo.webp",
     },
     {
       institution: "Stanford University",

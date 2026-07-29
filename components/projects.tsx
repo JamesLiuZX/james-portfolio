@@ -23,7 +23,7 @@ const projects: Project[] = [
   {
     title: "AskShop.ai",
     category: "AI · E-Commerce",
-    image: "/askshopai.png",
+    image: "/askshopai.webp",
     link: "/projects/askshop-ai",
     description:
       "A B2B e-commerce SaaS for product discovery and recommendation, distributable across every Shopify store. Built and shipped in five weeks.",
@@ -34,7 +34,7 @@ const projects: Project[] = [
   {
     title: "Calendare",
     category: "Productivity · AI",
-    image: "/calendare.png",
+    image: "/calendare.webp",
     link: "/projects/calendare",
     description:
       "An AI-powered productivity app that automatically schedules events and tasks around your goals, calendar and preferences.",
@@ -45,7 +45,7 @@ const projects: Project[] = [
   {
     title: "HerbalBath Singapore",
     category: "E-Commerce · Health",
-    image: "/herbalbath.png",
+    image: "/herbalbath.webp",
     link: "/projects/herbalbath-singapore",
     description:
       "Founded and grew a healthcare product company, leading social media marketing, logistics and sales end to end.",
@@ -55,7 +55,7 @@ const projects: Project[] = [
   {
     title: "NFT Sentiment Predictor",
     category: "Web3 · Data",
-    image: "/NFinsighT.JPG",
+    image: "/NFinsighT.webp",
     link: "/projects/nft-sentiment-predictor",
     description:
       "NFT price charts overlaid with predicted prices and market sentiment across customisable time-series parameters.",
