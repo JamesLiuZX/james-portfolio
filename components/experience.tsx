@@ -10,6 +10,8 @@ interface Role {
   company: string
   role: string
   period: string
+  /** Marks an ongoing role — renders a live dot and a "Current" pill. */
+  current?: boolean
   /** Headline numbers pulled out of the bullets so they read at a glance. */
   metrics?: { value: string; label: string }[]
   description: string[]
@@ -17,6 +19,24 @@ interface Role {
 }
 
 const experiences: Role[] = [
+  {
+    company: "Crypto.com",
+    role: "Trading / AI Product Manager",
+    period: "Sep 2025 — Present",
+    current: true,
+    metrics: [
+      { value: "+90%", label: "New-user volume" },
+      { value: "90%", label: "Workflow time saved" },
+      { value: "+15%", label: "Welcome-bonus lift" },
+    ],
+    description: [
+      "Own the main app's trading surface and the infrastructure beneath it, with a focus on derivatives — options, futures and prediction markets.",
+      "Designed and automated the team's internal AI workflows — RAG retrieval, multi-agent orchestration, PRD drafting and working prototypes hosted on the company domain — cutting turnaround on that work by 90%. Built on Claude Code, MCP and the Google Workspace CLI.",
+      "Spearheaded the main referral programme and the welcome bonus, lifting new-user trading volume by 90% and 15% respectively.",
+      "Own compliance for trading onboarding — KYC, AML and anti-fraud — alongside the geographic expansion of trading products into the EEA and additional US states.",
+    ],
+    tags: ["Derivatives", "Applied AI", "Growth", "Compliance"],
+  },
   {
     company: "ByteDance",
     role: "Growth Product Manager",
@@ -125,7 +145,7 @@ export default function Experience() {
               product.
             </>
           }
-          lede="Six years of building — from serverless backends to multi-modal AI platforms and a company of my own. The through-line is shipping things that move a number."
+          lede="Six years of building — from serverless backends to multi-modal AI platforms, derivatives trading products and a company of my own. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"
@@ -198,8 +218,17 @@ export default function Experience() {
                         className="flex w-full items-start justify-between gap-4 p-6 text-left md:p-7"
                       >
                         <div className="space-y-1">
-                          <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
+                          <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xl font-semibold tracking-tight md:text-2xl">
                             {exp.company}
+                            {exp.current && (
+                              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                                <span className="relative flex h-1 w-1">
+                                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
+                                  <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
+                                </span>
+                                Current
+                              </span>
+                            )}
                           </h3>
                           <p className="text-sm text-muted-foreground">{exp.role}</p>
                         </div>

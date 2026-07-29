@@ -20,7 +20,7 @@ const groups = [
   {
     name: "Data & AI",
     icon: LineChart,
-    tools: ["SQL", "LLMs & RAG", "PySpark", "Mixpanel", "A/B testing"],
+    tools: ["SQL", "LLMs & RAG", "Claude Code & MCP", "Multi-agent workflows", "A/B testing"],
     note: "Instrumenting the funnel, then arguing with the numbers.",
   },
   {
