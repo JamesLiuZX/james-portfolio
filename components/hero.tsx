@@ -46,7 +46,7 @@ export default function Hero() {
 
       <div className="container relative z-20 px-4 md:px-6">
         <div className="flex flex-col items-center text-center space-y-10">
-          <div className="reveal space-y-4" style={{ "--reveal-duration": "0.8s" } as CSSProperties}>
+          <div className="enter space-y-4" style={{ "--enter-duration": "0.8s" } as CSSProperties}>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter max-w-3xl mx-auto leading-tight">
               JAMES LIU
             </h1>
@@ -55,7 +55,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="reveal flex flex-col sm:flex-row items-center gap-4" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.8s" } as CSSProperties}>
+          <div className="enter flex flex-col sm:flex-row items-center gap-4" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.8s" } as CSSProperties}>
             <Button
               className="group"
               size="lg"

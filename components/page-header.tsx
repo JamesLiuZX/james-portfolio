@@ -31,7 +31,7 @@ export default function PageHeader({
       </div>
 
       <div className="shell">
-        <div className="reveal space-y-7" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+        <div className="enter space-y-7" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
           <Link
             href={backHref}
             className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-foreground"

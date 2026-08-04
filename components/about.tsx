@@ -31,22 +31,22 @@ export default function About() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
           <div className="space-y-6">
-            <h2 className="reveal text-2xl font-semibold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+            <h2 className="enter text-2xl font-semibold" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
               ABOUT ME
             </h2>
 
-            <p className="reveal text-lg md:text-xl leading-relaxed text-muted-foreground" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <p className="enter text-lg md:text-xl leading-relaxed text-muted-foreground" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               I&apos;m James, an incoming Product Manager at ByteDance based in Singapore. I build impactful user
               experiences that drive success and user delight.
             </p>
 
-            <p className="reveal text-base leading-relaxed text-muted-foreground" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <p className="enter text-base leading-relaxed text-muted-foreground" style={{ "--enter-delay": "0.3s", "--enter-duration": "0.6s" } as CSSProperties}>
               With a background in Computer Science from NUS and experience at Stanford University, I combine technical
               expertise with product vision. I&apos;ve worked on various projects from AI-powered productivity tools to
               e-commerce platforms, always focusing on creating exceptional user experiences.
             </p>
 
-            <div className="reveal" style={{ "--reveal-delay": "0.4s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <div className="enter" style={{ "--enter-delay": "0.4s", "--enter-duration": "0.6s" } as CSSProperties}>
               <Button className="group" variant="outline" asChild>
                 <a href="https://www.linkedin.com/in/james-liu-zx/" target="_blank" rel="noopener noreferrer">
                   LET&apos;S CONNECT
@@ -56,7 +56,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="reveal relative h-[300px] md:h-[400px]" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.8s" } as CSSProperties}>
+          <div className="enter relative h-[300px] md:h-[400px]" style={{ "--enter-delay": "0.3s", "--enter-duration": "0.8s" } as CSSProperties}>
             <div ref={imageGalleryRef} className="image-gallery h-full" onMouseMove={handleMouseMove}>
               <Image
                 src="/linkedin.jpeg"

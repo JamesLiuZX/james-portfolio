@@ -109,7 +109,7 @@ export default function Academic() {
 
               <div className="space-y-12">
                 {education.map((edu, index) => (
-                  <div key={index} className="reveal grid grid-cols-1 md:grid-cols-3 gap-8 items-start" style={{ "--reveal-duration": "0.5s" } as CSSProperties}>
+                  <div key={index} className="enter grid grid-cols-1 md:grid-cols-3 gap-8 items-start" style={{ "--enter-duration": "0.5s" } as CSSProperties}>
                     <div className="md:col-span-1">
                       <div className="rounded-lg overflow-hidden">
                         <Image
@@ -159,7 +159,7 @@ export default function Academic() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {awards.map((award, index) => (
-                  <div key={index} className="reveal bg-card rounded-lg p-6 border border-border" style={{ "--reveal-duration": "0.5s" } as CSSProperties}>
+                  <div key={index} className="enter bg-card rounded-lg p-6 border border-border" style={{ "--enter-duration": "0.5s" } as CSSProperties}>
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium">{award.title}</h3>
 

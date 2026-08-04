@@ -34,11 +34,11 @@ export default function NFTSentimentProject() {
                 </Link>
               </div>
 
-              <h1 className="reveal text-3xl md:text-5xl font-bold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+              <h1 className="enter text-3xl md:text-5xl font-bold" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
                 NFT Sentiment Price Predictor
               </h1>
 
-              <div className="reveal flex flex-wrap gap-4 items-center" style={{ "--reveal-delay": "0.1s", "--reveal-duration": "0.6s" } as CSSProperties}>
+              <div className="enter flex flex-wrap gap-4 items-center" style={{ "--enter-delay": "0.1s", "--enter-duration": "0.6s" } as CSSProperties}>
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Calendar className="mr-1 h-4 w-4" />
                   <span>March 2023 - August 2023</span>
@@ -56,7 +56,7 @@ export default function NFTSentimentProject() {
             </div>
 
             {/* Main Image - Reduced size */}
-            <div className="reveal rounded-xl overflow-hidden shadow-xl" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <div className="enter rounded-xl overflow-hidden shadow-xl" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
                 <Image
                   src={projectImage}
@@ -71,7 +71,7 @@ export default function NFTSentimentProject() {
             {/* Content Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {/* Main Content */}
-              <div className="reveal md:col-span-2 space-y-8" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.6s", "--reveal-x": "-20px", "--reveal-y": "0px" } as CSSProperties}>
+              <div className="enter md:col-span-2 space-y-8" style={{ "--enter-delay": "0.3s", "--enter-duration": "0.6s", "--enter-x": "-20px", "--enter-y": "0px" } as CSSProperties}>
                 <div className="space-y-4">
                   <h2 className="text-2xl font-semibold">Overview</h2>
                   <p className="text-muted-foreground leading-relaxed">
@@ -170,7 +170,7 @@ export default function NFTSentimentProject() {
               </div>
 
               {/* Sidebar */}
-              <div className="reveal space-y-6" style={{ "--reveal-delay": "0.4s", "--reveal-duration": "0.6s", "--reveal-x": "20px", "--reveal-y": "0px" } as CSSProperties}>
+              <div className="enter space-y-6" style={{ "--enter-delay": "0.4s", "--enter-duration": "0.6s", "--enter-x": "20px", "--enter-y": "0px" } as CSSProperties}>
                 <div className="bg-card rounded-xl border border-border p-6 space-y-6 sticky top-24">
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Tech Stack</h3>

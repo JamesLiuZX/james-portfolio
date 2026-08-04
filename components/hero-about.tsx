@@ -40,10 +40,47 @@ export default function HeroAbout() {
   }, [])
 
   /*
-   * Parallax on the hero body and the pointer-tracked spotlight are both
-   * decorative and both cost a listener on a hot path, so they are wired up
-   * only for a mouse — a touch device has no pointer to track, and gets a
-   * static hero instead of paying for scroll maths it will never show.
+   * The hero body fades and drifts as it scrolls away. One passive listener
+   * coalesced into a single rAF write, on every device — the cost that used
+   * to make this worth skipping was the animation runtime behind it, not the
+   * arithmetic.
+   */
+  useEffect(() => {
+    const node = heroRef.current
+    if (!node) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const body = node.querySelector<HTMLElement>("[data-hero-body]")
+    if (!body) return
+
+    let frame = 0
+
+    const paint = () => {
+      frame = 0
+      const height = node.offsetHeight || 1
+      const progress = Math.min(1, Math.max(0, window.scrollY / height))
+      body.style.opacity = String(1 - Math.min(1, progress / 0.75))
+      body.style.transform = `translate3d(0, ${progress * 120}px, 0)`
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+
+    paint()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  /*
+   * The spotlight tracks a real pointer, so it stays desktop-only — a touch
+   * device would download and run a mousemove handler that never fires.
    */
   useEffect(() => {
     const node = heroRef.current
@@ -51,28 +88,15 @@ export default function HeroAbout() {
     if (!window.matchMedia("(pointer: fine)").matches) return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
-    const body = node.querySelector<HTMLElement>("[data-hero-body]")
     let frame = 0
     let pointer: { x: number; y: number } | null = null
-    let scrolled = false
 
     const paint = () => {
       frame = 0
-      if (pointer) {
-        node.style.setProperty("--spot-x", `${pointer.x}%`)
-        node.style.setProperty("--spot-y", `${pointer.y}%`)
-        pointer = null
-      }
-      if (scrolled && body) {
-        scrolled = false
-        const progress = Math.min(1, Math.max(0, window.scrollY / node.offsetHeight))
-        body.style.opacity = String(1 - Math.min(1, progress / 0.75))
-        body.style.transform = `translate3d(0, ${progress * 120}px, 0)`
-      }
-    }
-
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(paint)
+      if (!pointer) return
+      node.style.setProperty("--spot-x", `${pointer.x}%`)
+      node.style.setProperty("--spot-y", `${pointer.y}%`)
+      pointer = null
     }
 
     const onMove = (event: MouseEvent) => {
@@ -81,20 +105,13 @@ export default function HeroAbout() {
         x: ((event.clientX - rect.left) / rect.width) * 100,
         y: ((event.clientY - rect.top) / rect.height) * 100,
       }
-      schedule()
-    }
-
-    const onScroll = () => {
-      scrolled = true
-      schedule()
+      if (!frame) frame = requestAnimationFrame(paint)
     }
 
     node.addEventListener("mousemove", onMove, { passive: true })
-    window.addEventListener("scroll", onScroll, { passive: true })
 
     return () => {
       node.removeEventListener("mousemove", onMove)
-      window.removeEventListener("scroll", onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
   }, [])

@@ -76,17 +76,17 @@ export default function EmployerFeedback() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="space-y-12">
           <div className="space-y-4">
-            <h2 className="reveal text-2xl font-semibold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+            <h2 className="enter text-2xl font-semibold" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
               EMPLOYER PERSPECTIVE
             </h2>
 
-            <p className="reveal text-lg text-muted-foreground max-w-3xl" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <p className="enter text-lg text-muted-foreground max-w-3xl" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               An objective assessment of this portfolio from an employer or investor perspective, highlighting strengths
               and areas for improvement.
             </p>
           </div>
 
-          <div className="reveal space-y-6" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.6s" } as CSSProperties}>
+          <div className="enter space-y-6" style={{ "--enter-delay": "0.3s", "--enter-duration": "0.6s" } as CSSProperties}>
             <div className="bg-card rounded-lg border border-border p-6 mb-8">
               <div className="flex items-start">
                 <AlertCircle className="h-5 w-5 text-primary mr-2 mt-0.5" />

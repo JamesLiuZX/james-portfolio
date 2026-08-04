@@ -30,12 +30,12 @@ export default function HowToUse() {
                 </Link>
               </div>
 
-              <h1 className="reveal text-3xl md:text-4xl font-bold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+              <h1 className="enter text-3xl md:text-4xl font-bold" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
                 How to Use the Blog CMS
               </h1>
             </div>
 
-            <div className="reveal space-y-8" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
+            <div className="enter space-y-8" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Overview</h2>
                 <p className="text-muted-foreground">

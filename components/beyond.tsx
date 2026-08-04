@@ -40,11 +40,11 @@ export default function Beyond() {
     <section className="py-20 md:py-32 bg-black text-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="space-y-12">
-          <h2 className="reveal text-2xl font-semibold text-center" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
+          <h2 className="enter text-2xl font-semibold text-center" style={{ "--enter-duration": "0.6s" } as CSSProperties}>
             MORE IN MY LIFE
           </h2>
 
-          <div ref={galleryRef} className="reveal grid grid-cols-2 md:grid-cols-4 gap-4" onMouseMove={handleMouseMove} onMouseLeave={resetTransform} style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
+          <div ref={galleryRef} className="enter grid grid-cols-2 md:grid-cols-4 gap-4" onMouseMove={handleMouseMove} onMouseLeave={resetTransform} style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
             <div className="aspect-square overflow-hidden rounded-lg">
               <Image
                 src="/placeholder.svg?height=400&width=400"
