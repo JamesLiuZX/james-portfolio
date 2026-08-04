@@ -2,16 +2,10 @@
 
 import type React from "react"
 
-import { useRef } from "react"
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import { useRef, type CSSProperties } from "react"
 import Image from "next/image"
 
 export default function Beyond() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   const galleryRef = useRef<HTMLDivElement>(null)
 
@@ -45,25 +39,12 @@ export default function Beyond() {
   return (
     <section className="py-20 md:py-32 bg-black text-white">
       <div className="container mx-auto px-4 md:px-6">
-        <div ref={ref} className="space-y-12">
-          <motion.h2
-            className="text-2xl font-semibold text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-          >
+        <div className="space-y-12">
+          <h2 className="reveal text-2xl font-semibold text-center" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
             MORE IN MY LIFE
-          </motion.h2>
+          </h2>
 
-          <motion.div
-            ref={galleryRef}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={resetTransform}
-          >
+          <div ref={galleryRef} className="reveal grid grid-cols-2 md:grid-cols-4 gap-4" onMouseMove={handleMouseMove} onMouseLeave={resetTransform} style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
             <div className="aspect-square overflow-hidden rounded-lg">
               <Image
                 src="/placeholder.svg?height=400&width=400"
@@ -100,7 +81,7 @@ export default function Beyond() {
                 className="object-cover w-full h-full transition-transform duration-300"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,39 +1,42 @@
-"use client"
-
-import type { ReactNode } from "react"
-import { motion } from "framer-motion"
+import type { CSSProperties, ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 /** Shared easing so every entrance across the site decelerates identically. */
 export const EASE = [0.16, 1, 0.3, 1] as const
 
 /**
- * Fade-and-rise wrapper. Uses `whileInView` rather than an observer hook so
- * elements animate once, wherever they appear, without extra wiring.
+ * Fade-and-rise wrapper.
+ *
+ * Purely declarative: the element carries `.reveal`, and the inline bootstrap
+ * in the root layout adds `.is-in` once it scrolls into view. No client
+ * component, no hydration, and the reveal fires before React has booted.
  */
 export function Reveal({
   children,
   delay = 0,
   y = 24,
   className,
-  once = true,
+  style,
 }: {
   children: ReactNode
   delay?: number
   y?: number
   className?: string
-  once?: boolean
+  style?: CSSProperties
 }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+    <div
+      className={cn("reveal", className)}
+      style={
+        {
+          "--reveal-delay": `${delay}s`,
+          "--reveal-y": `${y}px`,
+          ...style,
+        } as CSSProperties
+      }
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 

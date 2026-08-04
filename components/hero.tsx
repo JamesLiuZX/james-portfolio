@@ -2,8 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef, type CSSProperties } from "react"
 import { ArrowDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -47,26 +46,16 @@ export default function Hero() {
 
       <div className="container relative z-20 px-4 md:px-6">
         <div className="flex flex-col items-center text-center space-y-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-4"
-          >
+          <div className="reveal space-y-4" style={{ "--reveal-duration": "0.8s" } as CSSProperties}>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter max-w-3xl mx-auto leading-tight">
               JAMES LIU
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-[700px] mx-auto">
               Product Manager
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
-          >
+          <div className="reveal flex flex-col sm:flex-row items-center gap-4" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.8s" } as CSSProperties}>
             <Button
               className="group"
               size="lg"
@@ -77,7 +66,7 @@ export default function Hero() {
               EXPLORE MY WORK
               <ArrowDown className="ml-2 h-4 w-4 transition-transform group-hover:translate-y-1" />
             </Button>
-          </motion.div>
+          </div>
         </div>
       </div>
 

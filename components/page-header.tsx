@@ -1,10 +1,7 @@
-"use client"
-
+import type { CSSProperties } from "react"
 import type { ReactNode } from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
-import { EASE } from "@/components/ui/section"
 
 /**
  * Shared masthead for every subpage: back link, mono eyebrow, display title
@@ -34,12 +31,7 @@ export default function PageHeader({
       </div>
 
       <div className="shell">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="space-y-7"
-        >
+        <div className="reveal space-y-7" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
           <Link
             href={backHref}
             className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-foreground"
@@ -60,7 +52,7 @@ export default function PageHeader({
           </div>
 
           {children}
-        </motion.div>
+        </div>
       </div>
     </header>
   )

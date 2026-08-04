@@ -1,6 +1,5 @@
 "use client"
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, Calendar, ExternalLink, Github, Tag } from "lucide-react"
@@ -11,10 +10,6 @@ import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
 
 export default function NFTSentimentProject() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   // Use the same image path as in the projects list
   const projectImage = "/NFinsighT.webp"
@@ -27,7 +22,7 @@ export default function NFTSentimentProject() {
 
       <section className="pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="container mx-auto px-4 md:px-6">
-          <div ref={ref} className="space-y-12">
+          <div className="space-y-12">
             {/* Header */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -39,21 +34,11 @@ export default function NFTSentimentProject() {
                 </Link>
               </div>
 
-              <motion.h1
-                className="text-3xl md:text-5xl font-bold"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
-              >
+              <h1 className="reveal text-3xl md:text-5xl font-bold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
                 NFT Sentiment Price Predictor
-              </motion.h1>
+              </h1>
 
-              <motion.div
-                className="flex flex-wrap gap-4 items-center"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
+              <div className="reveal flex flex-wrap gap-4 items-center" style={{ "--reveal-delay": "0.1s", "--reveal-duration": "0.6s" } as CSSProperties}>
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Calendar className="mr-1 h-4 w-4" />
                   <span>March 2023 - August 2023</span>
@@ -67,16 +52,11 @@ export default function NFTSentimentProject() {
                 <div className="inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1 text-xs">
                   Featured Project
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Main Image - Reduced size */}
-            <motion.div
-              className="rounded-xl overflow-hidden shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <div className="reveal rounded-xl overflow-hidden shadow-xl" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
               <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
                 <Image
                   src={projectImage}
@@ -86,17 +66,12 @@ export default function NFTSentimentProject() {
                   priority
                 />
               </div>
-            </motion.div>
+            </div>
 
             {/* Content Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               {/* Main Content */}
-              <motion.div
-                className="md:col-span-2 space-y-8"
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
+              <div className="reveal md:col-span-2 space-y-8" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.6s", "--reveal-x": "-20px", "--reveal-y": "0px" } as CSSProperties}>
                 <div className="space-y-4">
                   <h2 className="text-2xl font-semibold">Overview</h2>
                   <p className="text-muted-foreground leading-relaxed">
@@ -192,15 +167,10 @@ export default function NFTSentimentProject() {
                     </li>
                   </ul>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Sidebar */}
-              <motion.div
-                className="space-y-6"
-                initial={{ opacity: 0, x: 20 }}
-                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
+              <div className="reveal space-y-6" style={{ "--reveal-delay": "0.4s", "--reveal-duration": "0.6s", "--reveal-x": "20px", "--reveal-y": "0px" } as CSSProperties}>
                 <div className="bg-card rounded-xl border border-border p-6 space-y-6 sticky top-24">
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold">Tech Stack</h3>
@@ -298,7 +268,7 @@ export default function NFTSentimentProject() {
                     </Button>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>

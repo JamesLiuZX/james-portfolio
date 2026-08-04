@@ -1,10 +1,15 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
-import { motion } from "framer-motion"
-import { toast } from "sonner"
+import { useState, type CSSProperties, type FormEvent } from "react"
 import { Check, Copy, Github, Instagram, Linkedin, Mail, Phone, Send } from "lucide-react"
-import { EASE, SectionHeading } from "@/components/ui/section"
+import { SectionHeading } from "@/components/ui/section"
+
+/*
+ * Fetched on first use rather than imported at module scope: a toast can only
+ * happen after someone interacts with this form, so the toast library has no
+ * business being in the bundle that renders the page.
+ */
+const notify = () => import("sonner").then((mod) => mod.toast)
 
 const EMAIL = "jamesliu@u.nus.edu"
 const PHONE = "+65 8426 1225"
@@ -23,10 +28,10 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(EMAIL)
       setCopied(true)
-      toast.success("Email copied to clipboard")
       setTimeout(() => setCopied(false), 2000)
+      ;(await notify()).success("Email copied to clipboard")
     } catch {
-      toast.error("Couldn't copy — you can select the address manually")
+      ;(await notify()).error("Couldn't copy — you can select the address manually")
     }
   }
 
@@ -34,14 +39,14 @@ export default function Contact() {
    * The site is a static export with no backend, so the form composes a
    * pre-filled email and hands off to the visitor's mail client.
    */
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const subject = `Portfolio enquiry from ${form.name}`
     const body = `${form.message}\n\n—\n${form.name}\n${form.email}`
     window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
-    toast.success("Opening your email client", {
+    ;(await notify()).success("Opening your email client", {
       description: "Your message is pre-filled and ready to send.",
     })
   }
@@ -52,7 +57,7 @@ export default function Contact() {
   return (
     <section id="contact" className="section-y relative overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute bottom-0 left-1/2 h-[26rem] w-[52rem] -translate-x-1/2 rounded-full bg-brand/[0.07] blur-[140px]" />
+        <div className="orb bottom-0 left-1/2 h-[26rem] w-[52rem] -translate-x-1/2 bg-brand/[0.07]" />
       </div>
 
       <div className="shell">
@@ -70,13 +75,7 @@ export default function Contact() {
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-8">
           {/* Direct channels */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="space-y-4"
-          >
+          <div className="reveal space-y-4">
             <div className="card-surface p-6">
               <div className="flex items-start gap-4">
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-foreground text-background">
@@ -135,16 +134,13 @@ export default function Contact() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Form */}
-          <motion.form
+          <form
             onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
-            className="card-surface space-y-5 p-6 md:p-8"
+            style={{ "--reveal-delay": "0.08s" } as CSSProperties}
+            className="reveal card-surface space-y-5 p-6 md:p-8"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
@@ -215,7 +211,7 @@ export default function Contact() {
             <p className="text-center text-xs text-subtle">
               Opens in your email client, pre-filled — nothing is sent from this page.
             </p>
-          </motion.form>
+          </form>
         </div>
       </div>
     </section>

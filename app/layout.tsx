@@ -5,6 +5,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import SmoothScroll from "@/components/smooth-scroll"
 import { Toaster } from "@/components/ui/sonner"
+import RevealRescan from "@/components/reveal-rescan"
+import { REVEAL_BOOTSTRAP } from "@/lib/reveal-script"
 
 const sans = Inter({
   subsets: ["latin"],
@@ -84,10 +86,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="no-js" suppressHydrationWarning>
+      <head>
+        {/*
+          Runs before first paint: clears `no-js` and starts the scroll-reveal
+          observer, so revealed sections do not wait on hydration to appear.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOTSTRAP }} />
+      </head>
       <body className={`${sans.variable} ${mono.variable} ${display.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SmoothScroll>{children}</SmoothScroll>
+          <RevealRescan />
           <Toaster />
         </ThemeProvider>
       </body>

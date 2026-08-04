@@ -1,7 +1,6 @@
 "use client"
 
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Award, BookOpen, Calendar, GraduationCap, MapPin } from "lucide-react"
@@ -28,15 +27,7 @@ interface AwardItem {
 }
 
 export default function Academic() {
-  const { ref: educationRef, inView: educationInView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
-  const { ref: awardsRef, inView: awardsInView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   const education: Education[] = [
     {
@@ -110,7 +101,7 @@ export default function Academic() {
       <section className="pb-24 md:pb-32">
         <div className="shell">
           <div className="space-y-16">
-            <div ref={educationRef} className="space-y-12">
+            <div className="space-y-12">
               <h2 className="text-2xl font-semibold flex items-center">
                 <GraduationCap className="mr-2 h-5 w-5" />
                 Education
@@ -118,13 +109,7 @@ export default function Academic() {
 
               <div className="space-y-12">
                 {education.map((edu, index) => (
-                  <motion.div
-                    key={index}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={educationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
-                  >
+                  <div key={index} className="reveal grid grid-cols-1 md:grid-cols-3 gap-8 items-start" style={{ "--reveal-duration": "0.5s" } as CSSProperties}>
                     <div className="md:col-span-1">
                       <div className="rounded-lg overflow-hidden">
                         <Image
@@ -161,12 +146,12 @@ export default function Academic() {
                         ))}
                       </ul>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <div ref={awardsRef} className="space-y-12">
+            <div className="space-y-12">
               <h2 className="text-2xl font-semibold flex items-center">
                 <Award className="mr-2 h-5 w-5" />
                 Honors & Awards
@@ -174,13 +159,7 @@ export default function Academic() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {awards.map((award, index) => (
-                  <motion.div
-                    key={index}
-                    className="bg-card rounded-lg p-6 border border-border"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={awardsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
+                  <div key={index} className="reveal bg-card rounded-lg p-6 border border-border" style={{ "--reveal-duration": "0.5s" } as CSSProperties}>
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium">{award.title}</h3>
 
@@ -197,7 +176,7 @@ export default function Academic() {
 
                       <p className="text-muted-foreground">{award.description}</p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>

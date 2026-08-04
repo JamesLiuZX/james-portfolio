@@ -1,9 +1,20 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useTheme } from "next-themes"
-import { Toaster as Sonner } from "sonner"
+import type { ToasterProps as SonnerProps } from "sonner"
 
-type ToasterProps = React.ComponentProps<typeof Sonner>
+/*
+ * Toasts only ever fire from the contact form, but the Toaster sits in the
+ * root layout, so every page was paying to download and hydrate the toast
+ * library up front. Loading it lazily and client-side keeps it out of the
+ * critical path — `sonner.toast()` queues anything raised before it arrives.
+ */
+const Sonner = dynamic(() => import("sonner").then((mod) => mod.Toaster), {
+  ssr: false,
+})
+
+type ToasterProps = SonnerProps
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()

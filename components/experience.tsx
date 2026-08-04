@@ -1,9 +1,8 @@
 "use client"
 
-import { useRef, useState } from "react"
-import { motion, useScroll, useSpring, useTransform } from "framer-motion"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { ArrowUpRight, Linkedin } from "lucide-react"
-import { EASE, Reveal, SectionHeading } from "@/components/ui/section"
+import { Reveal, SectionHeading } from "@/components/ui/section"
 import { cn } from "@/lib/utils"
 
 interface Role {
@@ -122,16 +121,44 @@ const experiences: Role[] = [
 
 export default function Experience() {
   const timelineRef = useRef<HTMLDivElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState<number | null>(0)
 
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start 70%", "end 60%"],
-  })
-  const lineScale = useSpring(useTransform(scrollYProgress, [0, 1], [0, 1]), {
-    stiffness: 120,
-    damping: 30,
-  })
+  /*
+   * Fills the timeline rail as the section passes through the viewport, on a
+   * single coalesced passive listener rather than a scroll-linked spring.
+   */
+  useEffect(() => {
+    const timeline = timelineRef.current
+    const rail = railRef.current
+    if (!timeline || !rail) return
+
+    let frame = 0
+
+    const paint = () => {
+      frame = 0
+      const rect = timeline.getBoundingClientRect()
+      const start = window.innerHeight * 0.7
+      const end = window.innerHeight * 0.6
+      const span = rect.height + start - end
+      const progress = span > 0 ? (start - rect.top) / span : 0
+      rail.style.transform = `scaleY(${Math.min(1, Math.max(0, progress))})`
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+
+    paint()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
 
   return (
     <section id="experience" className="section-y relative">
@@ -163,9 +190,9 @@ export default function Experience() {
         <div ref={timelineRef} className="relative mt-20">
           {/* Rail: static track with a scroll-linked fill. */}
           <div className="absolute left-[7px] top-2 h-full w-px bg-border md:left-[calc(13rem+7px)]">
-            <motion.div
-              className="h-full w-px origin-top bg-gradient-to-b from-brand to-brand-alt"
-              style={{ scaleY: lineScale }}
+            <div
+              ref={railRef}
+              className="h-full w-px origin-top scale-y-0 bg-gradient-to-b from-brand to-brand-alt"
             />
           </div>
 
@@ -174,13 +201,15 @@ export default function Experience() {
               const isOpen = expanded === index
 
               return (
-                <motion.article
+                <article
                   key={exp.company}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: Math.min(index, 3) * 0.06, ease: EASE }}
-                  className="relative pl-8 md:grid md:grid-cols-[13rem_1fr] md:gap-0 md:pl-0"
+                  className="reveal relative pl-8 md:grid md:grid-cols-[13rem_1fr] md:gap-0 md:pl-0"
+                  style={
+                    {
+                      "--reveal-delay": `${Math.min(index, 3) * 0.06}s`,
+                      "--reveal-duration": "0.6s",
+                    } as CSSProperties
+                  }
                 >
                   {/* Period column doubles as the rail label on desktop. */}
                   <div className="mb-2 md:mb-0 md:pr-8 md:pt-[26px] md:text-right">
@@ -272,45 +301,54 @@ export default function Experience() {
                         </div>
                       )}
 
-                      <motion.div
-                        initial={false}
-                        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-                        transition={{ duration: 0.45, ease: EASE }}
-                        className="overflow-hidden"
+                      {/*
+                        0fr→1fr on a grid row is the CSS equivalent of
+                        animating height to `auto`, without a JS animation
+                        loop. The clipping child has to be bare: padding on it
+                        would survive the collapse and leave the closed card
+                        taller than it was.
+                      */}
+                      <div
+                        className={cn(
+                          "grid transition-[grid-template-rows,opacity] [transition-duration:450ms] ease-out-expo",
+                          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                        )}
                       >
-                        <div className="space-y-5 p-6 pt-5 md:p-7 md:pt-6">
-                          <ul className="space-y-3">
-                            {exp.description.map((item) => (
-                              <li
-                                key={item}
-                                className="flex gap-3 text-sm leading-relaxed text-muted-foreground"
-                              >
-                                <span
-                                  aria-hidden="true"
-                                  className="mt-[9px] h-px w-3 shrink-0 bg-brand/50"
-                                />
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          {exp.tags && (
-                            <div className="flex flex-wrap gap-2">
-                              {exp.tags.map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                        <div className="overflow-hidden">
+                          <div className="space-y-5 p-6 pt-5 md:p-7 md:pt-6">
+                            <ul className="space-y-3">
+                              {exp.description.map((item) => (
+                                <li
+                                  key={item}
+                                  className="flex gap-3 text-sm leading-relaxed text-muted-foreground"
                                 >
-                                  {tag}
-                                </span>
+                                  <span
+                                    aria-hidden="true"
+                                    className="mt-[9px] h-px w-3 shrink-0 bg-brand/50"
+                                  />
+                                  <span>{item}</span>
+                                </li>
                               ))}
-                            </div>
-                          )}
+                            </ul>
+
+                            {exp.tags && (
+                              <div className="flex flex-wrap gap-2">
+                                {exp.tags.map((tag) => (
+                                  <span
+                                    key={tag}
+                                    className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               )
             })}
           </div>

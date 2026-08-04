@@ -202,6 +202,26 @@
     @apply inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface/60 px-3 py-1.5 backdrop-blur-md;
   }
 
+  /*
+   * The floating nav once it lifts off the top of the page.
+   *
+   * `backdrop-filter` on a fixed element means the compositor re-blurs
+   * whatever is behind it on every scrolled frame — the single most
+   * expensive thing on this page while a phone is actually scrolling. Small
+   * screens get an opaque bar instead, which reads the same over content.
+   */
+  .nav-scrolled {
+    background-color: hsl(var(--background) / 0.94);
+  }
+
+  @media (min-width: 768px) {
+    .nav-scrolled {
+      background-color: hsl(var(--background) / 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+  }
+
   /* Standard surface card. */
   .card-surface {
     @apply rounded-2xl border border-border/70 bg-surface transition-colors duration-300;
@@ -314,6 +334,46 @@
     background-size: 20px 20px;
   }
 
+  /*
+   * Big soft brand glows behind the hero and section headers.
+   *
+   * A 600px element under a 120px blur is one of the most expensive things a
+   * phone GPU can be asked to composite, and these two drift on an infinite
+   * loop, so the cost is paid every frame for the life of the page. Small
+   * screens get a much tighter blur and no drift; the look survives because
+   * the orbs are low-opacity wash to begin with.
+   */
+  .orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(120px);
+  }
+
+  @media (max-width: 767px) {
+    .orb {
+      filter: blur(48px);
+      animation: none !important;
+    }
+  }
+
+  /* Pointer-tracked spotlight; the coordinates are set by the hero on mouse move. */
+  .hero-spotlight {
+    background: radial-gradient(
+      600px circle at var(--spot-x, 50%) var(--spot-y, 35%),
+      hsl(var(--brand) / 0.1),
+      transparent 65%
+    );
+  }
+
+  .scroll-cue {
+    animation: scroll-cue 1.8s ease-in-out infinite;
+  }
+
+  /* Sun/moon swapping in on the theme toggle. */
+  .theme-swap {
+    animation: theme-swap 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   /* Fine film grain layered over hero surfaces. */
   .grain::after {
     content: "";
@@ -322,6 +382,17 @@
     pointer-events: none;
     opacity: var(--grain-opacity);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /*
+   * That grain is an feTurbulence filter the browser has to rasterise before
+   * it can paint the hero. It is a 3.5%-opacity texture — invisible at phone
+   * pixel densities, and not worth blocking the first paint for.
+   */
+  @media (max-width: 767px) {
+    .grain::after {
+      display: none;
+    }
   }
 
   .perspective-1000 {
@@ -343,6 +414,107 @@
 
   .shell-wide {
     @apply mx-auto w-full max-w-7xl px-6 md:px-8;
+  }
+}
+
+/* ==========================================================================
+   Entrances
+
+   Entrance and scroll-reveal motion is CSS, not JS. The distinction matters
+   for the first paint: a JS-driven entrance leaves its content invisible
+   until the animation library has downloaded, parsed and hydrated, which on
+   a phone pushes the largest contentful paint several seconds past the point
+   where the markup was already sitting in the document. These animations
+   start with the stylesheet instead.
+   ========================================================================== */
+
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translate(var(--enter-x, 0), var(--enter-y, 1rem));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translate(var(--reveal-x, 0), var(--reveal-y, 1.5rem));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Word climbing out of an `overflow-hidden` mask — used by the hero headline. */
+@keyframes enter-mask-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  /*
+   * Above-the-fold entrances. These play once, immediately, driven only by
+   * the stylesheet. `--enter-delay` staggers siblings.
+   */
+  .enter {
+    animation: enter-rise var(--enter-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--enter-delay, 0s) both;
+  }
+
+  .enter-fade {
+    animation: enter-fade var(--enter-duration, 0.7s) ease-out var(--enter-delay, 0s) both;
+  }
+
+  .enter-mask {
+    animation: enter-mask-up var(--enter-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--enter-delay, 0s) both;
+  }
+
+  /*
+   * Below-the-fold reveals. The bootstrap observer adds `.is-in` on entry.
+   *
+   * Deliberately an animation rather than a transition: most reveal targets
+   * also carry Tailwind `transition-*` utilities, and those set
+   * `transition-property` in the same cascade layer — a transition-based
+   * reveal would be silently cancelled depending on class order. Animations
+   * do not share that property.
+   */
+  .reveal {
+    opacity: 0;
+  }
+
+  .reveal.is-in {
+    animation: reveal-rise var(--reveal-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1)
+      var(--reveal-delay, 0s) both;
+  }
+
+  /*
+   * Without scripting — or without IntersectionObserver — nothing ever adds
+   * `.is-in`, so the reveal must not be the thing that hides the page.
+   */
+  .no-js .reveal,
+  .reveal-all .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
@@ -381,6 +553,26 @@
   }
 }
 
+@keyframes theme-swap {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-16px);
+  }
+  to {
+    transform: translateY(40px);
+  }
+}
+
 @keyframes pulse-ring {
   0% {
     transform: scale(0.9);
@@ -406,6 +598,14 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Show entrances outright rather than snapping them in on scroll. */
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

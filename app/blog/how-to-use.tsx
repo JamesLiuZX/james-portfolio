@@ -1,7 +1,6 @@
 "use client"
 
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
 import Link from "next/link"
 import { ArrowLeft, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,10 +10,6 @@ import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
 
 export default function HowToUse() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   return (
     <main className="min-h-screen">
@@ -24,7 +19,7 @@ export default function HowToUse() {
 
       <section className="pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="container mx-auto px-4 md:px-6">
-          <div ref={ref} className="space-y-12 max-w-3xl mx-auto">
+          <div className="space-y-12 max-w-3xl mx-auto">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">
@@ -35,22 +30,12 @@ export default function HowToUse() {
                 </Link>
               </div>
 
-              <motion.h1
-                className="text-3xl md:text-4xl font-bold"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
-              >
+              <h1 className="reveal text-3xl md:text-4xl font-bold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
                 How to Use the Blog CMS
-              </motion.h1>
+              </h1>
             </div>
 
-            <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <div className="reveal space-y-8" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Overview</h2>
                 <p className="text-muted-foreground">
@@ -175,7 +160,7 @@ function hello() {
                   </Link>
                 </Button>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

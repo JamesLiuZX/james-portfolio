@@ -1,9 +1,7 @@
-"use client"
-
+import type { CSSProperties } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
 import { ArrowUpRight, Award, Calendar, MapPin } from "lucide-react"
-import { EASE, SectionHeading } from "@/components/ui/section"
+import { SectionHeading } from "@/components/ui/section"
 
 interface Achievement {
   title: string
@@ -92,13 +90,7 @@ export default function AcademicAchievements() {
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.55fr)] lg:gap-8">
           {/* Education card */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="lg:sticky lg:top-28 lg:self-start"
-          >
+          <div className="reveal lg:sticky lg:top-28 lg:self-start">
             <div className="card-surface overflow-hidden shadow-soft">
               {/*
                 The logo is a mark, not a photo — a contained white plate keeps
@@ -155,19 +147,22 @@ export default function AcademicAchievements() {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Achievements */}
           <div className="space-y-6">
             <div className="grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2">
               {highlights.map((achievement, index) => (
-                <motion.div
+                <div
                   key={achievement.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: index * 0.07, ease: EASE }}
-                  className="group flex flex-col bg-surface p-6 transition-colors duration-300 hover:bg-elevated"
+                  style={
+                    {
+                      "--reveal-delay": `${index * 0.07}s`,
+                      "--reveal-y": "20px",
+                      "--reveal-duration": "0.6s",
+                    } as CSSProperties
+                  }
+                  className="reveal group flex flex-col bg-surface p-6 transition-colors duration-300 hover:bg-elevated"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <Award className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
@@ -184,16 +179,13 @@ export default function AcademicAchievements() {
                   <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.1em] text-subtle">
                     {achievement.organization}
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: EASE }}
-              className="card-surface p-6 md:p-7"
+            <div
+              style={{ "--reveal-y": "20px", "--reveal-duration": "0.6s" } as CSSProperties}
+              className="reveal card-surface p-6 md:p-7"
             >
               <h3 className="eyebrow">Also</h3>
               <ul className="mt-5 divide-y divide-border/70">
@@ -209,14 +201,17 @@ export default function AcademicAchievements() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: 0.06, ease: EASE }}
-              className="card-surface p-6 md:p-7"
+            <div
+              style={
+                {
+                  "--reveal-delay": "0.06s",
+                  "--reveal-y": "20px",
+                  "--reveal-duration": "0.6s",
+                } as CSSProperties
+              }
+              className="reveal card-surface p-6 md:p-7"
             >
               <h3 className="eyebrow">Activities</h3>
               <div className="mt-5 flex flex-wrap gap-2">
@@ -229,7 +224,7 @@ export default function AcademicAchievements() {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

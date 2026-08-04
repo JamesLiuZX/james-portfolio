@@ -1,8 +1,6 @@
-"use client"
-
-import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
 import { Boxes, CandlestickChart, Code2, Gift, LineChart, ShieldCheck } from "lucide-react"
-import { EASE, SectionHeading } from "@/components/ui/section"
+import { SectionHeading } from "@/components/ui/section"
 
 // Domain first, craft second — the domain columns are the differentiator.
 const groups = [
@@ -64,13 +62,16 @@ export default function TechStack() {
 
         <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2 lg:grid-cols-3">
           {groups.map((group, index) => (
-            <motion.div
+            <div
               key={group.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: index * 0.07, ease: EASE }}
-              className="group relative bg-surface p-6 transition-colors duration-300 hover:bg-elevated md:p-7"
+              style={
+                {
+                  "--reveal-delay": `${index * 0.07}s`,
+                  "--reveal-y": "20px",
+                  "--reveal-duration": "0.6s",
+                } as CSSProperties
+              }
+              className="reveal group relative bg-surface p-6 transition-colors duration-300 hover:bg-elevated md:p-7"
             >
               <div className="flex items-center gap-2.5">
                 <span className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-surface-muted text-muted-foreground transition-colors duration-300 group-hover:border-brand/30 group-hover:text-brand">
@@ -91,7 +92,7 @@ export default function TechStack() {
               <p className="mt-6 border-t border-border/70 pt-4 text-xs leading-relaxed text-subtle">
                 {group.note}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

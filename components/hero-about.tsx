@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform } from "framer-motion"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
+
 import { ArrowDown, ArrowUpRight } from "lucide-react"
-import { EASE } from "@/components/ui/section"
 
 const companies = ["Crypto.com", "ByteDance", "Lark", "Trendsi", "Ernst & Young"]
 
@@ -16,21 +15,12 @@ const facts = [
 
 const headline = ["Product", "manager", "shipping", "AI", "products", "that", "compound."]
 
+/** Shorthand for the `--enter-delay` custom property the CSS entrances read. */
+const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSProperties
+
 export default function HeroAbout() {
   const heroRef = useRef<HTMLElement>(null)
   const [clock, setClock] = useState<string | null>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  })
-  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120])
-
-  // Pointer-tracked spotlight over the grid backdrop.
-  const pointerX = useMotionValue(50)
-  const pointerY = useMotionValue(35)
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${pointerX}% ${pointerY}%, hsl(var(--brand) / 0.10), transparent 65%)`
 
   useEffect(() => {
     const tick = () => {
@@ -49,19 +39,65 @@ export default function HeroAbout() {
     return () => clearInterval(interval)
   }, [])
 
+  /*
+   * Parallax on the hero body and the pointer-tracked spotlight are both
+   * decorative and both cost a listener on a hot path, so they are wired up
+   * only for a mouse — a touch device has no pointer to track, and gets a
+   * static hero instead of paying for scroll maths it will never show.
+   */
   useEffect(() => {
     const node = heroRef.current
     if (!node) return
+    if (!window.matchMedia("(pointer: fine)").matches) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const body = node.querySelector<HTMLElement>("[data-hero-body]")
+    let frame = 0
+    let pointer: { x: number; y: number } | null = null
+    let scrolled = false
+
+    const paint = () => {
+      frame = 0
+      if (pointer) {
+        node.style.setProperty("--spot-x", `${pointer.x}%`)
+        node.style.setProperty("--spot-y", `${pointer.y}%`)
+        pointer = null
+      }
+      if (scrolled && body) {
+        scrolled = false
+        const progress = Math.min(1, Math.max(0, window.scrollY / node.offsetHeight))
+        body.style.opacity = String(1 - Math.min(1, progress / 0.75))
+        body.style.transform = `translate3d(0, ${progress * 120}px, 0)`
+      }
+    }
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
 
     const onMove = (event: MouseEvent) => {
       const rect = node.getBoundingClientRect()
-      pointerX.set(((event.clientX - rect.left) / rect.width) * 100)
-      pointerY.set(((event.clientY - rect.top) / rect.height) * 100)
+      pointer = {
+        x: ((event.clientX - rect.left) / rect.width) * 100,
+        y: ((event.clientY - rect.top) / rect.height) * 100,
+      }
+      schedule()
+    }
+
+    const onScroll = () => {
+      scrolled = true
+      schedule()
     }
 
     node.addEventListener("mousemove", onMove, { passive: true })
-    return () => node.removeEventListener("mousemove", onMove)
-  }, [pointerX, pointerY])
+    window.addEventListener("scroll", onScroll, { passive: true })
+
+    return () => {
+      node.removeEventListener("mousemove", onMove)
+      window.removeEventListener("scroll", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
 
   return (
     <section
@@ -72,19 +108,17 @@ export default function HeroAbout() {
       {/* Backdrop: grid, drifting brand glows, pointer spotlight, bottom fade */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-grid-sm mask-fade-b" />
-        <div className="absolute -left-32 top-1/4 h-[38rem] w-[38rem] rounded-full bg-brand/20 blur-[120px] animate-drift-slow dark:bg-brand/15" />
-        <div className="absolute -right-24 bottom-0 h-[32rem] w-[32rem] rounded-full bg-brand-alt/15 blur-[120px] animate-drift dark:bg-brand-alt/10" />
-        <motion.div className="absolute inset-0" style={{ background: spotlight }} />
+        <div className="orb -left-32 top-1/4 h-[38rem] w-[38rem] bg-brand/20 animate-drift-slow dark:bg-brand/15" />
+        <div className="orb -right-24 bottom-0 h-[32rem] w-[32rem] bg-brand-alt/15 animate-drift dark:bg-brand-alt/10" />
+        <div className="hero-spotlight absolute inset-0" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
-      <motion.div style={{ opacity, y }} className="shell relative z-10 pb-24 pt-32 md:pb-32 md:pt-36">
+      <div data-hero-body className="shell relative z-10 pb-24 pt-32 md:pb-32 md:pt-36">
         {/* Status line */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
+        <div
+          className="enter flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
+          style={{ ...delay(0), "--enter-y": "12px", "--enter-duration": "0.6s" } as CSSProperties}
         >
           <span className="inline-flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
@@ -98,7 +132,7 @@ export default function HeroAbout() {
           <span className="hidden text-border sm:inline">/</span>
           {/* Rendered client-side only, so SSR and hydration stay in sync. */}
           <span className="tabular-nums">{clock ?? "--:--:--"} SGT</span>
-        </motion.div>
+        </div>
 
         {/* Headline */}
         <h1 className="mt-8 max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:mt-10 md:text-display-lg lg:text-display-xl">
@@ -108,42 +142,33 @@ export default function HeroAbout() {
           <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
             {headline.map((word, index) => (
               <span key={word + index} className="overflow-hidden py-[0.06em]">
-                <motion.span
-                  className="inline-block"
-                  initial={{ y: "110%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.12 + index * 0.06, ease: EASE }}
-                >
+                <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
                   {word === "AI" ? (
                     <em className="font-display not-italic text-brand">AI</em>
                   ) : (
                     word
                   )}
-                </motion.span>
+                </span>
               </span>
             ))}
           </span>
         </h1>
 
         {/* Lede */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
-          className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+        <p
+          className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+          style={{ ...delay(0.34), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span> — a product manager at
           Crypto.com, building derivatives and trading products. I work where{" "}
           <span className="serif-accent text-[1.15em] text-foreground">markets</span>, growth and
           applied AI overlap, turning research-grade models into things people actually keep using.
-        </motion.p>
+        </p>
 
         {/* Actions */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.6, ease: EASE }}
-          className="mt-10 flex flex-wrap items-center gap-3"
+        <div
+          className="enter mt-10 flex flex-wrap items-center gap-3"
+          style={{ ...delay(0.42), "--enter-y": "16px" } as CSSProperties}
         >
           <a
             href="#experience"
@@ -161,14 +186,12 @@ export default function HeroAbout() {
             Let&apos;s connect
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
-        </motion.div>
+        </div>
 
         {/* Companies */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.75 }}
-          className="mt-16 space-y-4"
+        <div
+          className="enter-fade mt-16 space-y-4"
+          style={{ ...delay(0.5), "--enter-duration": "0.8s" } as CSSProperties}
         >
           <p className="eyebrow">Experience with</p>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
@@ -181,14 +204,12 @@ export default function HeroAbout() {
               </span>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Facts strip */}
-        <motion.dl
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.85, ease: EASE }}
-          className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-4"
+        <dl
+          className="enter mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-4"
+          style={{ ...delay(0.58), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
         >
           {facts.map((fact) => (
             <div key={fact.label} className="bg-background/70 p-5 backdrop-blur-sm">
@@ -198,25 +219,19 @@ export default function HeroAbout() {
               <dd className="mt-2 text-sm font-medium leading-snug">{fact.value}</dd>
             </div>
           ))}
-        </motion.dl>
-      </motion.div>
+        </dl>
+      </div>
 
       {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
+      <div
+        className="enter-fade pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
+        style={{ ...delay(0.9), "--enter-duration": "0.8s" } as CSSProperties}
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Scroll</span>
         <div className="h-10 w-px overflow-hidden bg-border">
-          <motion.div
-            className="h-4 w-px bg-foreground/60"
-            animate={{ y: [-16, 40] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <div className="scroll-cue h-4 w-px bg-foreground/60" />
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

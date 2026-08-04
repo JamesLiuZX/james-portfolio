@@ -1,16 +1,14 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, type CSSProperties } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, ExternalLink, Github, Star } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import CursorFollower from "@/components/cursor-follower"
 import ScrollProgress from "@/components/scroll-progress"
 import PageHeader from "@/components/page-header"
-import { EASE } from "@/components/ui/section"
 import { cn } from "@/lib/utils"
 
 interface Project {
@@ -145,140 +143,149 @@ export default function ProjectsPage() {
         </PageHeader>
 
         <section className="shell pb-24 md:pb-32">
-          <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((project, index) => {
-                const detailHref = hasCaseStudy(project.id) ? `/projects/${project.id}` : null
-                const primaryHref = detailHref ?? project.liveUrl ?? project.githubUrl ?? null
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((project, index) => {
+              const detailHref = hasCaseStudy(project.id) ? `/projects/${project.id}` : null
+              const primaryHref = detailHref ?? project.liveUrl ?? project.githubUrl ?? null
 
-                return (
-                  <motion.article
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.45, delay: index * 0.04, ease: EASE }}
-                    className="group card-surface relative isolate flex flex-col overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lifted"
+              return (
+                /*
+                 * Keyed on the active filter as well as the project, so
+                 * changing filters remounts the cards and replays the
+                 * entrance — the CSS stand-in for the old exit animation.
+                 */
+                <div
+                  key={`${filter ?? "all"}-${project.id}`}
+                  className="enter"
+                  style={
+                    {
+                      "--enter-delay": `${index * 0.04}s`,
+                      "--enter-duration": "0.45s",
+                      "--enter-y": "20px",
+                    } as CSSProperties
+                  }
+                >
+                  <article
+                    className="group card-surface relative isolate flex h-full flex-col overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lifted"
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
-                      {hasArtwork(project.image) ? (
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                          className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
-                        />
-                      ) : (
-                        // No screenshot on file — fall back to a typographic plate.
-                        <div className="absolute inset-0 grid place-items-center bg-dots">
-                          <span className="text-5xl font-semibold tracking-tighter text-foreground/[0.12] transition-transform duration-700 group-hover:scale-105">
-                            {project.title
-                              .split(" ")
-                              .slice(0, 2)
-                              .map((word) => word[0])
-                              .join("")}
-                          </span>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
+                      <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
+                        {hasArtwork(project.image) ? (
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                            className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
+                          />
+                        ) : (
+                          // No screenshot on file — fall back to a typographic plate.
+                          <div className="absolute inset-0 grid place-items-center bg-dots">
+                            <span className="text-5xl font-semibold tracking-tighter text-foreground/[0.12] transition-transform duration-700 group-hover:scale-105">
+                              {project.title
+                                .split(" ")
+                                .slice(0, 2)
+                                .map((word) => word[0])
+                                .join("")}
+                            </span>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
 
-                      <span className="absolute left-4 top-4 rounded-full border border-border/60 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground backdrop-blur-md">
-                        {project.category}
-                      </span>
-
-                      {project.featured && (
-                        <span
-                          className="absolute right-4 top-4 grid h-7 w-7 place-items-center rounded-full border border-brand/30 bg-background/80 text-brand backdrop-blur-md"
-                          title="Featured project"
-                        >
-                          <Star className="h-3 w-3 fill-current" />
+                        <span className="absolute left-4 top-4 rounded-full border border-border/60 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground backdrop-blur-md">
+                          {project.category}
                         </span>
-                      )}
-                    </div>
 
-                    <div className="flex flex-1 flex-col gap-4 p-6">
-                      <div className="flex items-start justify-between gap-3">
-                        <h2 className="text-lg font-semibold tracking-tight">{project.title}</h2>
-                        {primaryHref && (
+                        {project.featured && (
                           <span
-                            aria-hidden="true"
-                            className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-brand/40 group-hover:bg-brand group-hover:text-brand-foreground"
+                            className="absolute right-4 top-4 grid h-7 w-7 place-items-center rounded-full border border-brand/30 bg-background/80 text-brand backdrop-blur-md"
+                            title="Featured project"
                           >
-                            <ArrowUpRight className="h-3.5 w-3.5" />
+                            <Star className="h-3 w-3 fill-current" />
                           </span>
                         )}
                       </div>
 
-                      <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
-                        {project.description}
-                      </p>
+                      <div className="flex flex-1 flex-col gap-4 p-6">
+                        <div className="flex items-start justify-between gap-3">
+                          <h2 className="text-lg font-semibold tracking-tight">{project.title}</h2>
+                          {primaryHref && (
+                            <span
+                              aria-hidden="true"
+                              className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-brand/40 group-hover:bg-brand group-hover:text-brand-foreground"
+                            >
+                              <ArrowUpRight className="h-3.5 w-3.5" />
+                            </span>
+                          )}
+                        </div>
 
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.technologies.slice(0, 3).map((tech) => (
-                          <span
-                            key={tech}
-                            className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground"
-                          >
-                            {tech}
-                          </span>
+                        <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
+                          {project.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.technologies.slice(0, 3).map((tech) => (
+                            <span
+                              key={tech}
+                              className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.technologies.length > 3 && (
+                            <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                              +{project.technologies.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Stretched primary link, with secondary links layered above it. */}
+                      {primaryHref &&
+                        (detailHref ? (
+                          <Link
+                            href={detailHref}
+                            className="absolute inset-0 z-10 rounded-2xl"
+                            aria-label={`View ${project.title}`}
+                          />
+                        ) : (
+                          <a
+                            href={primaryHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="absolute inset-0 z-10 rounded-2xl"
+                            aria-label={`View ${project.title}`}
+                          />
                         ))}
-                        {project.technologies.length > 3 && (
-                          <span className="rounded-full border border-border/70 bg-surface-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                            +{project.technologies.length - 3}
-                          </span>
+
+                      <div className="absolute bottom-6 right-6 z-20 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-within:opacity-100">
+                        {project.liveUrl && detailHref && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${project.title} live site`}
+                            className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </a>
+                        )}
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${project.title} on GitHub`}
+                            className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
+                          >
+                            <Github className="h-3.5 w-3.5" />
+                          </a>
                         )}
                       </div>
-                    </div>
-
-                    {/* Stretched primary link, with secondary links layered above it. */}
-                    {primaryHref &&
-                      (detailHref ? (
-                        <Link
-                          href={detailHref}
-                          className="absolute inset-0 z-10 rounded-2xl"
-                          aria-label={`View ${project.title}`}
-                        />
-                      ) : (
-                        <a
-                          href={primaryHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="absolute inset-0 z-10 rounded-2xl"
-                          aria-label={`View ${project.title}`}
-                        />
-                      ))}
-
-                    <div className="absolute bottom-6 right-6 z-20 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-within:opacity-100">
-                      {project.liveUrl && detailHref && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${project.title} live site`}
-                          className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                        </a>
-                      )}
-                      {project.githubUrl && (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${project.title} on GitHub`}
-                          className="grid h-8 w-8 place-items-center rounded-lg border border-border/70 bg-background/90 text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
-                        >
-                          <Github className="h-3.5 w-3.5" />
-                        </a>
-                      )}
-                    </div>
-                  </motion.article>
-                )
-              })}
-            </AnimatePresence>
-          </motion.div>
+                  </article>
+                </div>
+              )
+            })}
+          </div>
 
           {filtered.length === 0 && (
             <div className="py-24 text-center">

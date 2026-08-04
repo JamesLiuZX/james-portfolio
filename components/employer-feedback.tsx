@@ -1,7 +1,6 @@
 "use client"
 
-import { useInView } from "react-intersection-observer"
-import { motion } from "framer-motion"
+import type { CSSProperties } from "react"
 import { AlertCircle, CheckCircle, XCircle } from "lucide-react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
@@ -12,10 +11,6 @@ interface FeedbackItem {
 }
 
 export default function EmployerFeedback() {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
 
   const feedback: FeedbackItem[] = [
     {
@@ -79,34 +74,19 @@ export default function EmployerFeedback() {
   return (
     <section className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div ref={ref} className="space-y-12">
+        <div className="space-y-12">
           <div className="space-y-4">
-            <motion.h2
-              className="text-2xl font-semibold"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-            >
+            <h2 className="reveal text-2xl font-semibold" style={{ "--reveal-duration": "0.6s" } as CSSProperties}>
               EMPLOYER PERSPECTIVE
-            </motion.h2>
+            </h2>
 
-            <motion.p
-              className="text-lg text-muted-foreground max-w-3xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <p className="reveal text-lg text-muted-foreground max-w-3xl" style={{ "--reveal-delay": "0.2s", "--reveal-duration": "0.6s" } as CSSProperties}>
               An objective assessment of this portfolio from an employer or investor perspective, highlighting strengths
               and areas for improvement.
-            </motion.p>
+            </p>
           </div>
 
-          <motion.div
-            className="space-y-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
+          <div className="reveal space-y-6" style={{ "--reveal-delay": "0.3s", "--reveal-duration": "0.6s" } as CSSProperties}>
             <div className="bg-card rounded-lg border border-border p-6 mb-8">
               <div className="flex items-start">
                 <AlertCircle className="h-5 w-5 text-primary mr-2 mt-0.5" />
@@ -169,7 +149,7 @@ export default function EmployerFeedback() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

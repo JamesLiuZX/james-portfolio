@@ -1,9 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, type CSSProperties } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { AnimatePresence, motion } from "framer-motion"
 import { ArrowUpRight, Menu, X } from "lucide-react"
 import ThemeToggle from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
@@ -95,14 +94,12 @@ export default function Navbar() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:pt-5">
-        <motion.nav
-          initial={{ y: -24, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        <nav
+          style={{ "--enter-y": "-24px", "--enter-duration": "0.6s" } as CSSProperties}
           className={cn(
-            "flex w-full max-w-5xl items-center justify-between gap-4 rounded-full px-3 py-2 transition-all duration-500 md:px-4",
+            "enter flex w-full max-w-5xl items-center justify-between gap-4 rounded-full px-3 py-2 transition-[background-color,border-color,box-shadow] duration-500 md:px-4",
             scrolled
-              ? "border border-border/70 bg-background/70 shadow-soft backdrop-blur-xl"
+              ? "nav-scrolled border border-border/70 shadow-soft"
               : "border border-transparent bg-transparent",
           )}
         >
@@ -131,10 +128,10 @@ export default function Navbar() {
                   )}
                 >
                   {active && (
-                    <motion.span
-                      layoutId="nav-active"
-                      className="absolute inset-0 rounded-full bg-foreground/[0.06] dark:bg-foreground/[0.09]"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    <span
+                      aria-hidden="true"
+                      className="enter-fade absolute inset-0 rounded-full bg-foreground/[0.06] dark:bg-foreground/[0.09]"
+                      style={{ "--enter-duration": "0.25s" } as CSSProperties}
                     />
                   )}
                   <span className="relative">{link.name}</span>
@@ -165,58 +162,62 @@ export default function Navbar() {
               {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
           </div>
-        </motion.nav>
+        </nav>
       </header>
 
       {/* Mobile sheet */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
-          >
-            <div className="flex h-full flex-col justify-center px-8">
-              <nav className="flex flex-col gap-2">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.06 * index + 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      {isOpen && (
+        <div
+          className="enter-fade fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
+          style={{ "--enter-duration": "0.25s" } as CSSProperties}
+        >
+          <div className="flex h-full flex-col justify-center px-8">
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link, index) => (
+                <div
+                  key={link.name}
+                  className="enter"
+                  style={
+                    {
+                      "--enter-delay": `${0.06 * index + 0.08}s`,
+                      "--enter-y": "16px",
+                      "--enter-duration": "0.5s",
+                    } as CSSProperties
+                  }
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-baseline gap-4 border-b border-border/60 py-4 text-3xl font-medium tracking-tight"
                   >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="flex items-baseline gap-4 border-b border-border/60 py-4 text-3xl font-medium tracking-tight"
-                    >
-                      <span className="font-mono text-xs text-subtle">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      {link.name}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
+                    <span className="font-mono text-xs text-subtle">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {link.name}
+                  </Link>
+                </div>
+              ))}
+            </nav>
 
-              <motion.a
-                href="https://www.linkedin.com/in/james-liu-zx/"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.42, duration: 0.5 }}
-                className="mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background"
-              >
-                Let&apos;s connect
-                <ArrowUpRight className="h-4 w-4" />
-              </motion.a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <a
+              href="https://www.linkedin.com/in/james-liu-zx/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="enter mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background"
+              style={
+                {
+                  "--enter-delay": "0.42s",
+                  "--enter-y": "16px",
+                  "--enter-duration": "0.5s",
+                } as CSSProperties
+              }
+            >
+              Let&apos;s connect
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      )}
     </>
   )
 }
