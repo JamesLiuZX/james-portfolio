@@ -1,7 +1,6 @@
 "use client"
 import type { CSSProperties } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft, Calendar, ExternalLink, Github, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar"
@@ -58,12 +57,12 @@ export default function AskShopAIProject() {
             {/* Main Image - Reduced size */}
             <div className="enter rounded-xl overflow-hidden shadow-xl" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
-                <Image
+                <img
                   src={projectImage}
                   alt="AskShop.ai Dashboard"
-                  fill
-                  className="object-cover"
-                  priority
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
             </div>
@@ -220,20 +219,24 @@ export default function AskShopAIProject() {
                   <h2 className="text-2xl font-semibold">Gallery</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                      <Image
+                      <img
                         src="/askshopblog1.webp"
                         alt="AskShop.ai Dashboard"
                         width={600}
                         height={400}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <div className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                      <Image
+                      <img
                         src={projectImage}
                         alt="AskShop.ai Chat Interface"
                         width={600}
                         height={400}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>

@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react"
-import Image from "next/image"
 import { ArrowUpRight, Award, Calendar, MapPin } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
 
@@ -100,11 +99,13 @@ export default function AcademicAchievements() {
                 <div className="absolute inset-0 bg-dots opacity-60" aria-hidden="true" />
                 <div className="relative flex items-center gap-4">
                   <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl border border-border/70 bg-white p-1.5">
-                    <Image
+                    <img
                       src="/nuslogo.webp"
                       alt="National University of Singapore"
                       width={120}
                       height={80}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-contain"
                     />
                   </div>

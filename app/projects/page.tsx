@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type CSSProperties } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowUpRight, ExternalLink, Github, Star } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
@@ -170,12 +169,12 @@ export default function ProjectsPage() {
                   >
                       <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
                         {hasArtwork(project.image) ? (
-                          <Image
+                          <img
                             src={project.image}
                             alt={project.title}
-                            fill
-                            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                            className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
+                            loading="lazy"
+                            decoding="async"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
                           />
                         ) : (
                           // No screenshot on file — fall back to a typographic plate.

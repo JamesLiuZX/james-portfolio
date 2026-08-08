@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, Github } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
@@ -116,12 +115,12 @@ export default function Projects() {
               >
                 {/* Media */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
-                  <Image
+                  <img
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform [transition-duration:900ms] ease-out-expo group-hover:scale-[1.06]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-50" />
                   <div className="absolute inset-0 bg-brand/0 transition-colors duration-500 group-hover:bg-brand/[0.06]" />

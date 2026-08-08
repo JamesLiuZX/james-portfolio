@@ -1,7 +1,6 @@
 "use client"
 import type { CSSProperties } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft, Calendar, Github, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar"
@@ -58,12 +57,12 @@ export default function CalendareProject() {
             {/* Main Image - Reduced size */}
             <div className="enter rounded-xl overflow-hidden shadow-xl" style={{ "--enter-delay": "0.2s", "--enter-duration": "0.6s" } as CSSProperties}>
               <div className="relative w-full aspect-[16/9] bg-gradient-to-br from-primary/5 to-primary/10">
-                <Image
+                <img
                   src={projectImage}
                   alt="Calendare Dashboard"
-                  fill
-                  className="object-cover"
-                  priority
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
             </div>

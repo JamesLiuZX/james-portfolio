@@ -1,6 +1,5 @@
 import { getBlogPosts } from "@/lib/mdx"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowUpRight, Clock } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
@@ -41,12 +40,18 @@ export default async function Blog() {
 
                       {hasArtwork(post.metadata.image) && (
                         <div className="relative hidden h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-surface-muted md:block">
-                          <Image
+                          {/*
+                            Plain img, not next/image: `images.unoptimized` is
+                            required by `output: export` and already turns
+                            next/image into exactly this, minus the ~13KB of
+                            client JS it costs to get there.
+                          */}
+                          <img
                             src={post.metadata.image}
                             alt={post.metadata.title}
-                            fill
-                            sizes="112px"
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            loading="lazy"
+                            decoding="async"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                         </div>
                       )}

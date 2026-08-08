@@ -1,6 +1,5 @@
 import { getBlogPost } from "@/lib/mdx"
 import { notFound } from "next/navigation"
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -65,12 +64,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {metadata.image && (
                 <div className="rounded-xl overflow-hidden mb-12 shadow-lg">
                   <div className="relative w-full aspect-[16/9]">
-                    <Image
+                    <img
                       src={metadata.image || "/placeholder.svg"}
                       alt={metadata.title}
-                      fill
-                      className="object-cover"
-                      priority
+                      fetchPriority="high"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover"
                     />
                   </div>
                 </div>

@@ -2,7 +2,6 @@
 
 import type { CSSProperties } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { Award, BookOpen, Calendar, GraduationCap, MapPin } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
@@ -112,11 +111,13 @@ export default function Academic() {
                   <div key={index} className="enter grid grid-cols-1 md:grid-cols-3 gap-8 items-start" style={{ "--enter-duration": "0.5s" } as CSSProperties}>
                     <div className="md:col-span-1">
                       <div className="rounded-lg overflow-hidden">
-                        <Image
+                        <img
                           src={edu.image || "/placeholder.svg"}
                           alt={edu.institution}
                           width={600}
                           height={400}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-auto object-cover"
                         />
                       </div>
