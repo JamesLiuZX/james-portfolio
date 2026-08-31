@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/smooth-scroll"
 import { Toaster } from "@/components/ui/sonner"
 import RevealRescan from "@/components/reveal-rescan"
 import { REVEAL_BOOTSTRAP } from "@/lib/reveal-script"
+import { siteUrl } from "@/lib/site"
 
 const sans = Inter({
   subsets: ["latin"],
@@ -28,7 +29,6 @@ const display = Instrument_Serif({
   display: "swap",
 })
 
-const siteUrl = "https://jamesliu.dev"
 const description =
   "James Liu — Trading & AI Product Manager at Crypto.com, based in Singapore. Building derivatives, trading and AI-powered products that drive measurable growth. Previously ByteDance, Lark, Trendsi and Ernst & Young."
 

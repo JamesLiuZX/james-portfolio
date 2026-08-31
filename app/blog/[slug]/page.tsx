@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 
+/** Posts without real artwork skip the hero image, matching the blog index. */
+const hasArtwork = (image?: string) => Boolean(image) && !image!.startsWith("/placeholder")
+
 interface BlogPostPageProps {
   params: {
     slug: string
@@ -61,11 +64,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </header>
 
               {/* Featured Image */}
-              {metadata.image && (
+              {hasArtwork(metadata.image) && (
                 <div className="rounded-xl overflow-hidden mb-12 shadow-lg">
                   <div className="relative w-full aspect-[16/9]">
                     <img
-                      src={metadata.image || "/placeholder.svg"}
+                      src={metadata.image}
                       alt={metadata.title}
                       fetchPriority="high"
                       decoding="async"
