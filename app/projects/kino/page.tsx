@@ -10,7 +10,7 @@ const kino: CaseStudy = {
   lede: "Tools like Higgsfield and Runway hide great models behind credits; ComfyUI exposes them as graphs only experts can drive. Kino puts 2026's best open image and video models behind one text box, on GPUs you rent by the second, and adds an Ad Studio that writes, checks and edits short video ads.",
   cover: {
     src: "/kino.webp",
-    alt: "Kino's camera move picker: twenty moves previewed live on a HerbalBath product photo",
+    alt: "Kino's camera move picker: twenty moves previewed live on the HerbalBath Myrrh Herbal Energy Oil photo",
     href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino",
   },
   links: [
@@ -59,6 +59,12 @@ const kino: CaseStudy = {
         "Pick a brand, a platform, a language and up to three angles. Claude writes storyboards against a strict JSON schema from the brand profile and the product photo; without a key, templates built only from the brand's approved wording do it.",
         "Product shots animate the real product photo; generated scenes never show the product, so a model can't invent a different bottle. The editor cuts shots to length, burns in large captions inside each platform's safe zone, breaks Chinese lines without splitting a price, composes an end card from the product cut-out, adds a music bed and normalises loudness to -14 LUFS.",
       ],
+      video: {
+        src: "/demos/kino/herbalbath-ad.mp4",
+        poster: "/demos/kino/herbalbath-ad.webp",
+        caption:
+          "A 16-second TikTok ad from the Ad Studio in Instant mode: one product photo and no GPU. Camera moves, Chinese captions inside TikTok's safe zone, and an end card built from the product cut-out.",
+      },
       bullets: [
         "Every script is checked before anything is made: banned words in both languages, effect claims that aren't approved word for word, Meta's personal-attributes policy, before-and-after, superlatives and medical settings.",
         "Blocking issues need an explicit “make it anyway”: the checker advises, the brand owner decides.",
