@@ -85,7 +85,7 @@ export default function AskShopAIProject() {
                     across every Shopify store. We built the entire platform in just 5 weeks, using TypeScript, AWS,
                     Liquid, Gadget, and JavaScript. Our efforts were recognized with funding from Stanford Startup
                     Society and a 2nd place finish in the Stanford internal hackathon. The platform quickly gained
-                    traction, achieving over 100 installs and maintaining a perfect 5.0/5.0 rating on the Shopify
+                    traction, reaching 100+ business users and maintaining a perfect 5.0/5.0 rating on the Shopify
                     app store.
                   </p>
                 </div>
@@ -134,8 +134,8 @@ export default function AskShopAIProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>
-                        Implemented OpenAI's GPT models with custom fine-tuning for e-commerce contexts, enabling the AI
-                        to understand product attributes and customer preferences
+                        Built semantic search over catalog embeddings with an LLM on top, so shoppers can ask for
+                        products in natural language
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -187,8 +187,7 @@ export default function AskShopAIProject() {
                     <li className="flex items-start">
                       <span className="mr-2 mt-1.5 text-primary">•</span>
                       <span>
-                        Acquired over 100 business users within the first month of launch, demonstrating strong
-                        product-market fit
+                        Reached 100+ business users
                       </span>
                     </li>
                     <li className="flex items-start">
@@ -196,20 +195,6 @@ export default function AskShopAIProject() {
                       <span>
                         Maintained a perfect 5.0/5.0 app rating on the Shopify app store, reflecting high customer
                         satisfaction
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Increased conversion rates by an average of 23% for client stores, directly impacting their
-                        bottom line
-                      </span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-2 mt-1.5 text-primary">•</span>
-                      <span>
-                        Reduced customer support inquiries by 15% as the AI effectively answered product-related
-                        questions
                       </span>
                     </li>
                   </ul>

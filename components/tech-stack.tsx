@@ -1,44 +1,44 @@
 import type { CSSProperties } from "react"
-import { Boxes, CandlestickChart, Code2, Gift, LineChart, ShieldCheck } from "lucide-react"
+import { Bot, CandlestickChart, Clapperboard, Code2, Gift, ShieldCheck } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
 
 // Domain first, craft second — the domain columns are the differentiator.
 const groups = [
   {
-    name: "Trading & Markets",
+    name: "Trading & Derivatives",
     icon: CandlestickChart,
-    tools: ["Options", "Futures", "Prediction markets", "Trading infrastructure", "Spot & derivatives"],
-    note: "The main app's trading surface and the plumbing underneath it.",
+    tools: ["Options & strike options", "Perpetual futures", "Prediction markets", "Tokenized stocks", "Liquidity & market making"],
+    note: "Contract mechanics, pricing and the plumbing under the trade button.",
   },
   {
     name: "Growth & Rewards",
     icon: Gift,
-    tools: ["Referral programmes", "Welcome bonuses", "Incentive design", "Onboarding funnels", "Product-led growth"],
+    tools: ["Referral programmes", "Welcome bonuses", "Incentive design", "KYC-to-first-trade funnels", "A/B testing"],
     note: "Getting the first trade to happen, then the second.",
   },
   {
     name: "Risk & Compliance",
     icon: ShieldCheck,
-    tools: ["KYC & AML", "Anti-fraud", "Geo expansion (EEA, US)", "Stripe 3DS & Radar", "Market onboarding"],
+    tools: ["KYC & AML", "Licensing & market expansion", "Stripe 3DS & Radar", "Risk limits & kill switches", "Safety constraints for agents"],
     note: "The unglamorous work that decides which markets you can launch in.",
   },
   {
-    name: "Product & Design",
-    icon: Boxes,
-    tools: ["Jira & Confluence", "Notion", "Figma", "Framer", "Linear"],
-    note: "Specs, roadmaps and the boring rigour that makes launches land.",
+    name: "AI Agents & Evals",
+    icon: Bot,
+    tools: ["Tool-calling design", "Context & memory", "Multi-agent systems", "Evals & calibration", "MCP integrations"],
+    note: "Agents that touch money, graded against plain rules.",
   },
   {
-    name: "Engineering",
+    name: "Multimodal & Video AI",
+    icon: Clapperboard,
+    tools: ["Image & video generation", "ComfyUI workflows", "FLUX, Qwen-Image, Wan 2.2", "RAG & vector search", "AI video ads & UGC"],
+    note: "From a structured brief to a captioned 9:16 ad.",
+  },
+  {
+    name: "Build & Data",
     icon: Code2,
-    tools: ["TypeScript", "React & Next.js", "Python", "Node.js", "AWS"],
-    note: "Enough depth to write the spec, read the PR and unblock the team.",
-  },
-  {
-    name: "Data & AI",
-    icon: LineChart,
-    tools: ["SQL", "LLMs & RAG", "Claude Code & MCP", "Multi-agent workflows", "A/B testing"],
-    note: "Instrumenting the funnel, then arguing with the numbers.",
+    tools: ["Python & SQL", "TypeScript, React & Next.js", "Claude Code & Cursor", "AWS & REST APIs", "Amplitude & Mixpanel"],
+    note: "Enough depth to write the spec, read the PR and ship the prototype.",
   },
 ]
 
@@ -54,10 +54,10 @@ export default function TechStack() {
           title={
             <>
               What I know, from{" "}
-              <span className="serif-accent text-brand">markets</span> to the stack underneath.
+              <span className="serif-accent text-brand">markets</span> to the models underneath.
             </>
           }
-          lede="Three domains I've shipped in and three I build with. I started as an engineer and moved into product, so I work across the whole path — discovery, design, implementation and the analytics that tell you whether it worked."
+          lede="Three domains I've owned and three I build with. I started as an engineer and moved into product, so I work the whole path: the spec, the PR, the eval and the dashboard that says whether it worked."
         />
 
         <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 sm:grid-cols-2 lg:grid-cols-3">

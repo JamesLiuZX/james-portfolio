@@ -4,8 +4,8 @@ import { ArrowUpRight, Github, Instagram, Linkedin, Mail } from "lucide-react"
 const sitemap = [
   { name: "Work", href: "/#experience" },
   { name: "Projects", href: "/projects" },
+  { name: "Quorum", href: "/projects/quorum" },
   { name: "Academic", href: "/academic" },
-  { name: "Feedback", href: "/employer-feedback" },
   { name: "Contact", href: "/#contact" },
 ]
 
@@ -39,8 +39,8 @@ export default function Footer() {
               <span className="text-base font-medium tracking-tight">James Liu</span>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Product manager in Singapore building derivatives, trading and AI products.
-              Currently at Crypto.com.
+              Trading and derivatives product manager in Singapore who ships AI agents and AI
+              video. Product Owner for crypto trading at Revolut.
             </p>
             <a
               href="mailto:jamesliu@u.nus.edu"
@@ -89,7 +89,7 @@ export default function Footer() {
 
         <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-border/70 pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-subtle md:flex-row md:items-center">
           <span>© {currentYear} James Liu</span>
-          <span>Next.js · Tailwind · Framer Motion</span>
+          <span>Next.js · Tailwind CSS</span>
         </div>
       </div>
     </footer>

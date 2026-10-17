@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, type CSSProperties, type FormEvent } from "react"
-import { Check, Copy, Github, Instagram, Linkedin, Mail, Phone, Send } from "lucide-react"
+import { Check, Copy, Github, Instagram, Linkedin, Mail, Send } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
 
 /*
@@ -12,7 +12,6 @@ import { SectionHeading } from "@/components/ui/section"
 const notify = () => import("sonner").then((mod) => mod.toast)
 
 const EMAIL = "jamesliu@u.nus.edu"
-const PHONE = "+65 8426 1225"
 
 const socials = [
   { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/james-liu-zx/" },
@@ -102,20 +101,6 @@ export default function Contact() {
                 </button>
               </div>
             </div>
-
-            <a href="tel:+6584261225" className="card-surface card-surface-hover block p-6">
-              <div className="flex items-center gap-4">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-foreground text-background">
-                  <Phone className="h-4 w-4" />
-                </span>
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
-                    Phone
-                  </p>
-                  <p className="mt-1 text-sm font-medium">{PHONE}</p>
-                </div>
-              </div>
-            </a>
 
             <div className="card-surface p-6">
               <p className="eyebrow">Elsewhere</p>

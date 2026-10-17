@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { ArrowUpRight, Linkedin } from "lucide-react"
 import { Reveal, SectionHeading } from "@/components/ui/section"
 import { cn } from "@/lib/utils"
+import { REVOLUT_START } from "@/hooks/use-revolut-started"
 
 interface Role {
   company: string
@@ -11,51 +12,80 @@ interface Role {
   period: string
   /** Marks an ongoing role — renders a live dot and a "Current" pill. */
   current?: boolean
+  /** A role that hasn't begun yet reads "Incoming" until this moment, in the visitor's browser. */
+  startsAt?: Date
   /** Headline numbers pulled out of the bullets so they read at a glance. */
   metrics?: { value: string; label: string }[]
   description: string[]
   tags?: string[]
 }
 
+// Every number here is from James's resumes. Revolut has no metrics yet, by design.
 const experiences: Role[] = [
   {
-    company: "Crypto.com",
-    role: "Trading / AI Product Manager",
-    period: "Sep 2025 — Present",
+    company: "Revolut",
+    role: "Product Owner (Technical), Crypto Trading",
+    period: "Nov 2026 — Present",
     current: true,
+    startsAt: REVOLUT_START,
+    description: [
+      "Technical Product Owner for crypto trading inside the main Revolut app, from November 2026.",
+    ],
+    tags: ["Crypto trading", "Technical product"],
+  },
+  {
+    company: "Crypto.com",
+    role: "Product Manager, Trading & Derivative Products",
+    period: "Sep 2025 — Oct 2026",
     metrics: [
-      { value: "+90%", label: "New-user volume" },
-      { value: "90%", label: "Workflow time saved" },
-      { value: "+15%", label: "Welcome-bonus lift" },
+      { value: "2×", label: "Prediction Markets quarterly revenue" },
+      { value: "+60%", label: "Prediction Markets MAU, QoQ" },
+      { value: "+200%", label: "Referral trading volume in 3 months" },
     ],
     description: [
-      "Own the main app's trading surface and the infrastructure beneath it, with a focus on derivatives — options, futures and prediction markets.",
-      "Designed and automated the team's internal AI workflows — RAG retrieval, multi-agent orchestration, PRD drafting and working prototypes hosted on the company domain — cutting turnaround on that work by 90%. Built on Claude Code, MCP and the Google Workspace CLI.",
-      "Spearheaded the main referral programme and the welcome bonus, lifting new-user trading volume by 90% and 15% respectively.",
-      "Own compliance for trading onboarding — KYC, AML and anti-fraud — alongside the geographic expansion of trading products into the EEA and additional US states.",
+      "Trading team, inside a 10M+ MAU app. Joined on Growth & Onboarding, then became sole product owner of Prediction Markets in 2026, with the Options roadmap alongside.",
+      "Prediction Markets: owned market mechanics, pricing and quotation logic, market operations and rewards. Grew monthly active users 60% quarter on quarter and doubled quarterly revenue with market launches and lifecycle campaigns tied to the FIFA World Cup and NBA Finals, and improved app load speed 50% through A/B-tested optimisations.",
+      "Owned the roadmap for Options and Strike Options, and contributed to derivatives strategy across perpetual futures, tokenized stocks and futures.",
+      "Shipped components of an AI trading agent now in production, letting users place and manage trades in natural language through OpenClaw and third-party bot integrations. Defined the tool-calling surface, the context passed to the model and the safety constraints with engineering, and contributed code via PRs.",
+      "Growth & Onboarding: owned onboarding and activation for 200K+ monthly funnel users across 2 engineering teams. A redesigned welcome bonus lifted new-user trading revenue 21%, a tiered referral programme grew referred users 120% and referral volume 200% in 3 months, and a guided KYC-to-first-trade flow lifted first-trade conversion 8%.",
+      "Led global KYC and AML workstreams and contributed to regulatory work for international expansion with legal and compliance. Built AI into the team's own workflow too: Cursor skills for PRDs, clickable prototypes on a company-hosted domain, and weekly reporting automated through MCP.",
     ],
-    tags: ["Derivatives", "Applied AI", "Growth", "Compliance"],
+    tags: ["Derivatives", "Prediction markets", "AI agents", "Growth"],
   },
   {
     company: "ByteDance",
-    role: "Product Manager",
+    role: "Product Manager, Lark",
     period: "Jul 2024 — Sep 2025",
     metrics: [
-      { value: "+20%", label: "Monthly visitors" },
-      { value: "$20M", label: "Partnership value" },
-      { value: "+40%", label: "Avg. conversion" },
+      { value: "$24M", label: "Enterprise AI deal" },
+      { value: "200K+", label: "User licences" },
+      { value: "+20%", label: "Monthly visitors, 3 months" },
     ],
     description: [
-      "Received full-time conversion in 2024 and a Spot Bonus award in Q2 2025, given to the top 10% of performers.",
-      "Co-led development of a multi-modal AI content generation platform for SEO using LLMs and RAG — wrote the technical specs and worked with a team of 7, increasing unique monthly visitors by 20% over 3 months.",
-      "Co-led Lark's partnership with Perplexity AI, bringing over $20 million USD in value.",
-      "Initiated revamps of over 20 key pages, resulting in a 40%+ increase in conversion rate on average.",
+      "Ran the Perplexity AI partnership end to end, from model evaluation and commercial negotiation to technical integration, closing a $24M enterprise deal covering 200,000+ user licences.",
+      "Co-led a 16-person team building a multi-modal AI content generation platform for SEO: the vector embedding pipeline over the Lark knowledge base, the semantic retrieval layer and the generation workflow. It drove 20% of organic SEO traffic and lifted unique monthly visitors 20% in 3 months.",
+      "Directed the Q2 revamp of 20 core web pages, projected to lift MQLs 15–70% per page (Q2 2025 spot bonus), and grew ARR 7% through modular B2B SaaS referral initiatives.",
     ],
-    tags: ["LLMs & RAG", "SEO growth", "Partnerships"],
+    tags: ["Multimodal AI", "RAG", "AI partnerships", "B2B SaaS"],
+  },
+  {
+    company: "AskShop.ai",
+    role: "Founder",
+    period: "Feb 2024 — Jul 2024",
+    metrics: [
+      { value: "5 wks", label: "Concept to launch" },
+      { value: "100+", label: "Business users" },
+      { value: "5.0", label: "Shopify rating" },
+    ],
+    description: [
+      "Took an LLM-powered product discovery engine from concept to launch in 5 weeks with a team of 5, using semantic search over catalog embeddings.",
+      "Reached 100+ business users and a 5.0/5.0 Shopify App Store rating, with Stanford Startup Society grant funding.",
+    ],
+    tags: ["LLMs", "Semantic search", "Shopify"],
   },
   {
     company: "Trendsi",
-    role: "Product Manager Intern",
+    role: "Product Manager Intern, San Francisco",
     period: "Aug 2023 — Jul 2024",
     metrics: [
       { value: "+35%", label: "Cart conversion" },
@@ -63,66 +93,50 @@ const experiences: Role[] = [
       { value: "$20K", label: "Saved monthly" },
     ],
     description: [
-      "Owned onboarding flow optimisation, user acquisition and first-transaction incentives.",
-      "Directed development of four frontend products, achieving a 35% increase in cart conversion and a 100% improvement in site retention length.",
-      "Spearheaded Stripe 3D Secure and advanced Radar rules, cutting fraudulent transactions by 90% — roughly $20,000 USD saved each month.",
-      "Boosted SEO rankings by 26% and accelerated page load speeds by 20%.",
+      "Raised cart conversion 35% by leading development of a product similarity recommendation engine at the #1-ranked Shopify and TikTok App Store startup (Series A).",
+      "Cut fraudulent transactions 90%, saving about US$20,000 a month, with Stripe 3D Secure and Radar risk rules.",
     ],
-    tags: ["Onboarding", "Payments", "Conversion"],
-  },
-  {
-    company: "AskShop.ai",
-    role: "CEO, Co-Founder",
-    period: "Feb 2024 — Jul 2024",
-    metrics: [
-      { value: "100+", label: "Business users" },
-      { value: "5.0", label: "Shopify rating" },
-      { value: "5 wks", label: "Zero to launch" },
-    ],
-    description: [
-      "Led development of a B2B e-commerce SaaS for product discovery and recommendation, distributable across every Shopify store — built in 5 weeks.",
-      "Secured funding from Stanford Startup Society and placed 2nd in the Stanford internal hackathon.",
-      "Grew to 100+ business users with a 5.0/5.0 rating on the Shopify app store.",
-    ],
-    tags: ["TypeScript", "AWS", "Shopify"],
+    tags: ["Recommendations", "Payments", "Fraud"],
   },
   {
     company: "Ernst & Young",
     role: "Software Engineer Intern",
     period: "May 2023 — Aug 2023",
-    metrics: [{ value: "1M+", label: "Users impacted / yr" }],
+    metrics: [{ value: "1M+", label: "Users served / yr" }],
     description: [
-      "Spearheaded frontend development of an internal real-time dashboard for an international client, projected to impact over a million users per year, working directly with clients on evolving software needs.",
+      "Led frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
     ],
     tags: ["ReactJS", ".NET", "C#", "Azure"],
   },
   {
-    company: "NUS TMSI",
-    role: "Software Engineer Intern",
-    period: "Feb 2023 — May 2023",
-    description: [
-      "Led front-end development for a real-time research data platform at the NUS Tropical Marine Science Institute.",
-      "Contributed to an operational research data platform with multi-layered access and analytics, built for incorporation into national networks.",
+    company: "HerbalBath",
+    role: "Co-founder",
+    period: "Apr 2021 — Present",
+    metrics: [
+      { value: "S$200K+", label: "Annual revenue" },
+      { value: "30,000+", label: "Customers" },
     ],
-    tags: ["TypeScript", "React", "Spring Boot"],
-  },
-  {
-    company: "Pantas",
-    role: "Software Engineer Intern",
-    period: "May 2022 — Aug 2022",
-    metrics: [{ value: "−90%", label: "Inbox spam" }],
     description: [
-      "Improved application performance using AWS Lambda, S3 and API Gateway for serverless computing.",
-      "Improved security and reduced inbox spam by over 90% by implementing 4 backend features including reCAPTCHA and stricter input validation.",
+      "Grew a DTC wellness brand to S$200K+ annual revenue and 30,000+ customers, running acquisition on AI-generated video ads and UGC alongside lifecycle and referral campaigns.",
+      "Built its growth stack: PayNow checkout, a WhatsApp reorder engine, a referral captain kit and an SEO content engine.",
     ],
-    tags: ["AWS", "Python", "SQL"],
+    tags: ["DTC", "AI video ads", "Lifecycle"],
   },
 ]
+
+/** Open the first role with numbers behind it, so the timeline leads with proof. */
+const DEFAULT_OPEN = Math.max(
+  0,
+  experiences.findIndex((role) => role.metrics),
+)
 
 export default function Experience() {
   const timelineRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLDivElement>(null)
-  const [expanded, setExpanded] = useState<number | null>(0)
+  const [expanded, setExpanded] = useState<number | null>(DEFAULT_OPEN)
+  // Read after mount so the prerendered HTML and first client render agree.
+  const [now, setNow] = useState<number | null>(null)
+  useEffect(() => setNow(Date.now()), [])
 
   /*
    * Fills the timeline rail as the section passes through the viewport, on a
@@ -168,11 +182,11 @@ export default function Experience() {
           title={
             <>
               Experience across{" "}
-              <span className="serif-accent text-brand">growth</span>, AI and platform
-              product.
+              <span className="serif-accent text-brand">trading</span>, derivatives and
+              applied AI.
             </>
           }
-          lede="Six years of building — from serverless backends to multi-modal AI platforms, derivatives trading products and a company of my own. The through-line is shipping things that move a number."
+          lede="From an engineering internship to owning a prediction market inside a 10M+ MAU app, with a DTC brand of my own running the whole time. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"
@@ -249,15 +263,20 @@ export default function Experience() {
                         <div className="space-y-1">
                           <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xl font-semibold tracking-tight md:text-2xl">
                             {exp.company}
-                            {exp.current && (
-                              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
-                                <span className="relative flex h-1 w-1">
-                                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
-                                  <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
+                            {exp.current &&
+                              (exp.startsAt && (now === null || now < exp.startsAt.getTime()) ? (
+                                <span className="inline-flex items-center rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-brand">
+                                  Incoming
                                 </span>
-                                Current
-                              </span>
-                            )}
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                                  <span className="relative flex h-1 w-1">
+                                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
+                                    <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
+                                  </span>
+                                  Current
+                                </span>
+                              ))}
                           </h3>
                           <p className="text-sm text-muted-foreground">{exp.role}</p>
                         </div>
