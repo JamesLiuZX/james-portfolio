@@ -25,7 +25,8 @@ export interface CaseStudy {
     paragraphs?: string[]
     bullets?: string[]
     /** A short vertical clip of real output, shown under the section's text. */
-    video?: { src: string; poster: string; caption: string }
+    /** Vertical (an ad) by default; `landscape` for screen recordings. */
+    video?: { src: string; poster: string; caption: string; landscape?: boolean }
   }[]
 }
 
@@ -153,7 +154,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
                           muted
                           playsInline
                           preload="none"
-                          className="aspect-[9/16] w-full max-w-[18rem] rounded-2xl border border-border/70 bg-surface-muted shadow-soft"
+                          className={`${section.video.landscape ? "aspect-[16/10] w-full" : "aspect-[9/16] w-full max-w-[18rem]"} rounded-2xl border border-border/70 bg-surface-muted shadow-soft`}
                         />
                         <figcaption className="mt-3 max-w-md text-sm leading-relaxed text-subtle">
                           {section.video.caption}
