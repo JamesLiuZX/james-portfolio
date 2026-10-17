@@ -1,0 +1,169 @@
+/**
+ * Project data shared by the home page's "Selected work" grid and the
+ * /projects index, so a card is only ever edited in one place.
+ *
+ * Every number in here traces to James's resumes or a project's own write-up;
+ * see the claims ledger that came with this change before adding a new one.
+ */
+
+export interface ProjectLink {
+  label: string
+  href: string
+}
+
+export interface Project {
+  /** Slug. With `caseStudy`, also the route under /projects. */
+  id: string
+  title: string
+  category: string
+  /** Cover in /public. An empty string falls back to a typographic plate. */
+  image: string
+  description: string
+  technologies: string[]
+  /** Single headline outcome shown on the card. */
+  result?: string
+  /** Has its own page at /projects/[id]. */
+  caseStudy?: boolean
+  /** Live demo, live site, code. The first one doubles as the card's target when there is no case study. */
+  links?: ProjectLink[]
+}
+
+const OPERATOR_NOTES = "https://jamesliuzx.github.io/linkedin-operator-notes"
+
+/*
+ * TODO(main-agent): Kino is being built in this session. Fill in these three
+ * and the card wires itself up; an empty URL simply renders no link.
+ */
+const KINO_REPO_URL = "" // TODO(main-agent): GitHub repo URL
+const KINO_LIVE_URL = "" // TODO(main-agent): live app or demo URL
+const KINO_COVER = "/kino-placeholder.svg" // TODO(main-agent): 1280x800 WebP screenshot, like /quorum.webp
+
+/** A link only when its URL is known. */
+const maybe = (label: string, href: string): ProjectLink[] => (href ? [{ label, href }] : [])
+
+export const selectedWork: Project[] = [
+  {
+    id: "quorum",
+    title: "Quorum",
+    category: "AI agents · Trading",
+    image: "/quorum.webp",
+    description:
+      "A crypto trading desk where nine AI agents argue, a deterministic risk kernel decides, and I approve every order. Built to test the one claim four viral AI-trading posts never measured: that the AI adds anything.",
+    technologies: ["Multi-agent LLMs", "Python", "React", "Backtesting", "Fly.io"],
+    result: "9 strategy runs · 0 survived the Lab",
+    caseStudy: true,
+    links: [{ label: "Live demo", href: "/demos/quorum/" }],
+  },
+  {
+    id: "liquidity-reward-labs",
+    title: "Liquidity & Reward Labs",
+    category: "Market design · Prediction markets",
+    image: "/liquidity-labs.svg",
+    description:
+      "Two simulators that turn market-quality arguments into budget lines. Liquidity Lab prices “this market feels dead” with Hanson's LMSR; Farm Lab runs Polymarket's published maker-rewards rule and shows what the pool buys per filled share.",
+    technologies: ["LMSR", "Market microstructure", "JavaScript", "SVG charts"],
+    result: "0.5% slippage bar: $34,484 subsidy per market",
+    links: [
+      { label: "Liquidity Lab", href: `${OPERATOR_NOTES}/demos/liquidity-lab` },
+      { label: "Farm Lab", href: `${OPERATOR_NOTES}/demos/farm-lab` },
+      { label: "Code", href: "https://github.com/JamesLiuZX/linkedin-operator-notes" },
+    ],
+  },
+  {
+    id: "kino",
+    title: "Kino",
+    category: "Multimodal AI · Video",
+    image: KINO_COVER,
+    description:
+      "A one-click AI image and video studio on ComfyUI and RunPod GPUs, running open models such as FLUX, Qwen-Image and Wan 2.2. Its Ad Studio compiles a structured brief into shots, then captioned 9:16 and 1:1 ads for TikTok and Meta.",
+    technologies: ["ComfyUI", "RunPod", "FLUX", "Wan 2.2", "Qwen-Image"],
+    result: "Powers HerbalBath's AI video ads",
+    links: [...maybe("Live app", KINO_LIVE_URL), ...maybe("Code", KINO_REPO_URL)],
+  },
+  {
+    id: "herbalbath-singapore",
+    title: "HerbalBath",
+    category: "DTC · AI video ads",
+    image: "/herbalbath.webp",
+    description:
+      "The DTC wellness brand I co-founded, grown on AI-generated video ads and UGC. I build its growth stack too: PayNow checkout, a WhatsApp reorder engine, a referral captain kit and an SEO content engine.",
+    technologies: ["AI video ads", "UGC", "Next.js", "WhatsApp Cloud API", "PayNow"],
+    result: "S$200K+ annual revenue · 30,000+ customers",
+    caseStudy: true,
+    links: [{ label: "herbalbathsg.com", href: "https://herbalbathsg.com" }],
+  },
+]
+
+export const earlierWork: Project[] = [
+  {
+    id: "askshop-ai",
+    title: "AskShop.ai",
+    category: "AI · SaaS",
+    image: "/askshopai.webp",
+    description:
+      "An LLM-powered product discovery engine for Shopify stores, taken from concept to launch in five weeks with a team of five. Reached 100+ business users and a 5.0/5.0 App Store rating, with Stanford Startup Society grant funding.",
+    technologies: ["TypeScript", "AWS", "Liquid", "Gadget", "JavaScript"],
+    caseStudy: true,
+    links: [
+      { label: "Shopify App Store", href: "https://apps.shopify.com/askshop-ai" },
+      { label: "Code", href: "https://github.com/JamesLiuZX" },
+    ],
+  },
+  {
+    id: "calendare",
+    title: "Calendare",
+    category: "Productivity",
+    image: "/calendare.webp",
+    description:
+      "An AI-powered productivity app that schedules locally scraped events and personalised tasks around your goals and calendar. Won a $10K NUS VIP grant.",
+    technologies: ["Next.js", "TypeScript", "MongoDB", "AWS"],
+    caseStudy: true,
+    links: [{ label: "Code", href: "https://github.com/JamesLiuZX" }],
+  },
+  {
+    id: "nft-sentiment-predictor",
+    title: "NFT Sentiment Price Predictor",
+    category: "Web3",
+    image: "/NFinsighT.webp",
+    description:
+      "NFT price charts overlaid with predicted prices and market sentiment, across customisable time-series windows.",
+    technologies: ["TypeScript", "Next.js", "Tailwind CSS", "PostgreSQL", "tRPC", "Python", "PySpark"],
+    caseStudy: true,
+    links: [
+      { label: "Live site", href: "https://nfinsight.vercel.app/" },
+      { label: "Code", href: "https://github.com/JamesLiuZX" },
+    ],
+  },
+  {
+    id: "dunman-helper",
+    title: "Dunman Helper",
+    category: "AI",
+    image: "",
+    description: "A school chatbot built on Dialogflow's natural-language platform.",
+    technologies: ["Dialogflow", "Python", "HTML", "JavaScript"],
+    links: [
+      { label: "Live demo", href: "https://jamesliuzx.github.io/AI-Chatbot/" },
+      { label: "Code", href: "https://github.com/JamesLiuZX/AI-Chatbot" },
+    ],
+  },
+  {
+    id: "ey-dashboard",
+    title: "EY Client Dashboard",
+    category: "Enterprise",
+    image: "",
+    description:
+      "Frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
+    technologies: ["ReactJS", ".NET Framework", "JQuery", "C#", "SQL", "Microsoft Azure"],
+  },
+]
+
+/** Where the card itself goes: the case study, else the first link, else nowhere. */
+export const primaryHref = (project: Project): string | null =>
+  project.caseStudy ? `/projects/${project.id}` : (project.links?.[0]?.href ?? null)
+
+/**
+ * Next.js routes go through <Link>. Anything else, including the
+ * self-contained demos served as plain files from /public/demos, needs a
+ * normal anchor: client-side routing would look for a page that isn't there.
+ */
+export const isAppRoute = (href: string) => href.startsWith("/") && !href.startsWith("/demos/")

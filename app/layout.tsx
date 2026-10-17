@@ -30,27 +30,32 @@ const display = Instrument_Serif({
 })
 
 const description =
-  "James Liu — Trading & AI Product Manager at Crypto.com, based in Singapore. Building derivatives, trading and AI-powered products that drive measurable growth. Previously ByteDance, Lark, Trendsi and Ernst & Young."
+  "James Liu, Product Owner for crypto trading at Revolut. Previously PM for trading and derivative products at Crypto.com, where he owned Prediction Markets and shipped an AI trading agent to production. Builds multi-agent trading desks and AI video tools in Singapore."
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "James Liu — Product Manager",
+    default: "James Liu — Trading & AI Product Manager",
     template: "%s — James Liu",
   },
   description,
   keywords: [
     "James Liu",
+    "Product Owner",
     "Product Manager",
-    "Singapore",
-    "trading products",
-    "derivatives",
-    "prediction markets",
-    "AI product",
-    "growth product management",
+    "Revolut",
     "Crypto.com",
+    "crypto trading",
+    "derivatives",
+    "options",
+    "perpetual futures",
+    "prediction markets",
+    "AI agents",
+    "AI trading agent",
+    "multimodal AI",
+    "AI video generation",
     "ByteDance",
-    "NUS Computer Science",
+    "Singapore",
   ],
   authors: [{ name: "James Liu", url: "https://www.linkedin.com/in/james-liu-zx/" }],
   creator: "James Liu",
@@ -59,12 +64,12 @@ export const metadata: Metadata = {
     locale: "en_SG",
     url: siteUrl,
     siteName: "James Liu",
-    title: "James Liu — Product Manager",
+    title: "James Liu — Trading & AI Product Manager",
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "James Liu — Product Manager",
+    title: "James Liu — Trading & AI Product Manager",
     description,
   },
   robots: {

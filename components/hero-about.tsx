@@ -1,19 +1,20 @@
 "use client"
 
 import { useEffect, useRef, useState, type CSSProperties } from "react"
+import Link from "next/link"
 
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 
-const companies = ["Crypto.com", "ByteDance", "Lark", "Trendsi", "Ernst & Young"]
+const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
 
 const facts = [
   { label: "Based in", value: "Singapore" },
-  { label: "Focus", value: "Trading & applied AI" },
-  { label: "Now", value: "PM, Crypto.com" },
+  { label: "Now", value: "Product Owner, Revolut" },
+  { label: "Focus", value: "Trading, derivatives & applied AI" },
   { label: "Studied", value: "Computer Science, NUS" },
 ]
 
-const headline = ["Product", "manager", "shipping", "AI", "products", "that", "compound."]
+const headline = ["Trading", "products,", "with", "AI", "that", "earns", "its", "place."]
 
 /** Shorthand for the `--enter-delay` custom property the CSS entrances read. */
 const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSProperties
@@ -137,13 +138,18 @@ export default function HeroAbout() {
           className="enter flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
           style={{ ...delay(0), "--enter-y": "12px", "--enter-duration": "0.6s" } as CSSProperties}
         >
-          <span className="inline-flex items-center gap-2">
+          {/* Points at the newest proof rather than at job-seeking. */}
+          <Link
+            href="/projects/quorum"
+            className="group inline-flex items-center gap-2 transition-colors duration-300 hover:text-foreground"
+          >
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </span>
-            Open to product roles
-          </span>
+            Latest build: Quorum AI trading desk
+            <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
           <span className="hidden text-border sm:inline">/</span>
           <span>Singapore</span>
           <span className="hidden text-border sm:inline">/</span>
@@ -154,7 +160,8 @@ export default function HeroAbout() {
         {/* Headline */}
         <h1 className="mt-8 max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:mt-10 md:text-display-lg lg:text-display-xl">
           <span className="sr-only">
-            James Liu — product manager shipping AI products that compound.
+            James Liu, trading and derivatives product manager: trading products, with AI that
+            earns its place.
           </span>
           <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
             {headline.map((word, index) => (
@@ -176,10 +183,11 @@ export default function HeroAbout() {
           className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           style={{ ...delay(0.34), "--enter-y": "16px" } as CSSProperties}
         >
-          I&apos;m <span className="font-medium text-foreground">James</span> — a product manager at
-          Crypto.com, building derivatives and trading products. I work where{" "}
-          <span className="serif-accent text-[1.15em] text-foreground">markets</span>, growth and
-          applied AI overlap, turning research-grade models into things people actually keep using.
+          I&apos;m <span className="font-medium text-foreground">James</span>, a trading and
+          derivatives product manager, now Product Owner for crypto trading at Revolut. At
+          Crypto.com I owned Prediction Markets and shipped an AI trading agent to{" "}
+          <span className="serif-accent text-[1.15em] text-foreground">production</span>. On the
+          side I build agent desks and AI video tools, and keep score on whether the model helps.
         </p>
 
         {/* Actions */}
