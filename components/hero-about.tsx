@@ -1,124 +1,271 @@
-import type { CSSProperties } from "react"
+"use client"
+
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import Link from "next/link"
+
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
-import { RESUME_PATH, LINKEDIN_URL } from "@/lib/site"
+import { RESUME_PATH } from "@/lib/site"
 
-type Entry = { name: string; href?: string }
+const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
 
-/** The ledger under the headline: where James is, where he was, what he builds. */
-const ledger: { label: string; entries: Entry[]; note: string }[] = [
-  {
-    label: "Now",
-    entries: [{ name: "Revolut" }],
-    note: "Product Owner, Crypto Trading",
-  },
-  {
-    label: "Before",
-    entries: [{ name: "Crypto.com" }, { name: "ByteDance" }],
-    note: "Trading & derivative products; Lark",
-  },
-  {
-    label: "On the side",
-    entries: [
-      { name: "Quorum", href: "/projects/quorum" },
-      { name: "Kino", href: "/projects/kino" },
-      { name: "HerbalBath", href: "/projects/herbalbath-singapore" },
-    ],
-    note: "An AI trading desk, an AI video studio, my own brand",
-  },
+const facts = [
+  { label: "Based in", value: "Singapore" },
+  { label: "Now", value: "Product Manager, Revolut" },
+  { label: "Focus", value: "Wealth, trading & applied AI" },
+  { label: "Studied", value: "Computer Science, NUS" },
 ]
+
+const headline = ["Trading", "products,", "with", "AI", "that", "earns", "its", "place."]
 
 /** Shorthand for the `--enter-delay` custom property the CSS entrances read. */
 const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSProperties
 
 export default function HeroAbout() {
+  const heroRef = useRef<HTMLElement>(null)
+  const [clock, setClock] = useState<string | null>(null)
+
+  useEffect(() => {
+    const tick = () => {
+      setClock(
+        new Intl.DateTimeFormat("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZone: "Asia/Singapore",
+        }).format(new Date()),
+      )
+    }
+    tick()
+    const interval = setInterval(tick, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  /*
+   * The hero body fades and drifts as it scrolls away. One passive listener
+   * coalesced into a single rAF write, on every device — the cost that used
+   * to make this worth skipping was the animation runtime behind it, not the
+   * arithmetic.
+   */
+  useEffect(() => {
+    const node = heroRef.current
+    if (!node) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const body = node.querySelector<HTMLElement>("[data-hero-body]")
+    if (!body) return
+
+    let frame = 0
+
+    const paint = () => {
+      frame = 0
+      const height = node.offsetHeight || 1
+      const progress = Math.min(1, Math.max(0, window.scrollY / height))
+      body.style.opacity = String(1 - Math.min(1, progress / 0.75))
+      body.style.transform = `translate3d(0, ${progress * 120}px, 0)`
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+
+    paint()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  /*
+   * The spotlight tracks a real pointer, so it stays desktop-only — a touch
+   * device would download and run a mousemove handler that never fires.
+   */
+  useEffect(() => {
+    const node = heroRef.current
+    if (!node) return
+    if (!window.matchMedia("(pointer: fine)").matches) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    let frame = 0
+    let pointer: { x: number; y: number } | null = null
+
+    const paint = () => {
+      frame = 0
+      if (!pointer) return
+      node.style.setProperty("--spot-x", `${pointer.x}%`)
+      node.style.setProperty("--spot-y", `${pointer.y}%`)
+      pointer = null
+    }
+
+    const onMove = (event: MouseEvent) => {
+      const rect = node.getBoundingClientRect()
+      pointer = {
+        x: ((event.clientX - rect.left) / rect.width) * 100,
+        y: ((event.clientY - rect.top) / rect.height) * 100,
+      }
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+
+    node.addEventListener("mousemove", onMove, { passive: true })
+
+    return () => {
+      node.removeEventListener("mousemove", onMove)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
   return (
-    <section id="home" className="relative overflow-hidden">
-      {/* One soft wash at the top. Nothing moves or tracks the pointer. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[40rem] bg-gradient-to-b from-surface-muted to-transparent"
-      />
+    <section
+      id="home"
+      ref={heroRef}
+      className="grain relative flex min-h-[100svh] items-center overflow-hidden"
+    >
+      {/* Backdrop: grid, drifting brand glows, pointer spotlight, bottom fade */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-grid-sm mask-fade-b" />
+        <div className="orb -left-32 top-1/4 h-[38rem] w-[38rem] bg-brand/20 animate-drift-slow dark:bg-brand/15" />
+        <div className="orb -right-24 bottom-0 h-[32rem] w-[32rem] bg-brand-alt/15 animate-drift dark:bg-brand-alt/10" />
+        <div className="hero-spotlight absolute inset-0" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      </div>
 
-      <div className="shell pb-20 pt-36 md:pb-28 md:pt-48">
-        <p
-          className="enter font-mono text-[11px] uppercase tracking-[0.18em] text-subtle"
-          style={delay(0)}
+      <div data-hero-body className="shell relative z-10 pb-24 pt-32 md:pb-32 md:pt-36">
+        {/* Status line */}
+        <div
+          className="enter flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
+          style={{ ...delay(0), "--enter-y": "12px", "--enter-duration": "0.6s" } as CSSProperties}
         >
-          James Liu · Singapore
-        </p>
+          {/* Points at the newest proof rather than at job-seeking. */}
+          <Link
+            href="/projects/quorum"
+            className="group inline-flex items-center gap-2 transition-colors duration-300 hover:text-foreground"
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            </span>
+            Latest build: Quorum AI trading desk
+            <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+          <span className="hidden text-border sm:inline">/</span>
+          <span>Singapore</span>
+          <span className="hidden text-border sm:inline">/</span>
+          {/* Rendered client-side only, so SSR and hydration stay in sync. */}
+          <span className="tabular-nums">{clock ?? "--:--:--"} SGT</span>
+        </div>
 
-        <h1
-          className="enter mt-7 max-w-5xl font-display text-[2.4rem] font-normal leading-[1.08] tracking-[-0.015em] text-foreground/90 sm:text-[3rem] md:text-[3.5rem] lg:text-[3.75rem]"
-          style={delay(0.08)}
-        >
-          <span className="block">Building crypto trading at Revolut,</span>
-          <em className="block text-muted-foreground">and AI tools that earn their place.</em>
+        {/* Headline */}
+        <h1 className="mt-8 max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:mt-10 md:text-display-lg lg:text-display-xl">
+          <span className="sr-only">
+            James Liu, product manager for wealth and trading at Revolut: trading products, with AI
+            that earns its place.
+          </span>
+          <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
+            {headline.map((word, index) => (
+              <span key={word + index} className="overflow-hidden py-[0.06em]">
+                <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
+                  {word === "AI" ? (
+                    <em className="font-display not-italic text-brand">AI</em>
+                  ) : (
+                    word
+                  )}
+                </span>
+              </span>
+            ))}
+          </span>
         </h1>
 
+        {/* Lede */}
         <p
-          className="enter mt-8 max-w-[36rem] text-[1.0625rem] leading-relaxed text-muted-foreground md:text-lg"
-          style={delay(0.16)}
+          className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+          style={{ ...delay(0.34), "--enter-y": "16px" } as CSSProperties}
         >
-          I&apos;m James, a product owner who started out as an engineer. Before Revolut I worked on
-          prediction markets, options and an AI trading agent at Crypto.com, and on Lark&apos;s AI
-          partnerships at ByteDance.
+          I&apos;m <span className="font-medium text-foreground">James</span>, a product manager
+          who started out as an engineer, now on wealth and trading at Revolut. Before that I owned
+          Prediction Markets and shipped an AI trading agent to{" "}
+          <span className="serif-accent text-[1.15em] text-foreground">production</span> at
+          Crypto.com, and worked at ByteDance AI. On the side I build agent desks and AI video
+          tools.
         </p>
 
-        <div className="enter mt-10 flex flex-wrap items-center gap-3" style={delay(0.24)}>
+        {/* Actions */}
+        <div
+          className="enter mt-10 flex flex-wrap items-center gap-3"
+          style={{ ...delay(0.42), "--enter-y": "16px" } as CSSProperties}
+        >
           <a
             href="#experience"
-            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-opacity duration-300 hover:opacity-90"
+            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-lifted"
           >
-            See my work
+            Explore my work
             <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/james-liu-zx/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3.5 text-sm font-medium backdrop-blur-md transition-all duration-300 hover:border-brand/40 hover:bg-surface"
+          >
+            Let&apos;s connect
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
           <a
             href={RESUME_PATH}
             download
-            className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-medium transition-colors duration-300 hover:border-foreground/30"
+            className="group inline-flex items-center gap-2 rounded-full px-4 py-3.5 text-sm font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground"
           >
             <Download className="h-4 w-4" />
             Résumé (PDF)
           </a>
-          <a
-            href={LINKEDIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-1.5 px-3 py-3 text-sm font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground"
-          >
-            LinkedIn
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
         </div>
 
-        <dl
-          className="enter-fade mt-16 grid gap-8 border-t border-border/70 pt-8 sm:grid-cols-3 md:mt-24"
-          style={{ ...delay(0.34), "--enter-duration": "0.8s" } as CSSProperties}
+        {/* Companies */}
+        <div
+          className="enter-fade mt-16 space-y-4"
+          style={{ ...delay(0.5), "--enter-duration": "0.8s" } as CSSProperties}
         >
-          {ledger.map((row) => (
-            <div key={row.label}>
+          <p className="eyebrow">Experience with</p>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            {companies.map((company) => (
+              <span
+                key={company}
+                className="text-base font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground md:text-lg"
+              >
+                {company}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Facts strip */}
+        <dl
+          className="enter mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-4"
+          style={{ ...delay(0.58), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
+        >
+          {facts.map((fact) => (
+            <div key={fact.label} className="bg-background/70 p-5 backdrop-blur-sm">
               <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-subtle">
-                {row.label}
+                {fact.label}
               </dt>
-              <dd className="mt-3 text-sm font-medium text-foreground">
-                {row.entries.map((entry, index) => (
-                  <span key={entry.name}>
-                    {index > 0 && <span className="text-subtle">, </span>}
-                    {entry.href ? (
-                      <Link href={entry.href} className="link-underline">
-                        {entry.name}
-                      </Link>
-                    ) : (
-                      entry.name
-                    )}
-                  </span>
-                ))}
-              </dd>
-              <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{row.note}</dd>
+              <dd className="mt-2 text-sm font-medium leading-snug">{fact.value}</dd>
             </div>
           ))}
         </dl>
+      </div>
+
+      {/* Scroll cue */}
+      <div
+        className="enter-fade pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
+        style={{ ...delay(0.9), "--enter-duration": "0.8s" } as CSSProperties}
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Scroll</span>
+        <div className="h-10 w-px overflow-hidden bg-border">
+          <div className="scroll-cue h-4 w-px bg-foreground/60" />
+        </div>
       </div>
     </section>
   )
