@@ -37,10 +37,10 @@ const experiences: Role[] = [
       { value: "+8%", label: "First-trade conversion" },
     ],
     description: [
-      "Trading team, inside a 10M+ MAU app. Joined on Growth & Onboarding, then became sole product owner of Prediction Markets in 2026, with the Options roadmap alongside.",
+      "Product lead for derivative products on the trading team, inside a 10M+ MAU app. Joined on Growth & Onboarding, then became sole product owner of Prediction Markets in 2026, with the Options roadmap alongside.",
       "Prediction Markets: owned market mechanics, pricing and quotation logic, market operations and rewards. Grew monthly active users 60% quarter on quarter with market launches and lifecycle campaigns tied to the FIFA World Cup and NBA Finals.",
       "Owned the roadmap for Options and Strike Options, and contributed to derivatives strategy across perpetual futures, tokenized stocks and futures.",
-      "Shipped components of an AI trading agent now in production, letting users place and manage trades in natural language through OpenClaw and third-party bot integrations. Defined the tool-calling surface, the context passed to the model and the safety constraints with engineering, and contributed code via PRs.",
+      "Worked with engineering on an AI trading agent that lets users place and manage trades in natural language through OpenClaw and third-party bot integrations: the tool-calling surface, the context passed to the model and the safety constraints. Contributed code via PRs.",
       "Growth & Onboarding: owned onboarding and activation across 2 engineering teams. A redesigned welcome bonus lifted new-user trading revenue 21%, a tiered referral programme grew referred users 120% in 3 months, and a guided KYC-to-first-trade flow lifted first-trade conversion 8%.",
       "Led global KYC and AML workstreams and contributed to regulatory work for international expansion with legal and compliance. Built AI into the team's own workflow too: Cursor skills for PRDs, clickable prototypes on a company-hosted domain, and weekly reporting automated through MCP.",
     ],

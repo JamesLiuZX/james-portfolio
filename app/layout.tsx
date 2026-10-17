@@ -30,7 +30,7 @@ const display = Instrument_Serif({
 })
 
 const description =
-  "James Liu, product manager for wealth and trading at Revolut. Previously PM for trading and derivative products at Crypto.com, where he owned Prediction Markets and shipped an AI trading agent to production. Builds multi-agent trading desks and AI video tools in Singapore."
+  "James Liu, product manager for wealth and trading at Revolut. Previously product lead for derivative products at Crypto.com, where he owned Prediction Markets. Builds multi-agent trading desks and AI video tools in Singapore."
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -52,7 +52,6 @@ export const metadata: Metadata = {
     "perpetual futures",
     "prediction markets",
     "AI agents",
-    "AI trading agent",
     "multimodal AI",
     "AI video generation",
     "ByteDance",
