@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { ArrowUpRight, Linkedin } from "lucide-react"
 import { Reveal, SectionHeading } from "@/components/ui/section"
 import { cn } from "@/lib/utils"
+import { REVOLUT_START } from "@/hooks/use-revolut-started"
 
 interface Role {
   company: string
@@ -11,6 +12,8 @@ interface Role {
   period: string
   /** Marks an ongoing role — renders a live dot and a "Current" pill. */
   current?: boolean
+  /** A role that hasn't begun yet reads "Incoming" until this moment, in the visitor's browser. */
+  startsAt?: Date
   /** Headline numbers pulled out of the bullets so they read at a glance. */
   metrics?: { value: string; label: string }[]
   description: string[]
@@ -24,6 +27,7 @@ const experiences: Role[] = [
     role: "Product Owner (Technical), Crypto Trading",
     period: "Nov 2026 — Present",
     current: true,
+    startsAt: REVOLUT_START,
     description: [
       "Technical Product Owner for crypto trading inside the main Revolut app, from November 2026.",
     ],
@@ -130,6 +134,9 @@ export default function Experience() {
   const timelineRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState<number | null>(DEFAULT_OPEN)
+  // Read after mount so the prerendered HTML and first client render agree.
+  const [now, setNow] = useState<number | null>(null)
+  useEffect(() => setNow(Date.now()), [])
 
   /*
    * Fills the timeline rail as the section passes through the viewport, on a
@@ -256,15 +263,20 @@ export default function Experience() {
                         <div className="space-y-1">
                           <h3 className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xl font-semibold tracking-tight md:text-2xl">
                             {exp.company}
-                            {exp.current && (
-                              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
-                                <span className="relative flex h-1 w-1">
-                                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
-                                  <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
+                            {exp.current &&
+                              (exp.startsAt && (now === null || now < exp.startsAt.getTime()) ? (
+                                <span className="inline-flex items-center rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-brand">
+                                  Incoming
                                 </span>
-                                Current
-                              </span>
-                            )}
+                              ) : (
+                                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                                  <span className="relative flex h-1 w-1">
+                                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
+                                    <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
+                                  </span>
+                                  Current
+                                </span>
+                              ))}
                           </h3>
                           <p className="text-sm text-muted-foreground">{exp.role}</p>
                         </div>

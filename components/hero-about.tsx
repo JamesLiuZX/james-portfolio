@@ -4,12 +4,15 @@ import { useEffect, useRef, useState, type CSSProperties } from "react"
 import Link from "next/link"
 
 import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { useRevolutStarted } from "@/hooks/use-revolut-started"
 
 const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
 
-const facts = [
+const factsFor = (started: boolean) => [
   { label: "Based in", value: "Singapore" },
-  { label: "Now", value: "Product Owner, Revolut" },
+  started
+    ? { label: "Now", value: "Product Owner, Revolut" }
+    : { label: "Next", value: "Product Owner, Revolut (Nov)" },
   { label: "Focus", value: "Trading, derivatives & applied AI" },
   { label: "Studied", value: "Computer Science, NUS" },
 ]
@@ -22,6 +25,8 @@ const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSPr
 export default function HeroAbout() {
   const heroRef = useRef<HTMLElement>(null)
   const [clock, setClock] = useState<string | null>(null)
+  const started = useRevolutStarted()
+  const facts = factsFor(started)
 
   useEffect(() => {
     const tick = () => {
@@ -184,8 +189,11 @@ export default function HeroAbout() {
           style={{ ...delay(0.34), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span>, a trading and
-          derivatives product manager, now Product Owner for crypto trading at Revolut. At
-          Crypto.com I owned Prediction Markets and shipped an AI trading agent to{" "}
+          derivatives product manager,{" "}
+          {started
+            ? "now Product Owner for crypto trading at Revolut"
+            : "joining Revolut in November as Product Owner for crypto trading"}
+          . At Crypto.com I owned Prediction Markets and shipped an AI trading agent to{" "}
           <span className="serif-accent text-[1.15em] text-foreground">production</span>. On the
           side I build agent desks and AI video tools, and keep score on whether the model helps.
         </p>

@@ -26,6 +26,8 @@ export interface Project {
   caseStudy?: boolean
   /** Live demo, live site, code. The first one doubles as the card's target when there is no case study. */
   links?: ProjectLink[]
+  /** Kept out of every list until it has a cover and somewhere to link. */
+  draft?: boolean
 }
 
 const OPERATOR_NOTES = "https://jamesliuzx.github.io/linkedin-operator-notes"
@@ -41,7 +43,7 @@ const KINO_COVER = "/kino-placeholder.svg" // TODO(main-agent): 1280x800 WebP sc
 /** A link only when its URL is known. */
 const maybe = (label: string, href: string): ProjectLink[] => (href ? [{ label, href }] : [])
 
-export const selectedWork: Project[] = [
+const allSelectedWork: Project[] = [
   {
     id: "quorum",
     title: "Quorum",
@@ -75,10 +77,11 @@ export const selectedWork: Project[] = [
     category: "Multimodal AI · Video",
     image: KINO_COVER,
     description:
-      "A one-click AI image and video studio on ComfyUI and RunPod GPUs, running open models such as FLUX, Qwen-Image and Wan 2.2. Its Ad Studio compiles a structured brief into shots, then captioned 9:16 and 1:1 ads for TikTok and Meta.",
-    technologies: ["ComfyUI", "RunPod", "FLUX", "Wan 2.2", "Qwen-Image"],
-    result: "Powers HerbalBath's AI video ads",
+      "A one-click AI image and video studio on ComfyUI and RunPod GPUs, running open models such as MiniMax H3, Qwen Image 2.1 and Z-Image-Turbo. Its Ad Studio compiles a structured brief into shots, then captioned 9:16 and 1:1 ads for TikTok and Meta.",
+    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Z-Image-Turbo"],
+    result: "Brief in, captioned 9:16 ads out",
     links: [...maybe("Live app", KINO_LIVE_URL), ...maybe("Code", KINO_REPO_URL)],
+    draft: true,
   },
   {
     id: "herbalbath-singapore",
@@ -93,6 +96,8 @@ export const selectedWork: Project[] = [
     links: [{ label: "herbalbathsg.com", href: "https://herbalbathsg.com" }],
   },
 ]
+
+export const selectedWork = allSelectedWork.filter((p) => !p.draft)
 
 export const earlierWork: Project[] = [
   {
