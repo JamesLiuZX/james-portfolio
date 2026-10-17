@@ -4,39 +4,45 @@ import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { ArrowUpRight, Linkedin } from "lucide-react"
 import { Reveal, SectionHeading } from "@/components/ui/section"
 import { cn } from "@/lib/utils"
+
 interface Role {
   company: string
   role: string
   period: string
-  /** Marks an ongoing role with a "Current" pill. */
+  /** Marks an ongoing role — renders a live dot and a "Current" pill. */
   current?: boolean
+  /** Headline numbers pulled out of the bullets so they read at a glance. */
+  metrics?: { value: string; label: string }[]
   description: string[]
   tags?: string[]
 }
 
-// Scope and craft rather than employers' internal numbers, which aren't public.
+// Every number here is from James's resumes. Revolut has no metrics yet, by design.
 const experiences: Role[] = [
   {
     company: "Revolut",
-    role: "Product Owner (Technical), Crypto Trading",
-    period: "2026 — Present",
+    role: "Product Owner, Wealth & Trading",
+    period: "Nov 2026 — Present",
     current: true,
-    description: [
-      "Technical product owner for crypto trading in the Revolut app, working closely with engineering on the trading experience.",
-    ],
-    tags: ["Crypto trading", "Technical product"],
+    description: ["Product owner for wealth and trading inside the main Revolut app."],
+    tags: ["Wealth & trading", "Technical product"],
   },
   {
     company: "Crypto.com",
     role: "Product Manager, Trading & Derivative Products",
-    period: "Sep 2025 — 2026",
+    period: "Sep 2025 — Nov 2026",
+    metrics: [
+      { value: "+60%", label: "Prediction Markets MAU, QoQ" },
+      { value: "+21%", label: "New-user trading revenue" },
+      { value: "+8%", label: "First-trade conversion" },
+    ],
     description: [
-      "Joined the trading team on Growth & Onboarding, then became product owner for Prediction Markets in 2026, with the Options roadmap alongside.",
-      "Prediction Markets: market mechanics, pricing and quotation logic, market operations and rewards. Grew the product with market launches and campaigns around the FIFA World Cup and NBA Finals, and A/B-tested work on app load speed.",
-      "Worked on the roadmap for Options and Strike Options, and on derivatives strategy across perpetual futures, tokenized stocks and futures.",
-      "Helped ship an AI trading agent, now in production, that lets users place and manage trades in natural language through OpenClaw and third-party bots. Defined the tool-calling surface, the context passed to the model and the safety constraints with engineering, and contributed code.",
-      "Growth & Onboarding: onboarding and activation across two engineering teams, including a redesigned welcome bonus, a tiered referral programme and a guided KYC-to-first-trade flow.",
-      "Worked with legal and compliance on global KYC and AML workstreams, and brought AI into the team's own workflow: Cursor skills for PRDs, clickable prototypes and weekly reporting automated through MCP.",
+      "Trading team, inside a 10M+ MAU app. Joined on Growth & Onboarding, then became sole product owner of Prediction Markets in 2026, with the Options roadmap alongside.",
+      "Prediction Markets: owned market mechanics, pricing and quotation logic, market operations and rewards. Grew monthly active users 60% quarter on quarter with market launches and lifecycle campaigns tied to the FIFA World Cup and NBA Finals.",
+      "Owned the roadmap for Options and Strike Options, and contributed to derivatives strategy across perpetual futures, tokenized stocks and futures.",
+      "Shipped components of an AI trading agent now in production, letting users place and manage trades in natural language through OpenClaw and third-party bot integrations. Defined the tool-calling surface, the context passed to the model and the safety constraints with engineering, and contributed code via PRs.",
+      "Growth & Onboarding: owned onboarding and activation across 2 engineering teams. A redesigned welcome bonus lifted new-user trading revenue 21%, a tiered referral programme grew referred users 120% in 3 months, and a guided KYC-to-first-trade flow lifted first-trade conversion 8%.",
+      "Led global KYC and AML workstreams and contributed to regulatory work for international expansion with legal and compliance. Built AI into the team's own workflow too: Cursor skills for PRDs, clickable prototypes on a company-hosted domain, and weekly reporting automated through MCP.",
     ],
     tags: ["Derivatives", "Prediction markets", "AI agents", "Growth"],
   },
@@ -44,10 +50,15 @@ const experiences: Role[] = [
     company: "ByteDance",
     role: "Product Manager, Lark",
     period: "Jul 2024 — Sep 2025",
+    metrics: [
+      { value: "$24M", label: "Enterprise AI deal" },
+      { value: "200K+", label: "User licences" },
+      { value: "+20%", label: "Monthly visitors, 3 months" },
+    ],
     description: [
-      "Ran Lark's partnership with Perplexity AI end to end, from model evaluation and commercial terms to the technical integration.",
-      "Co-led the team building a multimodal AI content platform for SEO: the embedding pipeline over the Lark knowledge base, the semantic retrieval layer and the generation workflow.",
-      "Led the revamp of 20 core web pages, and B2B SaaS referral initiatives.",
+      "Ran the Perplexity AI partnership end to end, from model evaluation and commercial negotiation to technical integration, closing a $24M enterprise deal covering 200,000+ user licences.",
+      "Co-led a 16-person team building a multi-modal AI content generation platform for SEO: the vector embedding pipeline over the Lark knowledge base, the semantic retrieval layer and the generation workflow. It drove 20% of organic SEO traffic and lifted unique monthly visitors 20% in 3 months.",
+      "Directed the Q2 revamp of 20 core web pages, projected to lift MQLs 15–70% per page (Q2 2025 spot bonus), and grew ARR 7% through modular B2B SaaS referral initiatives.",
     ],
     tags: ["Multimodal AI", "RAG", "AI partnerships", "B2B SaaS"],
   },
@@ -55,9 +66,14 @@ const experiences: Role[] = [
     company: "Trendsi",
     role: "Product Manager Intern, San Francisco",
     period: "Aug 2023 — Jul 2024",
+    metrics: [
+      { value: "+35%", label: "Cart conversion" },
+      { value: "−90%", label: "Fraudulent txns" },
+      { value: "$20K", label: "Saved monthly" },
+    ],
     description: [
-      "Led development of a product-similarity recommendation engine that lifted cart conversion, at a Series A startup serving Shopify and TikTok sellers.",
-      "Cut fraudulent transactions with Stripe 3D Secure and Radar risk rules.",
+      "Raised cart conversion 35% by leading development of a product similarity recommendation engine at the #1-ranked Shopify and TikTok App Store startup (Series A).",
+      "Cut fraudulent transactions 90%, saving about US$20,000 a month, with Stripe 3D Secure and Radar risk rules.",
     ],
     tags: ["Recommendations", "Payments", "Fraud"],
   },
@@ -65,8 +81,9 @@ const experiences: Role[] = [
     company: "Ernst & Young",
     role: "Software Engineer Intern",
     period: "May 2023 — Aug 2023",
+    metrics: [{ value: "1M+", label: "Users served / yr" }],
     description: [
-      "Led frontend development of a real-time analytics dashboard for an international enterprise client.",
+      "Led frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
     ],
     tags: ["ReactJS", ".NET", "C#", "Azure"],
   },
@@ -74,24 +91,33 @@ const experiences: Role[] = [
     company: "HerbalBath",
     role: "Co-founder",
     period: "Apr 2021 — Present",
+    metrics: [
+      { value: "S$200K+", label: "Annual revenue" },
+      { value: "30,000+", label: "Customers" },
+    ],
     description: [
-      "Co-founded and help run a direct-to-consumer wellness brand in Singapore, marketed mostly with AI-generated video ads and UGC.",
-      "Built its growth stack: PayNow checkout, a WhatsApp reorder engine, a referral kit and an SEO content engine.",
+      "Grew a DTC wellness brand to S$200K+ annual revenue and 30,000+ customers, running acquisition on AI-generated video ads and UGC alongside lifecycle and referral campaigns.",
+      "Built its growth stack: PayNow checkout, a WhatsApp reorder engine, a referral captain kit and an SEO content engine.",
     ],
     tags: ["DTC", "AI video ads", "Lifecycle"],
   },
 ]
 
-/** Open the most recent role with real detail behind it. */
-const DEFAULT_OPEN = Math.max(
-  0,
-  experiences.findIndex((role) => role.description.length > 1),
-)
+/** Roles open on first load, so the timeline leads with proof. */
+const DEFAULT_OPEN = ["Crypto.com", "ByteDance"]
 
 export default function Experience() {
   const timelineRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLDivElement>(null)
-  const [expanded, setExpanded] = useState<number | null>(DEFAULT_OPEN)
+  // Several roles can be open at once; each card toggles on its own.
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(DEFAULT_OPEN))
+  const toggle = (company: string) =>
+    setExpanded((open) => {
+      const next = new Set(open)
+      if (next.has(company)) next.delete(company)
+      else next.add(company)
+      return next
+    })
 
   /*
    * Fills the timeline rail as the section passes through the viewport, on a
@@ -141,7 +167,7 @@ export default function Experience() {
               applied AI.
             </>
           }
-          lede="From an engineering internship to trading and derivatives at Crypto.com, and now crypto trading at Revolut, with a small brand of my own running the whole time."
+          lede="From an engineering internship to owning a prediction market inside a 10M+ MAU app, with a DTC brand of my own running the whole time. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"
@@ -167,7 +193,7 @@ export default function Experience() {
 
           <div className="space-y-4">
             {experiences.map((exp, index) => {
-              const isOpen = expanded === index
+              const isOpen = expanded.has(exp.company)
 
               return (
                 <article
@@ -211,7 +237,7 @@ export default function Experience() {
                     >
                       <button
                         type="button"
-                        onClick={() => setExpanded(isOpen ? null : index)}
+                        onClick={() => toggle(exp.company)}
                         aria-expanded={isOpen}
                         className="flex w-full items-start justify-between gap-4 p-6 text-left md:p-7"
                       >
@@ -247,6 +273,28 @@ export default function Experience() {
                           </svg>
                         </span>
                       </button>
+
+                      {exp.metrics && (
+                        <div
+                          className={cn(
+                            "grid gap-px border-y border-border/70 bg-border/60",
+                            exp.metrics.length === 1 && "grid-cols-1",
+                            exp.metrics.length === 2 && "grid-cols-2",
+                            exp.metrics.length >= 3 && "grid-cols-3",
+                          )}
+                        >
+                          {exp.metrics.map((metric) => (
+                            <div key={metric.label} className="bg-surface px-5 py-4">
+                              <div className="text-xl font-semibold tracking-tight md:text-2xl">
+                                {metric.value}
+                              </div>
+                              <div className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-subtle">
+                                {metric.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
 
                       {/*
                         0fr→1fr on a grid row is the CSS equivalent of

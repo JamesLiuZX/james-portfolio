@@ -5,192 +5,134 @@
   Paper A4, Margins "None", Headers and footers off, Background graphics on, and
   save over the PDF. It is written to fit one A4 page.
 
-  No phone number on purpose: the PDF is public. Employers' internal numbers stay
-  off it too; scope and craft only.
+  The phone number is left off on purpose: this copy is public.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>James Liu — Résumé</title>
+<title>James Liu Zixin — Résumé</title>
 <style>
-  /* Inter and Instrument Serif (both OFL), the site's fonts, latin subsets. */
-  @font-face { font-family: "Resume Sans"; src: url("fonts/inter-latin-400.woff2") format("woff2"); font-weight: 400; }
-  @font-face { font-family: "Resume Sans"; src: url("fonts/inter-latin-600.woff2") format("woff2"); font-weight: 600; }
-  @font-face { font-family: "Resume Serif"; src: url("fonts/instrument-serif-latin.woff2") format("woff2"); font-weight: 400; }
+  /* Lato (OFL), latin subset. */
+  @font-face { font-family: "Resume Lato"; src: url("fonts/lato-400.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Resume Lato"; src: url("fonts/lato-700.woff2") format("woff2"); font-weight: 700; }
+  @font-face { font-family: "Resume Lato"; src: url("fonts/lato-900.woff2") format("woff2"); font-weight: 900; }
   @page { size: A4; margin: 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body {
-    font-family: "Resume Sans", Inter, "Helvetica Neue", Arial, sans-serif;
-    font-size: 8.8pt;
-    line-height: 1.37;
-    color: #1d1d22;
-    background: #fff;
-  }
-  .page { width: 210mm; min-height: 297mm; padding: 12.5mm 15mm 11mm; }
+  body { font-family: "Resume Lato", Lato, "Helvetica Neue", Arial, sans-serif; font-size: 9.5pt; line-height: 1.33; color: #111; background: #fff; }
+  .page { width: 210mm; min-height: 297mm; padding: 10mm 13mm 9mm; }
   a { color: inherit; text-decoration: none; }
+  b { font-weight: 700; }
 
-  header { margin-bottom: 4mm; }
-  h1 { font-family: "Resume Serif", Georgia, serif; font-size: 24pt; font-weight: 400; letter-spacing: -0.01em; line-height: 1.05; }
-  .title { margin-top: 1.4mm; font-size: 10.5pt; color: #4a4a55; }
-  .contact { margin-top: 2.4mm; font-size: 8.6pt; color: #4a4a55; }
-  .contact span + span::before { content: "·"; margin: 0 2mm; color: #a0a0aa; }
+  header { text-align: center; }
+  h1 { font-size: 17pt; font-weight: 900; letter-spacing: 0.14em; line-height: 1.1; }
+  .contact { margin-top: 1.6mm; font-size: 9pt; line-height: 1.45; color: #222; }
+  .contact span + span::before { content: "|"; margin: 0 2.2mm; color: #777; }
+  .summary { margin-top: 3mm; }
 
-  section { margin-top: 3.6mm; }
-  h2 {
-    font-size: 7.6pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-    color: #6b6b76; padding-bottom: 1.3mm; border-bottom: 0.6pt solid #dcdce2; margin-bottom: 2.2mm;
-  }
-  .summary { color: #33333b; }
+  h2 { margin-top: 3.3mm; padding-bottom: 0.8mm; border-bottom: 0.9pt solid #111; font-size: 10pt; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+  .entry { margin-top: 2.1mm; break-inside: avoid; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 6mm; }
+  .row .what b { font-weight: 700; }
+  .row .sep { margin: 0 1.6mm; color: #555; }
+  .row .when { font-weight: 700; white-space: nowrap; }
+  ul { margin-top: 0.6mm; padding-left: 4.2mm; }
+  li { margin-top: 0.45mm; }
+  li::marker { font-size: 0.9em; }
 
-  .role { margin-bottom: 2.5mm; break-inside: avoid; }
-  .role:last-child { margin-bottom: 0; }
-  .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
-  .org { font-weight: 600; }
-  .org .what { font-weight: 400; color: #4a4a55; }
-  .when { font-size: 8.4pt; color: #6b6b76; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  ul { margin-top: 0.7mm; padding-left: 3.6mm; }
-  li { margin-top: 0.4mm; color: #33333b; }
-  li::marker { color: #a0a0aa; }
-
-  strong { font-weight: 600; }
-  .skills { display: grid; grid-template-columns: 20mm 1fr; row-gap: 0.6mm; }
-  .skills dt { font-weight: 600; }
-  .skills dd { color: #33333b; }
+  .skills p { margin-top: 1.2mm; }
 </style>
 </head>
 <body>
 <div class="page">
   <header>
-    <h1>James Liu Zixin</h1>
-    <p class="title">Product Owner, Crypto Trading · Singapore</p>
+    <h1>JAMES LIU ZIXIN</h1>
     <p class="contact">
+      <span>Singapore Citizen</span>
       <span><a href="mailto:jamesliu@u.nus.edu">jamesliu@u.nus.edu</a></span>
+      <span>English / Mandarin (Bilingual)</span>
+      <br>
       <span><a href="https://www.linkedin.com/in/james-liu-zx/">linkedin.com/in/james-liu-zx</a></span>
       <span><a href="https://jamesliuzx.com">jamesliuzx.com</a></span>
       <span><a href="https://github.com/JamesLiuZX">github.com/JamesLiuZX</a></span>
-      <span>Singapore Citizen</span>
     </p>
   </header>
 
-  <section>
-    <h2>Summary</h2>
-    <p class="summary">
-      Product owner for crypto trading at Revolut; before that, trading and derivatives at Crypto.com and Lark at
-      ByteDance. NUS Computer Science graduate who works close to engineering and still builds AI tools.
-    </p>
-  </section>
+  <p class="summary">
+    Product manager on wealth and trading products at Revolut; before that, trading and derivatives at Crypto.com,
+    a 10M+ MAU consumer app, hands-on from prototype to production. Builds agentic LLM features with engineering
+    (tool calling, retrieval, and safety constraints) and ran an AI model partnership at ByteDance AI from
+    evaluation through integration. Builds AI agents and video tools on the side.
+  </p>
 
-  <section>
-    <h2>Experience</h2>
+  <h2>Work Experience</h2>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">Revolut <span class="what">— Product Owner (Technical), Crypto Trading</span></p>
-        <p class="when">2026 – Present</p>
-      </div>
-      <ul>
-        <li>Technical product owner for crypto trading in the Revolut app, working closely with engineering.</li>
-      </ul>
-    </div>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Product Owner, Wealth &amp; Trading</b><span class="sep">|</span>Revolut</p><p class="when">Nov 2026 – Present</p></div>
+    <ul>
+      <li>Product owner for wealth and trading in the main Revolut app, working closely with engineering on the trading experience.</li>
+    </ul>
+  </div>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">Crypto.com <span class="what">— Product Manager, Trading &amp; Derivative Products</span></p>
-        <p class="when">Sep 2025 – 2026</p>
-      </div>
-      <ul>
-        <li>Product owner for Prediction Markets from 2026: market mechanics, pricing and quotation logic, market operations and rewards, with market launches around the FIFA World Cup and NBA Finals.</li>
-        <li>Worked on the Options and Strike Options roadmap, and on derivatives strategy across perpetual futures, tokenized stocks and futures.</li>
-        <li>Helped ship an AI trading agent, now in production, that lets users trade in natural language via OpenClaw and bots: defined the tool-calling surface, model context and safety constraints with engineering; contributed code.</li>
-        <li>Started on Growth &amp; Onboarding across two engineering teams (welcome bonus, tiered referrals, a guided KYC-to-first-trade flow), and worked with legal and compliance on global KYC and AML.</li>
-        <li>Set up AI workflows for the team: Cursor skills for PRDs, clickable prototypes and reporting automated through MCP.</li>
-      </ul>
-    </div>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Product Manager, Trading &amp; Derivative Products</b><span class="sep">|</span>Crypto.com</p><p class="when">Sep 2025 – Nov 2026</p></div>
+    <ul>
+      <li>Owned Prediction Markets on the main app: market mechanics, pricing and quotation logic, market operations, and rewards; grew monthly active users <b>60%</b> quarter on quarter with launches around the FIFA World Cup and NBA Finals.</li>
+      <li>Shipped components of an AI trading agent now in production, letting users place and manage trades in natural language through OpenClaw and third-party bot integrations; defined the tool-calling surface, model context, and safety constraints with engineering, and contributed code via PRs.</li>
+      <li>Led new-user growth across two engineering teams: a redesigned welcome bonus lifted new-user trading revenue <b>21%</b>, a tiered referral programme grew referred users <b>120%</b> in 3 months, and a guided KYC-to-first-trade flow lifted first-trade conversion <b>8%</b>.</li>
+      <li>Owned the Options and Strike Options roadmap and global KYC/AML workstreams with legal and compliance; built Cursor skills for PRDs, prototypes on a company-hosted domain, and weekly reporting automated through MCP.</li>
+    </ul>
+  </div>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">ByteDance <span class="what">— Product Manager, Lark</span></p>
-        <p class="when">Jul 2024 – Sep 2025</p>
-      </div>
-      <ul>
-        <li>Ran Lark's partnership with Perplexity AI, from model evaluation and commercial terms to integration.</li>
-        <li>Co-led the team building a multimodal AI content platform for SEO: embeddings over the Lark knowledge base, semantic retrieval and the generation workflow.</li>
-        <li>Led the revamp of 20 core web pages, and B2B SaaS referral initiatives.</li>
-      </ul>
-    </div>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Product Manager</b><span class="sep">|</span>ByteDance AI</p><p class="when">Jul 2024 – Sep 2025</p></div>
+    <ul>
+      <li>Ran the Perplexity AI partnership end to end (model evaluation, commercial negotiation, and technical integration), closing a <b>$24M</b> enterprise deal covering 200,000+ user licenses.</li>
+      <li>Built a RAG content generation platform that drove <b>20%</b> of organic SEO traffic, designing the vector embedding pipeline over the internal Lark knowledge base, the semantic retrieval layer, and the generation workflow; co-led a team of 16 and lifted unique monthly visitors <b>20%</b> in 3 months.</li>
+      <li>Directed the Q2 revamp of 20 core web pages, projected to lift MQLs <b>15–70%</b> per page (Q2 2025 spot bonus); expanded ARR <b>7%</b> through modular B2B SaaS referral initiatives.</li>
+    </ul>
+  </div>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">HerbalBath <span class="what">— Co-founder</span></p>
-        <p class="when">Apr 2021 – Present</p>
-      </div>
-      <ul>
-        <li>Co-founded and help run a Singapore wellness brand, marketed mostly with AI-generated video ads and UGC.</li>
-        <li>Built its website and growth tools: PayNow checkout, a WhatsApp reorder flow and an SEO content engine.</li>
-      </ul>
-    </div>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Co-founder</b><span class="sep">|</span>HerbalBath</p><p class="when">Apr 2021 – Present</p></div>
+    <ul>
+      <li>Grew a DTC brand to <b>S$200K+</b> annual revenue and <b>30,000+</b> customers, running acquisition on AI-generated video ads and UGC alongside lifecycle and referral campaigns.</li>
+    </ul>
+  </div>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">Trendsi <span class="what">— Product Manager Intern, San Francisco</span></p>
-        <p class="when">Aug 2023 – Jul 2024</p>
-      </div>
-      <ul>
-        <li>Led development of a product-similarity recommendation engine that lifted cart conversion, and cut payment fraud with Stripe 3D Secure and Radar rules.</li>
-      </ul>
-    </div>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Product Manager Intern</b><span class="sep">|</span>Trendsi<span class="sep">|</span>San Francisco, US</p><p class="when">Aug 2023 – Jul 2024</p></div>
+    <ul>
+      <li>Raised cart conversion <b>35%</b> by leading development of a product similarity recommendation engine, and cut fraudulent transactions <b>90%</b> (US$20,000 monthly) via Stripe 3D Secure and Radar risk rules.</li>
+    </ul>
+  </div>
 
-    <div class="role">
-      <div class="role-head">
-        <p class="org">Ernst &amp; Young <span class="what">— Software Engineer Intern</span></p>
-        <p class="when">May – Aug 2023</p>
-      </div>
-      <ul>
-        <li>Led frontend development of a real-time analytics dashboard for an international enterprise client.</li>
-      </ul>
-    </div>
-  </section>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Software Engineer Intern</b><span class="sep">|</span>Ernst &amp; Young</p><p class="when">May 2023 – Aug 2023</p></div>
+    <ul>
+      <li>Led frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users per year.</li>
+    </ul>
+  </div>
 
-  <section>
-    <h2>Projects</h2>
-    <div class="role">
-      <ul>
-        <li><strong>Quorum</strong>: a crypto trading desk where AI agents propose, a risk kernel decides and I approve every order.</li>
-        <li><strong>Kino</strong>: an AI image and video studio running ComfyUI workflows on RunPod GPUs, with an ad studio.</li>
-      </ul>
-    </div>
-  </section>
+  <h2>Education</h2>
 
-  <section>
-    <h2>Education</h2>
-    <div class="role">
-      <div class="role-head">
-        <p class="org">National University of Singapore <span class="what">— B.Comp. Computer Science, Honours (Distinction)</span></p>
-        <p class="when">2021 – 2025</p>
-      </div>
-      <ul>
-        <li>Specialisations in AI, and Networking &amp; Distributed Systems. NUS Overseas Colleges, Silicon Valley.</li>
-        <li>Student mentor for CS2103T Software Engineering after finishing in the top 5% of the cohort.</li>
-      </ul>
-    </div>
-    <div class="role">
-      <div class="role-head">
-        <p class="org">Stanford University <span class="what">— Graduate coursework, Management Science &amp; Engineering</span></p>
-        <p class="when">Fall 2023</p>
-      </div>
-    </div>
-  </section>
+  <div class="entry">
+    <div class="row"><p class="what"><b>National University of Singapore</b><span class="sep">|</span>B.Comp. in Computer Science, Honours (Distinction)</p><p class="when">May 2025</p></div>
+    <ul>
+      <li>Specializations: Artificial Intelligence; Networking and Distributed Systems. NUS Overseas College, Silicon Valley; NUS Enterprise $10,000 VIP award; CS2103T Software Engineering student mentor (top 5% of cohort).</li>
+    </ul>
+  </div>
 
-  <section>
-    <h2>Skills</h2>
-    <dl class="skills">
-      <dt>Product</dt><dd>Discovery, PRDs, experimentation, roadmaps, regulatory work with legal and compliance</dd>
-      <dt>AI</dt><dd>LLM agents and tool use, retrieval (RAG), evaluation, AI image and video generation</dd>
-      <dt>Technical</dt><dd>Python, SQL, TypeScript, React, Next.js, Java, AWS; Cursor, Claude Code</dd>
-      <dt>Languages</dt><dd>English, Mandarin</dd>
-    </dl>
-  </section>
+  <div class="entry">
+    <div class="row"><p class="what"><b>Stanford University</b><span class="sep">|</span>Graduate Coursework, Management Science &amp; Engineering (GPA 3.7/4.0)</p><p class="when">Jan 2024</p></div>
+  </div>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <p><b>AI &amp; ML Product:</b> Agentic systems (tool calling, context and memory design, safety constraints), LLM applications, RAG &amp; vector search, model evaluation &amp; selection, prompt &amp; context engineering, MCP integrations, recommendation systems, AI model &amp; vendor partnerships</p>
+    <p><b>Product:</b> 0-to-1 development, rapid prototyping, roadmaps, PRDs, A/B testing &amp; experimentation, data analysis, growth &amp; retention, go-to-market, user research, OKRs, Agile, cross-functional leadership</p>
+    <p><b>Technical:</b> Python, SQL, TypeScript, React, Next.js, Java, AWS, REST APIs<span class="sep" style="margin:0 1.6mm;color:#555">|</span>Cursor, Claude Code, Git, Postman, Jira, Figma, Amplitude, Mixpanel</p>
+  </div>
 </div>
 </body>
 </html>
