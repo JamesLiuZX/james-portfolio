@@ -32,16 +32,7 @@ export interface Project {
 
 const OPERATOR_NOTES = "https://jamesliuzx.github.io/linkedin-operator-notes"
 
-/*
- * TODO(main-agent): Kino is being built in this session. Fill in these three
- * and the card wires itself up; an empty URL simply renders no link.
- */
-const KINO_REPO_URL = "" // TODO(main-agent): GitHub repo URL
-const KINO_LIVE_URL = "" // TODO(main-agent): live app or demo URL
-const KINO_COVER = "/kino-placeholder.svg" // TODO(main-agent): 1280x800 WebP screenshot, like /quorum.webp
-
-/** A link only when its URL is known. */
-const maybe = (label: string, href: string): ProjectLink[] => (href ? [{ label, href }] : [])
+const KINO_REPO_URL = "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino"
 
 const allSelectedWork: Project[] = [
   {
@@ -75,13 +66,13 @@ const allSelectedWork: Project[] = [
     id: "kino",
     title: "Kino",
     category: "Multimodal AI · Video",
-    image: KINO_COVER,
+    image: "/kino.webp",
     description:
-      "A one-click AI image and video studio on ComfyUI and RunPod GPUs, running open models such as MiniMax H3, Qwen Image 2.1 and Z-Image-Turbo. Its Ad Studio compiles a structured brief into shots, then captioned 9:16 and 1:1 ads for TikTok and Meta.",
-    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Z-Image-Turbo"],
-    result: "Brief in, captioned 9:16 ads out",
-    links: [...maybe("Live app", KINO_LIVE_URL), ...maybe("Code", KINO_REPO_URL)],
-    draft: true,
+      "A one-box AI image and video studio that runs the official ComfyUI workflows for MiniMax H3, Qwen Image 2.1, Z-Image-Turbo and LTX-2.3 on RunPod GPUs. Its Ad Studio turns a brand profile into compliance-checked, captioned ads for TikTok and Meta.",
+    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Claude", "ffmpeg"],
+    result: "11 official workflows · 20 camera moves",
+    caseStudy: true,
+    links: [{ label: "Code", href: KINO_REPO_URL }],
   },
   {
     id: "herbalbath-singapore",
