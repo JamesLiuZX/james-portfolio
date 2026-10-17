@@ -20,7 +20,13 @@ export interface CaseStudy {
   metrics: { value: string; label: string }[]
   facts: { label: string; value: string }[]
   stack: string[]
-  sections: { heading: string; paragraphs?: string[]; bullets?: string[] }[]
+  sections: {
+    heading: string
+    paragraphs?: string[]
+    bullets?: string[]
+    /** A short vertical clip of real output, shown under the section's text. */
+    video?: { src: string; poster: string; caption: string }
+  }[]
 }
 
 /**
@@ -137,6 +143,22 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
                           </li>
                         ))}
                       </ul>
+                    )}
+                    {section.video && (
+                      <figure className="pt-2">
+                        <video
+                          src={section.video.src}
+                          poster={section.video.poster}
+                          controls
+                          muted
+                          playsInline
+                          preload="none"
+                          className="aspect-[9/16] w-full max-w-[18rem] rounded-2xl border border-border/70 bg-surface-muted shadow-soft"
+                        />
+                        <figcaption className="mt-3 max-w-md text-sm leading-relaxed text-subtle">
+                          {section.video.caption}
+                        </figcaption>
+                      </figure>
                     )}
                   </section>
                 </Reveal>
