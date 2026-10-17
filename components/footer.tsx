@@ -39,8 +39,8 @@ export default function Footer() {
               <span className="text-base font-medium tracking-tight">James Liu</span>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Trading and derivatives product manager in Singapore who ships AI agents and AI
-              video. Product Owner for crypto trading at Revolut.
+              Product Owner for crypto trading at Revolut, based in Singapore. On the side I
+              build AI agents and AI video tools.
             </p>
             <a
               href="mailto:jamesliu@u.nus.edu"

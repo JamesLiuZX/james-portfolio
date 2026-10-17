@@ -38,7 +38,7 @@ const achievements: Achievement[] = [
     organization: "NUS School of Computing",
     date: "2023",
     description:
-      "Top student for CS2103T Software Engineering in Java, then taught the following cohort.",
+      "Finished in the top 5% of the NUS cohort for CS2103T Software Engineering, then mentored the next cohort.",
     highlight: true,
   },
   {
