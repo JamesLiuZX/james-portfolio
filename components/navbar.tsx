@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useState, type CSSProperties } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, Menu, X } from "lucide-react"
+import { ArrowUpRight, Download, Menu, X } from "lucide-react"
 import ThemeToggle from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
+import { RESUME_PATH } from "@/lib/site"
 
 type NavLink = {
   name: string
@@ -143,6 +144,14 @@ export default function Navbar() {
           <div className="flex shrink-0 items-center gap-2">
             <ThemeToggle />
             <a
+              href={RESUME_PATH}
+              download
+              className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground lg:inline-flex"
+            >
+              <Download className="h-3.5 w-3.5" />
+              Résumé
+            </a>
+            <a
               href="https://www.linkedin.com/in/james-liu-zx/"
               target="_blank"
               rel="noopener noreferrer"
@@ -214,6 +223,21 @@ export default function Navbar() {
             >
               Let&apos;s connect
               <ArrowUpRight className="h-4 w-4" />
+            </a>
+            <a
+              href={RESUME_PATH}
+              download
+              className="enter mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium"
+              style={
+                {
+                  "--enter-delay": "0.48s",
+                  "--enter-y": "16px",
+                  "--enter-duration": "0.5s",
+                } as CSSProperties
+              }
+            >
+              <Download className="h-4 w-4" />
+              Download résumé (PDF)
             </a>
           </div>
         </div>

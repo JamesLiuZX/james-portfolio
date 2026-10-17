@@ -1,0 +1,196 @@
+<!doctype html>
+<!--
+  Source for public/James-Liu-Resume.pdf, the résumé the site offers for download.
+  To update it: edit this file, open it in Chrome, Print, Destination "Save as PDF",
+  Paper A4, Margins "None", Headers and footers off, Background graphics on, and
+  save over the PDF. It is written to fit one A4 page.
+
+  No phone number on purpose: the PDF is public. Employers' internal numbers stay
+  off it too; scope and craft only.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>James Liu — Résumé</title>
+<style>
+  /* Inter and Instrument Serif (both OFL), the site's fonts, latin subsets. */
+  @font-face { font-family: "Resume Sans"; src: url("fonts/inter-latin-400.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Resume Sans"; src: url("fonts/inter-latin-600.woff2") format("woff2"); font-weight: 600; }
+  @font-face { font-family: "Resume Serif"; src: url("fonts/instrument-serif-latin.woff2") format("woff2"); font-weight: 400; }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Resume Sans", Inter, "Helvetica Neue", Arial, sans-serif;
+    font-size: 8.8pt;
+    line-height: 1.37;
+    color: #1d1d22;
+    background: #fff;
+  }
+  .page { width: 210mm; min-height: 297mm; padding: 12.5mm 15mm 11mm; }
+  a { color: inherit; text-decoration: none; }
+
+  header { margin-bottom: 4mm; }
+  h1 { font-family: "Resume Serif", Georgia, serif; font-size: 24pt; font-weight: 400; letter-spacing: -0.01em; line-height: 1.05; }
+  .title { margin-top: 1.4mm; font-size: 10.5pt; color: #4a4a55; }
+  .contact { margin-top: 2.4mm; font-size: 8.6pt; color: #4a4a55; }
+  .contact span + span::before { content: "·"; margin: 0 2mm; color: #a0a0aa; }
+
+  section { margin-top: 3.6mm; }
+  h2 {
+    font-size: 7.6pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #6b6b76; padding-bottom: 1.3mm; border-bottom: 0.6pt solid #dcdce2; margin-bottom: 2.2mm;
+  }
+  .summary { color: #33333b; }
+
+  .role { margin-bottom: 2.5mm; break-inside: avoid; }
+  .role:last-child { margin-bottom: 0; }
+  .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+  .org { font-weight: 600; }
+  .org .what { font-weight: 400; color: #4a4a55; }
+  .when { font-size: 8.4pt; color: #6b6b76; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  ul { margin-top: 0.7mm; padding-left: 3.6mm; }
+  li { margin-top: 0.4mm; color: #33333b; }
+  li::marker { color: #a0a0aa; }
+
+  strong { font-weight: 600; }
+  .skills { display: grid; grid-template-columns: 20mm 1fr; row-gap: 0.6mm; }
+  .skills dt { font-weight: 600; }
+  .skills dd { color: #33333b; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>James Liu Zixin</h1>
+    <p class="title">Product Owner, Crypto Trading · Singapore</p>
+    <p class="contact">
+      <span><a href="mailto:jamesliu@u.nus.edu">jamesliu@u.nus.edu</a></span>
+      <span><a href="https://www.linkedin.com/in/james-liu-zx/">linkedin.com/in/james-liu-zx</a></span>
+      <span><a href="https://jamesliuzx.com">jamesliuzx.com</a></span>
+      <span><a href="https://github.com/JamesLiuZX">github.com/JamesLiuZX</a></span>
+      <span>Singapore Citizen</span>
+    </p>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p class="summary">
+      Product owner for crypto trading at Revolut; before that, trading and derivatives at Crypto.com and Lark at
+      ByteDance. NUS Computer Science graduate who works close to engineering and still builds AI tools.
+    </p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">Revolut <span class="what">— Product Owner (Technical), Crypto Trading</span></p>
+        <p class="when">2026 – Present</p>
+      </div>
+      <ul>
+        <li>Technical product owner for crypto trading in the Revolut app, working closely with engineering.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">Crypto.com <span class="what">— Product Manager, Trading &amp; Derivative Products</span></p>
+        <p class="when">Sep 2025 – 2026</p>
+      </div>
+      <ul>
+        <li>Product owner for Prediction Markets from 2026: market mechanics, pricing and quotation logic, market operations and rewards, with market launches around the FIFA World Cup and NBA Finals.</li>
+        <li>Worked on the Options and Strike Options roadmap, and on derivatives strategy across perpetual futures, tokenized stocks and futures.</li>
+        <li>Helped ship an AI trading agent, now in production, that lets users trade in natural language via OpenClaw and bots: defined the tool-calling surface, model context and safety constraints with engineering; contributed code.</li>
+        <li>Started on Growth &amp; Onboarding across two engineering teams (welcome bonus, tiered referrals, a guided KYC-to-first-trade flow), and worked with legal and compliance on global KYC and AML.</li>
+        <li>Set up AI workflows for the team: Cursor skills for PRDs, clickable prototypes and reporting automated through MCP.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">ByteDance <span class="what">— Product Manager, Lark</span></p>
+        <p class="when">Jul 2024 – Sep 2025</p>
+      </div>
+      <ul>
+        <li>Ran Lark's partnership with Perplexity AI, from model evaluation and commercial terms to integration.</li>
+        <li>Co-led the team building a multimodal AI content platform for SEO: embeddings over the Lark knowledge base, semantic retrieval and the generation workflow.</li>
+        <li>Led the revamp of 20 core web pages, and B2B SaaS referral initiatives.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">HerbalBath <span class="what">— Co-founder</span></p>
+        <p class="when">Apr 2021 – Present</p>
+      </div>
+      <ul>
+        <li>Co-founded and help run a Singapore wellness brand, marketed mostly with AI-generated video ads and UGC.</li>
+        <li>Built its website and growth tools: PayNow checkout, a WhatsApp reorder flow and an SEO content engine.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">Trendsi <span class="what">— Product Manager Intern, San Francisco</span></p>
+        <p class="when">Aug 2023 – Jul 2024</p>
+      </div>
+      <ul>
+        <li>Led development of a product-similarity recommendation engine that lifted cart conversion, and cut payment fraud with Stripe 3D Secure and Radar rules.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-head">
+        <p class="org">Ernst &amp; Young <span class="what">— Software Engineer Intern</span></p>
+        <p class="when">May – Aug 2023</p>
+      </div>
+      <ul>
+        <li>Led frontend development of a real-time analytics dashboard for an international enterprise client.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="role">
+      <ul>
+        <li><strong>Quorum</strong>: a crypto trading desk where AI agents propose, a risk kernel decides and I approve every order.</li>
+        <li><strong>Kino</strong>: an AI image and video studio running ComfyUI workflows on RunPod GPUs, with an ad studio.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="role">
+      <div class="role-head">
+        <p class="org">National University of Singapore <span class="what">— B.Comp. Computer Science, Honours (Distinction)</span></p>
+        <p class="when">2021 – 2025</p>
+      </div>
+      <ul>
+        <li>Specialisations in AI, and Networking &amp; Distributed Systems. NUS Overseas Colleges, Silicon Valley.</li>
+        <li>Student mentor for CS2103T Software Engineering after finishing in the top 5% of the cohort.</li>
+      </ul>
+    </div>
+    <div class="role">
+      <div class="role-head">
+        <p class="org">Stanford University <span class="what">— Graduate coursework, Management Science &amp; Engineering</span></p>
+        <p class="when">Fall 2023</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>Product</dt><dd>Discovery, PRDs, experimentation, roadmaps, regulatory work with legal and compliance</dd>
+      <dt>AI</dt><dd>LLM agents and tool use, retrieval (RAG), evaluation, AI image and video generation</dd>
+      <dt>Technical</dt><dd>Python, SQL, TypeScript, React, Next.js, Java, AWS; Cursor, Claude Code</dd>
+      <dt>Languages</dt><dd>English, Mandarin</dd>
+    </dl>
+  </section>
+</div>
+</body>
+</html>

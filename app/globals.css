@@ -49,7 +49,6 @@
     /* Decorative */
     --hairline: 240 6% 10%;
     --hairline-opacity: 0.08;
-    --grain-opacity: 0.035;
     --glow-a: 252 76% 58%;
     --glow-b: 199 89% 48%;
   }
@@ -88,7 +87,6 @@
 
     --hairline: 40 20% 97%;
     --hairline-opacity: 0.1;
-    --grain-opacity: 0.05;
     --glow-a: 252 92% 68%;
     --glow-b: 199 90% 55%;
   }
@@ -335,7 +333,7 @@
   }
 
   /*
-   * Big soft brand glows behind the hero and section headers.
+   * Big soft brand glows behind section headers.
    *
    * A 600px element under a 120px blur is one of the most expensive things a
    * phone GPU can be asked to composite, and these two drift on an infinite
@@ -356,43 +354,9 @@
     }
   }
 
-  /* Pointer-tracked spotlight; the coordinates are set by the hero on mouse move. */
-  .hero-spotlight {
-    background: radial-gradient(
-      600px circle at var(--spot-x, 50%) var(--spot-y, 35%),
-      hsl(var(--brand) / 0.1),
-      transparent 65%
-    );
-  }
-
-  .scroll-cue {
-    animation: scroll-cue 1.8s ease-in-out infinite;
-  }
-
   /* Sun/moon swapping in on the theme toggle. */
   .theme-swap {
     animation: theme-swap 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  /* Fine film grain layered over hero surfaces. */
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: var(--grain-opacity);
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /*
-   * That grain is an feTurbulence filter the browser has to rasterise before
-   * it can paint the hero. It is a 3.5%-opacity texture — invisible at phone
-   * pixel densities, and not worth blocking the first paint for.
-   */
-  @media (max-width: 767px) {
-    .grain::after {
-      display: none;
-    }
   }
 
   .perspective-1000 {
@@ -561,15 +525,6 @@
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-@keyframes scroll-cue {
-  from {
-    transform: translateY(-16px);
-  }
-  to {
-    transform: translateY(40px);
   }
 }
 
