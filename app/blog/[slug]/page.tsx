@@ -10,14 +10,15 @@ import Footer from "@/components/footer"
 const hasArtwork = (image?: string) => Boolean(image) && !image!.startsWith("/placeholder")
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params
   try {
-    const { metadata, content } = await getBlogPost(params.slug)
+    const { metadata, content } = await getBlogPost(slug)
 
     return (
       <main className="min-h-screen bg-background">
@@ -138,7 +139,7 @@ function convertMarkdownToHtml(markdown: string): string {
   html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>')
 
   // Code blocks
-  html = html.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>')
+  html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
 
   // Inline code
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -148,7 +149,7 @@ function convertMarkdownToHtml(markdown: string): string {
 
   // Lists
   html = html.replace(/^\- (.*$)/gim, '<li>$1</li>')
-  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+  html = html.replace(/(<li>[\s\S]*<\/li>)/, '<ul>$1</ul>')
 
   // Paragraphs
   html = html.split('\n\n').map(paragraph => {

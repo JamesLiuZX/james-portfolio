@@ -10,7 +10,7 @@ const kino: CaseStudy = {
   lede: "Tools like Higgsfield and Runway hide great models behind credits; ComfyUI exposes them as graphs only experts can drive. Kino puts 2026's best open image and video models behind one text box, on GPUs you rent by the second, and adds an Ad Studio that writes, checks and edits short video ads.",
   cover: {
     src: "/kino.webp",
-    alt: "Kino's camera move picker: twenty moves previewed live on the HerbalBath Myrrh Herbal Energy Oil photo",
+    alt: "Kino's Simple mode home: “What will you make today?” above task cards previewed on the HerbalBath Myrrh Herbal Energy Oil photo",
     href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino",
   },
   links: [
@@ -28,6 +28,7 @@ const kino: CaseStudy = {
     { label: "Runs on", value: "A RunPod GPU pod running ComfyUI, or RunPod Serverless (pay per second)" },
     { label: "Ad formats", value: "TikTok and Reels 9:16, feed 4:5, square 1:1" },
     { label: "Writing", value: "Claude Opus 5.5 with structured outputs; templates when there is no key" },
+    { label: "Modes", value: "Simple (eight guided tasks) and Advanced (every model and setting)" },
     { label: "Status", value: "Works end to end in demo mode; GPU paths tested against protocol fakes" },
   ],
   stack: ["Node 22 (no runtime dependencies)", "Vanilla JS", "ComfyUI 0.41", "RunPod", "ffmpeg + libass", "Claude API"],
@@ -37,6 +38,23 @@ const kino: CaseStudy = {
       paragraphs: [
         "The open models caught up in 2026: MiniMax H3 makes video with native sound, Qwen Image 2.1 sets legible Chinese and English text, Z-Image-Turbo is photoreal in eight steps. Using them still means wiring ComfyUI graphs, finding the right model files and renting a GPU.",
         "HerbalBath, the brand I co-founded, needs a steady stream of short Mandarin video ads for a 55+ audience, and every one has to get past Meta's and TikTok's health-ad review. Kino is built for both jobs: an easy studio, and an ad line on top of it.",
+      ],
+    },
+    {
+      heading: "Two depths: tasks first, knobs on request",
+      paragraphs: [
+        "The first version was one studio for everyone, and it showed. A brand owner who wants a TikTok ad by Friday doesn't want to choose between Wan 2.2 and MiniMax H3, or learn what a seed is. So I wrote down who uses Kino, what each of them is trying to get done and what “done” means for every journey, then rebuilt the interface against that spec.",
+        "Simple mode starts from the task, not the tool: a video ad, a product photo in a new scene, a photo brought to life and five more, each previewed with your own product. A task is one page with one decision per step and a default for each, and nothing is made before you've seen it: camera moves play on your photo, and an ad plays as a storyboard on a phone, captions and end card included, with any risky line explained in plain words. Advanced keeps every model and setting, and switching carries what you were doing across.",
+      ],
+      video: {
+        src: "/demos/kino/kino-ui.mp4",
+        poster: "/demos/kino/kino-ui.webp",
+        caption: "Simple mode in demo: from Home to a finished TikTok ad. The script previews on the phone and is checked before anything is made.",
+        landscape: true,
+      },
+      bullets: [
+        "Never a dead end: every result offers its natural next step, from “bring it to life” to “make it for Reels”, and failures say what to do rather than what crashed.",
+        "You can leave while it works: the top bar follows every job across pages and says when it's done.",
       ],
     },
     {
