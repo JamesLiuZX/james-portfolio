@@ -12,6 +12,7 @@ const staticPaths = [
   "/academic",
   "/projects/quorum",
   "/demos/quorum/",
+  "/projects/kino",
   "/projects/askshop-ai",
   "/projects/calendare",
   "/projects/herbalbath-singapore",
