@@ -15,7 +15,7 @@ const facts = [
   { label: "Studied", value: "Computer Science, NUS" },
 ]
 
-const headline = ["Trading", "products,", "with", "AI", "that", "earns", "its", "place."]
+const headline = ["Trading", "products,", "with", "AI."]
 
 /** Shorthand for the `--enter-delay` custom property the CSS entrances read. */
 const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSProperties
@@ -161,15 +161,17 @@ export default function HeroAbout() {
         {/* Headline */}
         <h1 className="mt-8 max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:mt-10 md:text-display-lg lg:text-display-xl">
           <span className="sr-only">
-            James Liu, product manager for wealth and trading at Revolut: trading products, with AI
-            that earns its place.
+            James Liu, product manager for wealth and trading at Revolut: trading products, with AI.
           </span>
           <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
             {headline.map((word, index) => (
               <span key={word + index} className="overflow-hidden py-[0.06em]">
                 <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
-                  {word === "AI" ? (
-                    <em className="font-display not-italic text-brand">AI</em>
+                  {word.startsWith("AI") ? (
+                    <>
+                      <em className="font-display not-italic text-brand">AI</em>
+                      {word.slice(2)}
+                    </>
                   ) : (
                     word
                   )}
