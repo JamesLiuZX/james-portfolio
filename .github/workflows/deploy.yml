@@ -52,6 +52,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
 
+      # Kino's web demo (kino/web): the studio's real interface on an
+      # in-browser engine, rebuilt from source on every deploy and served at
+      # /kino/ (Next copies public/ into the export as-is).
+      - name: Build the Kino web demo
+        run: node kino/web/build.mjs public/kino
+
       # `next export` was removed in Next 13; `output: 'export'` makes
       # `next build` write the static site straight to ./out.
       - name: Build
@@ -61,6 +67,7 @@ jobs:
         run: |
           test -f out/index.html || { echo "::error::out/index.html missing — the export did not run"; exit 1; }
           test -f out/CNAME    || { echo "::error::out/CNAME missing — the custom domain would be dropped"; exit 1; }
+          test -f out/kino/index.html || { echo "::error::out/kino/index.html missing — the Kino web demo didn't build"; exit 1; }
           echo "Exported $(find out -name '*.html' | wc -l) HTML pages"
 
       - name: Upload artifact

@@ -68,11 +68,14 @@ const allSelectedWork: Project[] = [
     category: "Multimodal AI · Video",
     image: "/kino.webp",
     description:
-      "A one-box AI image and video studio that runs the official ComfyUI workflows for MiniMax H3, Qwen Image 2.1, Z-Image-Turbo and LTX-2.3 on RunPod GPUs. Its Ad Studio turns a brand profile into compliance-checked, captioned ads for TikTok and Meta.",
-    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Claude", "ffmpeg"],
-    result: "11 official workflows · 20 camera moves",
+      "An AI image and video studio for small brands. Guided tasks preview the result before anything is made, an ad maker writes and compliance-checks TikTok and Meta ads, and Advanced runs the official ComfyUI workflows for MiniMax H3, Qwen Image 2.1 and LTX-2.3 on RunPod GPUs.",
+    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Claude", "Canvas + MediaRecorder"],
+    result: "Live web demo · 8 guided tasks",
     caseStudy: true,
-    links: [{ label: "Code", href: KINO_REPO_URL }],
+    links: [
+      { label: "Try it live", href: "/kino/" },
+      { label: "Code", href: KINO_REPO_URL },
+    ],
   },
   {
     id: "herbalbath-singapore",

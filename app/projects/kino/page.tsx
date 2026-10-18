@@ -5,15 +5,16 @@ import CaseStudyPage, { type CaseStudy } from "@/components/case-study"
 // workflow build output, the node registry, the preset list and the test suite.
 const kino: CaseStudy = {
   eyebrow: "Case study · Multimodal AI · Video",
-  title: "Kino: a one-box studio for open video models",
-  accent: "one-box studio",
-  lede: "Tools like Higgsfield and Runway hide great models behind credits; ComfyUI exposes them as graphs only experts can drive. Kino puts 2026's best open image and video models behind one text box, on GPUs you rent by the second, and adds an Ad Studio that writes, checks and edits short video ads.",
+  title: "Kino: an AI video studio for small brands",
+  accent: "for small brands",
+  lede: "Tools like Higgsfield and Runway hide great models behind credits; ComfyUI exposes them as graphs only experts can drive. Kino puts 2026's best open image and video models on GPUs you rent by the second, with guided tasks for brand owners, every setting for creators, and an ad maker that writes, checks and edits short video ads. The web demo runs the real interface in your browser.",
   cover: {
     src: "/kino.webp",
     alt: "Kino's Simple mode home: “What will you make today?” above task cards previewed on the HerbalBath Myrrh Herbal Energy Oil photo",
-    href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino",
+    href: "/kino/",
   },
   links: [
+    { label: "Try it live", href: "/kino/" },
     { label: "Read the code", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino" },
     { label: "RunPod setup guide", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino/runpod" },
   ],
@@ -29,7 +30,7 @@ const kino: CaseStudy = {
     { label: "Ad formats", value: "TikTok and Reels 9:16, feed 4:5, square 1:1" },
     { label: "Writing", value: "Claude Opus 5.5 with structured outputs; templates when there is no key" },
     { label: "Modes", value: "Simple (eight guided tasks) and Advanced (every model and setting)" },
-    { label: "Status", value: "Works end to end in demo mode; GPU paths tested against protocol fakes" },
+    { label: "Status", value: "Live web demo in the browser; the full studio runs on your own GPU" },
   ],
   stack: ["Node 22 (no runtime dependencies)", "Vanilla JS", "ComfyUI 0.41", "RunPod", "ffmpeg + libass", "Claude API"],
   sections: [
@@ -55,6 +56,13 @@ const kino: CaseStudy = {
       bullets: [
         "Never a dead end: every result offers its natural next step, from “bring it to life” to “make it for Reels”, and failures say what to do rather than what crashed.",
         "You can leave while it works: the top bar follows every job across pages and says when it's done.",
+      ],
+    },
+    {
+      heading: "A live demo with no server",
+      paragraphs: [
+        "The studio needs a GPU and ffmpeg, which a portfolio's static host can't run, so the public version swaps the server for an engine in the page. It's the same interface, answering the same API from memory: ad scripts and the compliance check run the server's own code, while camera moves and the finished ad edit (captions, end card and a soft music bed) are drawn on a canvas and recorded to video in real time.",
+        "Nothing a visitor adds leaves the tab. The AI models are the one thing a browser can't run, so images, AI video and photo edits come back as labelled stand-ins, and the settings page says exactly what's real and where to get the full studio.",
       ],
     },
     {
@@ -115,9 +123,9 @@ const kino: CaseStudy = {
 }
 
 export const metadata: Metadata = {
-  title: "Kino, a one-box AI video studio",
+  title: "Kino, an AI video studio for small brands",
   description:
-    "Open image and video models behind one text box, on RunPod GPUs, with an Ad Studio that writes, compliance-checks and edits TikTok and Meta ads.",
+    "An AI image and video studio for small brands: guided tasks, an ad maker that writes and compliance-checks TikTok and Meta ads, open models on RunPod GPUs, and a live web demo.",
 }
 
 export default function KinoCaseStudy() {
