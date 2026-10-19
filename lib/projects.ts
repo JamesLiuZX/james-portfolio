@@ -69,7 +69,7 @@ const allSelectedWork: Project[] = [
     image: "/kino.webp",
     description:
       "An AI image and video studio for small brands. Guided tasks preview the result before anything is made, an ad maker writes and compliance-checks TikTok and Meta ads, and Advanced runs the official ComfyUI workflows for MiniMax H3, Qwen Image 2.1 and LTX-2.3 on RunPod GPUs.",
-    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Claude", "Canvas + MediaRecorder"],
+    technologies: ["ComfyUI", "RunPod", "MiniMax H3", "Qwen Image 2.1", "Claude", "WebGPU"],
     result: "Live web demo · 8 guided tasks",
     caseStudy: true,
     links: [
