@@ -22,7 +22,7 @@ const kino: CaseStudy = {
     { value: "11", label: "Official ComfyUI workflows, converted and validated" },
     { value: "647", label: "ComfyUI 0.41 node definitions read from source" },
     { value: "20", label: "Camera moves, previewed live on your photo" },
-    { value: "39", label: "Automated tests, from protocols to a full ad render" },
+    { value: "42", label: "Automated tests, from protocols to a full ad render" },
   ],
   facts: [
     { label: "Models", value: "MiniMax H3, Wan 2.2, Qwen Image 2.1, Z-Image-Turbo, LTX-2.3, SeedVR2, FILM" },
@@ -30,9 +30,9 @@ const kino: CaseStudy = {
     { label: "Ad formats", value: "TikTok and Reels 9:16, feed 4:5, square 1:1" },
     { label: "Writing", value: "Claude Opus 5.5 with structured outputs; templates when there is no key" },
     { label: "Modes", value: "Simple (eight guided tasks) and Advanced (every model and setting)" },
-    { label: "Status", value: "Live web demo in the browser; the full studio runs on your own GPU" },
+    { label: "Status", value: "Live web demo with two models running in your browser; the full studio runs on your own GPU" },
   ],
-  stack: ["Node 22 (no runtime dependencies)", "Vanilla JS", "ComfyUI 0.41", "RunPod", "ffmpeg + libass", "Claude API"],
+  stack: ["Node 22 (no runtime dependencies)", "Vanilla JS", "ComfyUI 0.41", "RunPod", "ffmpeg + libass", "Claude API", "ONNX Runtime Web (WebGPU)"],
   sections: [
     {
       heading: "The problem",
@@ -62,7 +62,11 @@ const kino: CaseStudy = {
       heading: "A live demo with no server",
       paragraphs: [
         "The studio needs a GPU and ffmpeg, which a portfolio's static host can't run, so the public version swaps the server for an engine in the page. It's the same interface, answering the same API from memory: ad scripts and the compliance check run the server's own code, while camera moves and the finished ad edit (captions, end card and a soft music bed) are drawn on a canvas and recorded to video in real time.",
-        "Nothing a visitor adds leaves the tab. The AI models are the one thing a browser can't run, so images, AI video and photo edits come back as labelled stand-ins, and the settings page says exactly what's real and where to get the full studio.",
+        "Two models run on the visitor's own device, so the most common jobs are real here too: IS-Net removes a photo's background, which also lets your own product go into a new scene, and Real-ESRGAN enlarges photos. They run on the graphics chip through WebGPU, or on the processor through WebAssembly when there's none, and nothing a visitor adds leaves the tab. The generative models are too big for a browser, so images, AI video and photo edits come back as labelled stand-ins, and the settings page says exactly what's real.",
+      ],
+      bullets: [
+        "The cut-out model went from 178 MB to 47 MB with 8-bit weights, one scale per channel; its masks match the original's at 99.9% overlap. It downloads once, on first use, and stays in the browser's cache.",
+        "If the graphics chip fails or stalls, the job finishes on the processor; if the browser can't run a model at all, a labelled stand-in takes its place.",
       ],
     },
     {
@@ -110,6 +114,7 @@ const kino: CaseStudy = {
         "The GPU paths are tested against faithful fakes of ComfyUI and RunPod; a first paid run is the next step.",
         "Model licences vary and some restrict commercial use; each must be checked before running ads.",
         "Serverless takes 10 MB of inputs per job, so long video jobs belong on a pod.",
+        "Without WebGPU, an in-browser cut-out takes around ten seconds and a 2× upscale under a minute.",
         "The checker reads words, not pixels: a product label's own claims still need a human eye.",
       ],
     },
