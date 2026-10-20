@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import CaseStudyPage, { type CaseStudy } from "@/components/case-study"
 
-// Every figure below is from Kino's own repository (kino/ in this repo): the
+// Every figure below is from Kino's own repository (JamesLiuZX/kino): the
 // workflow build output, the node registry, the preset list and the test suite.
+// Last checked against its main at e256715 (2026-10-20): 11 workflows, 647
+// nodes, 20 camera moves, 56 tests.
 const kino: CaseStudy = {
   eyebrow: "Case study · Multimodal AI · Video",
   title: "Kino: an AI video studio for small brands",
@@ -15,14 +17,14 @@ const kino: CaseStudy = {
   },
   links: [
     { label: "Try it live", href: "/kino/" },
-    { label: "Read the code", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino" },
-    { label: "RunPod setup guide", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino/runpod" },
+    { label: "Read the code", href: "https://github.com/JamesLiuZX/kino" },
+    { label: "RunPod setup guide", href: "https://github.com/JamesLiuZX/kino/tree/main/runpod" },
   ],
   metrics: [
     { value: "11", label: "Official ComfyUI workflows, converted and validated" },
     { value: "647", label: "ComfyUI 0.41 node definitions read from source" },
     { value: "20", label: "Camera moves, previewed live on your photo" },
-    { value: "42", label: "Automated tests, from protocols to a full ad render" },
+    { value: "56", label: "Automated tests, from protocols to a full ad render" },
   ],
   facts: [
     { label: "Models", value: "MiniMax H3, Wan 2.2, Qwen Image 2.1, Z-Image-Turbo, LTX-2.3, SeedVR2, FILM" },

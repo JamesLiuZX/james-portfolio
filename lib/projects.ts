@@ -32,7 +32,7 @@ export interface Project {
 
 const OPERATOR_NOTES = "https://jamesliuzx.github.io/linkedin-operator-notes"
 
-const KINO_REPO_URL = "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino"
+const KINO_REPO_URL = "https://github.com/JamesLiuZX/kino"
 
 const allSelectedWork: Project[] = [
   {

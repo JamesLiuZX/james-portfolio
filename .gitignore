@@ -26,5 +26,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Built from kino/web on every deploy
+# Kino lives in JamesLiuZX/kino: deploy.yml checks it out into kino/ and
+# builds its web demo into public/kino/
+/kino/
 /public/kino/

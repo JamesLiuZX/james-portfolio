@@ -52,11 +52,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
 
-      # Kino's web demo (kino/web): the studio's real interface on an
-      # in-browser engine, rebuilt from source on every deploy and served at
-      # /kino/ (Next copies public/ into the export as-is). Its two in-browser
-      # models are made from their upstream releases (kino/scripts/web-models.py,
-      # cached until that script changes) and run with ONNX Runtime Web from npm.
+      # Kino's web demo: the studio's real interface on an in-browser engine,
+      # rebuilt on every deploy from Kino's own repository (JamesLiuZX/kino,
+      # checked out into kino/) and served at /kino/ (Next copies public/ into
+      # the export as-is). Its two in-browser models are made from their
+      # upstream releases (kino/scripts/web-models.py, cached until that script
+      # changes) and run with ONNX Runtime Web from npm.
+      - name: Check out Kino
+        uses: actions/checkout@v4
+        with:
+          repository: JamesLiuZX/kino
+          # Kino's trunk, named so the deploy never depends on which branch
+          # GitHub currently shows as that repository's default.
+          ref: main
+          path: kino
+
       - name: Restore the Kino web demo's models
         id: kino-models
         uses: actions/cache@v4
@@ -75,9 +85,13 @@ jobs:
           pip install --quiet onnx onnxruntime numpy
           python3 kino/scripts/web-models.py kino/web/models /tmp/kino-model-sources
 
+      # Kino's other dev dependencies build its desktop app; skip Electron's
+      # 100 MB download.
       - name: Install ONNX Runtime Web for the Kino web demo
         working-directory: kino
         run: npm ci --no-audit --no-fund --omit=optional
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
 
       - name: Build the Kino web demo
         run: node kino/web/build.mjs public/kino --strict
