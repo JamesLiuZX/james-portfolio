@@ -62,6 +62,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: JamesLiuZX/kino
+          # Kino's trunk, named so the deploy never depends on which branch
+          # GitHub currently shows as that repository's default.
+          ref: main
           path: kino
 
       - name: Restore the Kino web demo's models
