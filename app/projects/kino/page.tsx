@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import CaseStudyPage, { type CaseStudy } from "@/components/case-study"
 
-// Every figure below is from Kino's own repository (kino/ in this repo): the
+// Every figure below is from Kino's own repository (JamesLiuZX/kino): the
 // workflow build output, the node registry, the preset list and the test suite.
 const kino: CaseStudy = {
   eyebrow: "Case study · Multimodal AI · Video",
@@ -15,8 +15,8 @@ const kino: CaseStudy = {
   },
   links: [
     { label: "Try it live", href: "/kino/" },
-    { label: "Read the code", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino" },
-    { label: "RunPod setup guide", href: "https://github.com/JamesLiuZX/james-portfolio/tree/main/kino/runpod" },
+    { label: "Read the code", href: "https://github.com/JamesLiuZX/kino" },
+    { label: "RunPod setup guide", href: "https://github.com/JamesLiuZX/kino/tree/HEAD/runpod" },
   ],
   metrics: [
     { value: "11", label: "Official ComfyUI workflows, converted and validated" },
