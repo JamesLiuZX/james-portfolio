@@ -13,7 +13,7 @@ import { earlierWork, isAppRoute, primaryHref, selectedWork, type Project } from
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Quorum, a multi-agent AI trading desk; Liquidity & Reward Labs for prediction-market design; Kino, an AI image and video studio; HerbalBath; and earlier work.",
+    "Quorum, a multi-agent AI trading desk; a market-design toolkit for prediction markets; Kino, an AI image and video studio; HerbalBath; and earlier work.",
 }
 
 export default function ProjectsPage() {
