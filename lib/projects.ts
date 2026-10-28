@@ -49,16 +49,16 @@ const allSelectedWork: Project[] = [
   },
   {
     id: "liquidity-reward-labs",
-    title: "Liquidity & Reward Labs",
+    title: "Market Design Toolkit",
     category: "Market design · Prediction markets",
     image: "/liquidity-labs.svg",
     description:
-      "Two simulators that turn market-quality arguments into budget lines. Liquidity Lab prices “this market feels dead” with Hanson's LMSR; Farm Lab runs Polymarket's published maker-rewards rule and shows what the pool buys per filled share.",
+      "Two tools that turn market-quality arguments into budget lines. Market Depth Budget prices “this market feels dead” with Hanson's LMSR; Rewards Check runs Polymarket's published maker-rewards rule and shows what the pool buys per filled share.",
     technologies: ["LMSR", "Market microstructure", "JavaScript", "SVG charts"],
     result: "0.5% slippage bar: $34,484 subsidy per market",
     links: [
-      { label: "Liquidity Lab", href: `${OPERATOR_NOTES}/demos/liquidity-lab` },
-      { label: "Farm Lab", href: `${OPERATOR_NOTES}/demos/farm-lab` },
+      { label: "Market Depth Budget", href: `${OPERATOR_NOTES}/demos/liquidity-lab` },
+      { label: "Rewards Check", href: `${OPERATOR_NOTES}/demos/farm-lab` },
       { label: "Code", href: "https://github.com/JamesLiuZX/linkedin-operator-notes" },
     ],
   },
