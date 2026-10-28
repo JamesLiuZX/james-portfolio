@@ -9,9 +9,9 @@ import { RESUME_PATH } from "@/lib/site"
 const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
 
 const facts = [
-  { label: "Based in", value: "Singapore" },
   { label: "Now", value: "Product Manager, Revolut" },
   { label: "Focus", value: "Wealth, trading & applied AI" },
+  { label: "Experience", value: "4 yrs in product · 6 as a founder" },
   { label: "Studied", value: "Computer Science, NUS" },
 ]
 

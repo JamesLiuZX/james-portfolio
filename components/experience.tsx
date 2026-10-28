@@ -14,10 +14,13 @@ interface Role {
   /** Headline numbers pulled out of the bullets so they read at a glance. */
   metrics?: { value: string; label: string }[]
   description: string[]
+  /** Launch visuals for work shipped in the role, the same set as the role's LinkedIn media. */
+  media?: { src: string; title: string; alt: string }[]
   tags?: string[]
 }
 
-// Every number here is from James's resumes. Revolut has no metrics yet, by design.
+// Every number here is from James's resumes or his LinkedIn experience section.
+// Revolut has no metrics yet, by design.
 const experiences: Role[] = [
   {
     company: "Revolut",
@@ -33,16 +36,38 @@ const experiences: Role[] = [
     period: "Sep 2025 — Nov 2026",
     metrics: [
       { value: "+60%", label: "Prediction Markets MAU, QoQ" },
-      { value: "+21%", label: "New-user trading revenue" },
-      { value: "+8%", label: "First-trade conversion" },
+      { value: "+90%", label: "New-user trading volume, referrals" },
+      { value: "−90%", label: "AI workflow turnaround" },
     ],
     description: [
-      "Product lead for derivative products on the trading team, inside a 10M+ MAU app. Joined on Growth & Onboarding, then became sole product owner of Prediction Markets in 2026, with the Options roadmap alongside.",
+      "AI and trading for 140 million users worldwide. PM for the main app's trading surface and the infrastructure beneath it, focused on derivatives: options, futures and prediction markets.",
       "Prediction Markets: owned market mechanics, pricing and quotation logic, market operations and rewards. Grew monthly active users 60% quarter on quarter with market launches and lifecycle campaigns tied to the FIFA World Cup and NBA Finals.",
-      "Owned the roadmap for Options and Strike Options, and contributed to derivatives strategy across perpetual futures, tokenized stocks and futures.",
       "Worked with engineering on an AI trading agent that lets users place and manage trades in natural language through OpenClaw and third-party bot integrations: the tool-calling surface, the context passed to the model and the safety constraints. Contributed code via PRs.",
-      "Growth & Onboarding: owned onboarding and activation across 2 engineering teams. A redesigned welcome bonus lifted new-user trading revenue 21%, a tiered referral programme grew referred users 120% in 3 months, and a guided KYC-to-first-trade flow lifted first-trade conversion 8%.",
-      "Led global KYC and AML workstreams and contributed to regulatory work for international expansion with legal and compliance. Built AI into the team's own workflow too: Cursor skills for PRDs, clickable prototypes on a company-hosted domain, and weekly reporting automated through MCP.",
+      "Designed and automated the team's internal AI workflows (RAG retrieval, multi-agent orchestration, PRD drafting and working prototypes hosted on the company domain), cutting turnaround on that work by 90%. Built on Claude Code, MCP and the Google Workspace CLI.",
+      "Spearheaded the main referral programme and the welcome bonus, lifting new-user trading volume 90% and 15% respectively.",
+      "Compliance for app onboarding, KYC, AML and anti-fraud, alongside the geographic expansion of trading products into the EEA and additional US states.",
+    ],
+    media: [
+      {
+        src: "/media/crypto-com/prediction-trading.webp",
+        title: "Prediction trading",
+        alt: "Crypto.com prediction trading: make predictions with greater confidence",
+      },
+      {
+        src: "/media/crypto-com/ai-search.webp",
+        title: "AI search",
+        alt: "Crypto.com: AI-powered search for all things crypto",
+      },
+      {
+        src: "/media/crypto-com/ai-agent-trading.webp",
+        title: "AI agent trading",
+        alt: "Crypto.com: stay in control while your AI agent does the trading",
+      },
+      {
+        src: "/media/crypto-com/welcome-bonus.webp",
+        title: "Welcome bonuses",
+        alt: "Crypto.com: play, trade and win welcome bonuses",
+      },
     ],
     tags: ["Derivatives", "Prediction markets", "AI agents", "Growth"],
   },
@@ -53,12 +78,13 @@ const experiences: Role[] = [
     metrics: [
       { value: "$24M", label: "Enterprise AI deal" },
       { value: "200K+", label: "User licences" },
-      { value: "+20%", label: "Monthly visitors, 3 months" },
+      { value: ">20%", label: "Lead conversion, per page" },
     ],
     description: [
+      "Converted to full time in 2024 and received a spot bonus in Q2 2025.",
       "Ran the Perplexity AI partnership end to end, from model evaluation and commercial negotiation to technical integration, closing a $24M enterprise deal covering 200,000+ user licences.",
       "Co-led a 16-person team building a multi-modal AI content generation platform for SEO: the vector embedding pipeline over the Lark knowledge base, the semantic retrieval layer and the generation workflow. It drove 20% of organic SEO traffic and lifted unique monthly visitors 20% in 3 months.",
-      "Directed the Q2 revamp of 20 core web pages, projected to lift MQLs 15–70% per page (Q2 2025 spot bonus), and grew ARR 7% through modular B2B SaaS referral initiatives.",
+      "Redesigned 20+ core high-traffic web pages, lifting lead conversion by more than 20% per page on average, and grew ARR 7% through modular B2B SaaS referral initiatives.",
     ],
     tags: ["Multimodal AI", "RAG", "AI partnerships", "B2B SaaS"],
   },
@@ -167,7 +193,7 @@ export default function Experience() {
               applied AI.
             </>
           }
-          lede="From an engineering internship to owning a prediction market inside a 10M+ MAU app, with a DTC brand of my own running the whole time. The through-line is shipping things that move a number."
+          lede="Four years in product and engineering, from an engineering internship to trading products for 140 million users. Six years as a founder, with a DTC brand of my own running the whole time. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"
@@ -325,6 +351,28 @@ export default function Experience() {
                                 </li>
                               ))}
                             </ul>
+
+                            {exp.media && (
+                              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                {exp.media.map((item) => (
+                                  <li key={item.src}>
+                                    <figure className="space-y-2">
+                                      <img
+                                        src={item.src}
+                                        alt={item.alt}
+                                        width={169}
+                                        height={85}
+                                        loading="lazy"
+                                        className="aspect-[2/1] w-full rounded-lg border border-border/70 object-cover"
+                                      />
+                                      <figcaption className="font-mono text-[10px] uppercase tracking-[0.1em] text-subtle">
+                                        {item.title}
+                                      </figcaption>
+                                    </figure>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
 
                             {exp.tags && (
                               <div className="flex flex-wrap gap-2">
