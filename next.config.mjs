@@ -7,9 +7,10 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // The site is published to GitHub Pages, which serves plain files. Declaring
-  // the export here rather than letting actions/configure-pages patch this file
-  // at build time keeps `next build` locally identical to CI.
+  // A static site (Vercel serves jamesliuzx.com; deploy.yml also builds it for
+  // GitHub Pages). Declaring the export here rather than letting
+  // actions/configure-pages patch this file at build time keeps `next build`
+  // the same locally, in CI and on Vercel.
   output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
