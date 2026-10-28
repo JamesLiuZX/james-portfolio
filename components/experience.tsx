@@ -15,7 +15,7 @@ interface Role {
   metrics?: { value: string; label: string }[]
   description: string[]
   /** Launch visuals for work shipped in the role, the same set as the role's LinkedIn media. */
-  media?: { src: string; title: string; alt: string }[]
+  media?: { src: string; title: string; alt: string; href: string }[]
   tags?: string[]
 }
 
@@ -52,21 +52,26 @@ const experiences: Role[] = [
         src: "/media/crypto-com/prediction-trading.webp",
         title: "Prediction trading",
         alt: "Crypto.com prediction trading: make predictions with greater confidence",
+        href: "https://crypto.com/us/product-news/prediction-upgrade-2026",
       },
       {
         src: "/media/crypto-com/ai-search.webp",
         title: "AI search",
         alt: "Crypto.com: AI-powered search for all things crypto",
+        href: "https://crypto.com/en/product-news/delphi-ai-search",
       },
       {
         src: "/media/crypto-com/ai-agent-trading.webp",
         title: "AI agent trading",
         alt: "Crypto.com: stay in control while your AI agent does the trading",
+        href: "https://crypto.com/sg/product-news/openclaw-integration",
       },
       {
         src: "/media/crypto-com/welcome-bonus.webp",
         title: "Welcome bonuses",
         alt: "Crypto.com: play, trade and win welcome bonuses",
+        // No launch post for the welcome bonus, so this goes to its help-centre FAQ.
+        href: "https://help.crypto.com/en/articles/9575514-welcome-bonus",
       },
     ],
     tags: ["Derivatives", "Prediction markets", "AI agents", "Growth"],
@@ -356,19 +361,25 @@ export default function Experience() {
                               <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                                 {exp.media.map((item) => (
                                   <li key={item.src}>
-                                    <figure className="space-y-2">
+                                    <a
+                                      href={item.href}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="group block space-y-2"
+                                    >
                                       <img
                                         src={item.src}
                                         alt={item.alt}
-                                        width={169}
-                                        height={85}
+                                        width={800}
+                                        height={450}
                                         loading="lazy"
-                                        className="aspect-[2/1] w-full rounded-lg border border-border/70 object-cover"
+                                        className="aspect-video w-full rounded-lg border border-border/70 object-cover transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-brand/40 group-hover:shadow-soft"
                                       />
-                                      <figcaption className="font-mono text-[10px] uppercase tracking-[0.1em] text-subtle">
+                                      <span className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.1em] text-subtle transition-colors duration-300 group-hover:text-foreground">
                                         {item.title}
-                                      </figcaption>
-                                    </figure>
+                                        <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                      </span>
+                                    </a>
                                   </li>
                                 ))}
                               </ul>
