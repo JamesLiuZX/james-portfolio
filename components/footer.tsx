@@ -13,7 +13,7 @@ const socials = [
   { name: "LinkedIn", href: "https://www.linkedin.com/in/james-liu-zx/", icon: Linkedin },
   { name: "GitHub", href: "https://github.com/JamesLiuZX", icon: Github },
   { name: "Instagram", href: "https://www.instagram.com/jamesyliu/", icon: Instagram },
-  { name: "Email", href: "mailto:jamesliu@u.nus.edu", icon: Mail },
+  { name: "Email", href: "mailto:jamesliuzx@outlook.com", icon: Mail },
 ]
 
 export default function Footer() {
@@ -43,10 +43,10 @@ export default function Footer() {
               trading at Revolut, building AI agents and video tools on the side.
             </p>
             <a
-              href="mailto:jamesliu@u.nus.edu"
+              href="mailto:jamesliuzx@outlook.com"
               className="link-underline text-sm font-medium text-foreground"
             >
-              jamesliu@u.nus.edu
+              jamesliuzx@outlook.com
             </a>
           </div>
 

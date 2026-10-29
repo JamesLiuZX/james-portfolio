@@ -50,7 +50,6 @@ export default function Academic() {
       location: "Stanford, California",
       description: [
         "Graduate classes in AI, computer science and entrepreneurship, during the Silicon Valley year with NUS Overseas Colleges.",
-        "GPA 3.7/4.0.",
         "2nd place in the Stanford Startup Society hackathon, with grant funding.",
         "Shortlisted for best project in the Y Combinator category at Stanford TreeHacks.",
       ],

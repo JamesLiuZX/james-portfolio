@@ -9,8 +9,8 @@ interface School {
   logo?: string
   years: string
   programme: string
-  /** The one line worth colouring: honours, GPA. */
-  distinction: string
+  /** The one line worth colouring, such as honours. */
+  distinction?: string
   note?: string
   place: string
 }
@@ -30,7 +30,6 @@ const schools: School[] = [
     href: "https://msande.stanford.edu/",
     years: "2023 - 2024",
     programme: "Graduate coursework, Management Science & Engineering",
-    distinction: "GPA 3.7 / 4.0",
     note: "Graduate classes in AI, computer science and entrepreneurship, during the Silicon Valley year with NUS Overseas Colleges.",
     place: "Stanford, California",
   },
@@ -177,7 +176,9 @@ export default function AcademicAchievements() {
                   <div className="space-y-4 p-6">
                     <div className="space-y-1.5">
                       <p className="text-base font-medium leading-snug">{school.programme}</p>
-                      <p className="text-sm font-medium text-brand">{school.distinction}</p>
+                      {school.distinction && (
+                        <p className="text-sm font-medium text-brand">{school.distinction}</p>
+                      )}
                     </div>
                     {school.note && (
                       <p className="text-sm leading-relaxed text-muted-foreground">{school.note}</p>

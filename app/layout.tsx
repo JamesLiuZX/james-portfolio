@@ -100,7 +100,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOTSTRAP }} />
       </head>
       <body className={`${sans.variable} ${mono.variable} ${display.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <SmoothScroll>{children}</SmoothScroll>
           <RevealRescan />
           <Toaster />

@@ -10,8 +10,7 @@ const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & You
 // James's own figures. The ARR is across the companies he founded, not his employers'.
 const stats = [
   { value: "4 yrs", label: "Product manager" },
-  { value: "6 yrs", label: "Founder" },
-  { value: "$800K", label: "Cumulative ARR as a founder" },
+  { value: "6 yrs", label: "Founder", note: "$800K cumulative ARR" },
 ]
 
 const headline = ["Trading", "products,", "with", "AI."]
@@ -122,7 +121,7 @@ export default function HeroAbout() {
           </span>
           <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
             {headline.map((word, index) => (
-              <span key={word + index} className="overflow-hidden py-[0.06em]">
+              <span key={word + index} className="-mb-[0.12em] overflow-hidden pb-[0.18em] pt-[0.06em]">
                 <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
                   {word.startsWith("AI") ? (
                     <>
@@ -186,15 +185,18 @@ export default function HeroAbout() {
           className="enter mt-16 grid gap-10 border-t border-border/70 pt-8 md:mt-20 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-end lg:gap-16"
           style={{ ...delay(0.46), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
         >
-          <dl className="grid grid-cols-3 gap-6 sm:grid-cols-[repeat(3,auto)] sm:justify-start sm:gap-12">
+          <dl className="grid grid-cols-2 gap-6 sm:grid-cols-[repeat(2,auto)] sm:justify-start sm:gap-16">
             {stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col-reverse justify-end gap-1.5">
-                <dt className="font-mono text-[10px] uppercase leading-snug tracking-[0.14em] text-subtle">
+              <div key={stat.label} className="flex flex-col gap-1.5">
+                <dt className="order-2 font-mono text-[10px] uppercase leading-snug tracking-[0.14em] text-subtle">
                   {stat.label}
                 </dt>
-                <dd className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+                <dd className="order-1 text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
                   {stat.value}
                 </dd>
+                {stat.note && (
+                  <dd className="order-3 text-xs text-muted-foreground">{stat.note}</dd>
+                )}
               </div>
             ))}
           </dl>

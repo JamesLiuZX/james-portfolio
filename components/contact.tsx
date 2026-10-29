@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, type CSSProperties, type FormEvent } from "react"
-import { Check, Copy, FileDown, Github, Instagram, Linkedin, Mail, Send } from "lucide-react"
+import { Check, CircleCheck, Copy, FileDown, Github, Instagram, Linkedin, Loader2, Mail, Send } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
 import { RESUME_PATH } from "@/lib/site"
 
@@ -12,7 +12,17 @@ import { RESUME_PATH } from "@/lib/site"
  */
 const notify = () => import("sonner").then((mod) => mod.toast)
 
-const EMAIL = "jamesliu@u.nus.edu"
+const EMAIL = "jamesliuzx@outlook.com"
+
+/*
+ * The site is a static export with no server of its own, so messages go
+ * through FormSubmit, which emails them to EMAIL. The first message sent
+ * after a change of address triggers an activation email that has to be
+ * confirmed once before deliveries start.
+ */
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${EMAIL}`
+
+type Status = "idle" | "sending" | "sent" | "error"
 
 const socials = [
   { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/james-liu-zx/" },
@@ -22,6 +32,7 @@ const socials = [
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" })
+  const [status, setStatus] = useState<Status>("idle")
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -35,20 +46,46 @@ export default function Contact() {
     }
   }
 
-  /**
-   * The site is a static export with no backend, so the form composes a
-   * pre-filled email and hands off to the visitor's mail client.
-   */
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (status === "sending") return
 
-    const subject = `Portfolio enquiry from ${form.name}`
-    const body = `${form.message}\n\n-\n${form.name}\n${form.email}`
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    // Bots fill every field, including this one, which people never see.
+    const honeypot = new FormData(event.currentTarget).get("_honey")
+    if (honeypot) return
 
-    ;(await notify()).success("Opening your email client", {
-      description: "Your message is pre-filled and ready to send.",
-    })
+    setStatus("sending")
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Portfolio message from ${form.name}`,
+          _template: "table",
+        }),
+      })
+      const result = await response.json().catch(() => null)
+      // FormSubmit reports success as the string "true".
+      if (!response.ok || String(result?.success) !== "true") throw new Error(result?.message)
+
+      setStatus("sent")
+      ;(await notify()).success("Message sent", {
+        description: "Thanks for reaching out. I'll reply by email.",
+      })
+    } catch {
+      setStatus("error")
+      ;(await notify()).error("Your message didn't go through", {
+        description: `Please try again, or email ${EMAIL}.`,
+      })
+    }
+  }
+
+  const resetForm = () => {
+    setForm({ name: "", email: "", message: "" })
+    setStatus("idle")
   }
 
   const inputClass =
@@ -139,81 +176,139 @@ export default function Contact() {
           </div>
 
           {/* Form */}
-          <form
-            onSubmit={handleSubmit}
-            style={{ "--reveal-delay": "0.08s" } as CSSProperties}
-            className="reveal card-surface space-y-5 p-6 md:p-8"
-          >
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div className="space-y-2">
-                <label
-                  htmlFor="name"
-                  className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
-                >
-                  Your name
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  required
-                  value={form.name}
-                  onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-                  placeholder="Ada Lovelace"
-                  className={inputClass}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-                  placeholder="ada@example.com"
-                  className={inputClass}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="message"
-                className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={6}
-                value={form.message}
-                onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
-                placeholder="Tell me what you're working on..."
-                className={`${inputClass} resize-none`}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-lifted"
+          {status === "sent" ? (
+            <div
+              role="status"
+              className="card-surface flex flex-col items-center justify-center gap-4 p-8 text-center md:p-10"
             >
-              Compose message
-              <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </button>
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-brand/10 text-brand">
+                <CircleCheck className="h-6 w-6" />
+              </span>
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold tracking-tight">Message sent</h3>
+                <p className="mx-auto max-w-sm text-sm leading-relaxed text-muted-foreground">
+                  Thanks, {form.name.split(" ")[0] || "there"}. It&apos;s in my inbox, and I&apos;ll
+                  reply to {form.email}.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={resetForm}
+                className="mt-2 inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors duration-300 hover:border-brand/40"
+              >
+                Send another message
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              aria-busy={status === "sending"}
+              style={{ "--reveal-delay": "0.08s" } as CSSProperties}
+              className="reveal card-surface space-y-5 p-6 md:p-8"
+            >
+              {/* Honeypot: off-screen and skipped by keyboard and screen readers. */}
+              <input
+                type="text"
+                name="_honey"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-px w-px opacity-0"
+              />
 
-            <p className="text-center text-xs text-subtle">
-              Opens in your email client, pre-filled: nothing is sent from this page.
-            </p>
-          </form>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="name"
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
+                  >
+                    Your name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    autoComplete="name"
+                    value={form.name}
+                    onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                    placeholder="Ada Lovelace"
+                    className={inputClass}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="email"
+                    className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    value={form.email}
+                    onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+                    placeholder="ada@example.com"
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="message"
+                  className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={6}
+                  value={form.message}
+                  onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
+                  placeholder="Tell me what you're working on..."
+                  className={`${inputClass} resize-none`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-lifted disabled:cursor-wait disabled:opacity-70"
+              >
+                {status === "sending" ? (
+                  <>
+                    Sending
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Send message
+                    <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </>
+                )}
+              </button>
+
+              <p aria-live="polite" className="text-center text-xs text-subtle">
+                {status === "error" ? (
+                  <span className="text-destructive">
+                    That didn&apos;t send. Try again, or email{" "}
+                    <a href={`mailto:${EMAIL}`} className="underline underline-offset-2">
+                      {EMAIL}
+                    </a>
+                    .
+                  </span>
+                ) : (
+                  "Goes straight to my inbox."
+                )}
+              </p>
+            </form>
+          )}
         </div>
       </div>
     </section>
