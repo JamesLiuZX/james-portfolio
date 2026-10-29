@@ -23,7 +23,7 @@ const quorum: CaseStudy = {
   facts: [
     { label: "Data", value: "Real Binance market data, 2018 to 12 Oct 2026" },
     { label: "Mode", value: "Paper trading; live trading locked three ways" },
-    { label: "Runs on", value: "One Fly.io machine in Singapore, ~US$7–9 a month" },
+    { label: "Runs on", value: "One Fly.io machine in Singapore, ~US$7-9 a month" },
     { label: "Model budget", value: "US$5 a day cap, about two desk meetings" },
     { label: "Demo", value: "A recorded 12 Oct 2026 session, replayed in the browser" },
   ],

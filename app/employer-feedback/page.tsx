@@ -23,7 +23,7 @@ export default function EmployerFeedbackPage() {
               portfolio.
             </>
           }
-          lede="An objective assessment from an employer and investor perspective — what lands, and what still needs work."
+          lede="An objective assessment from an employer and investor perspective: what lands, and what still needs work."
         />
 
         <section className="shell pb-24 md:pb-32">

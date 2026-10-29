@@ -25,7 +25,7 @@ const experiences: Role[] = [
   {
     company: "Revolut",
     role: "Product Owner, Wealth & Trading",
-    period: "Nov 2026 — Present",
+    period: "Nov 2026 - Present",
     current: true,
     description: ["Product owner for wealth and trading inside the main Revolut app."],
     tags: ["Wealth & trading", "Technical product"],
@@ -33,7 +33,7 @@ const experiences: Role[] = [
   {
     company: "Crypto.com",
     role: "Product Manager, Trading & Derivative Products",
-    period: "Sep 2025 — Nov 2026",
+    period: "Sep 2025 - Nov 2026",
     metrics: [
       { value: "+60%", label: "Prediction Markets MAU, QoQ" },
       { value: "+90%", label: "New-user trading volume, referrals" },
@@ -79,7 +79,7 @@ const experiences: Role[] = [
   {
     company: "ByteDance",
     role: "Product Manager, Lark",
-    period: "Jul 2024 — Sep 2025",
+    period: "Jul 2024 - Sep 2025",
     metrics: [
       { value: "$24M", label: "Enterprise AI deal" },
       { value: "200K+", label: "User licences" },
@@ -96,7 +96,7 @@ const experiences: Role[] = [
   {
     company: "Trendsi",
     role: "Product Manager Intern, San Francisco",
-    period: "Aug 2023 — Jul 2024",
+    period: "Aug 2023 - Jul 2024",
     metrics: [
       { value: "+35%", label: "Cart conversion" },
       { value: "−90%", label: "Fraudulent txns" },
@@ -111,7 +111,7 @@ const experiences: Role[] = [
   {
     company: "Ernst & Young",
     role: "Software Engineer Intern",
-    period: "May 2023 — Aug 2023",
+    period: "May 2023 - Aug 2023",
     metrics: [{ value: "1M+", label: "Users served / yr" }],
     description: [
       "Led frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
@@ -121,7 +121,7 @@ const experiences: Role[] = [
   {
     company: "HerbalBath",
     role: "Co-founder",
-    period: "Apr 2021 — Present",
+    period: "Apr 2021 - Present",
     metrics: [
       { value: "S$200K+", label: "Annual revenue" },
       { value: "30,000+", label: "Customers" },
@@ -198,7 +198,7 @@ export default function Experience() {
               applied AI.
             </>
           }
-          lede="Four years in product and engineering, from an engineering internship to trading products for 140 million users. Six years as a founder, with a DTC brand of my own running the whole time. The through-line is shipping things that move a number."
+          lede="Four years as a product manager, from AI at ByteDance to trading products for 140 million users, after starting out as an engineer. Six years as a founder alongside, with $800K in cumulative ARR. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"

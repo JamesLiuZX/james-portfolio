@@ -52,13 +52,15 @@
     --grain-opacity: 0.035;
     --glow-a: 252 76% 58%;
     --glow-b: 199 89% 48%;
+    --ambient-a: 0.06;
+    --ambient-b: 0.04;
   }
 
   .dark {
-    --background: 240 9% 5%;
-    --surface: 240 8% 8%;
-    --surface-muted: 240 8% 10%;
-    --elevated: 240 8% 10%;
+    --background: 250 20% 6%;
+    --surface: 250 16% 9%;
+    --surface-muted: 250 14% 11%;
+    --elevated: 250 14% 11%;
 
     --foreground: 40 20% 97%;
     --muted-foreground: 240 5% 64%;
@@ -69,21 +71,21 @@
     --brand-soft: 252 40% 16%;
     --brand-2: 199 90% 62%;
 
-    --card: 240 8% 8%;
+    --card: 250 16% 9%;
     --card-foreground: 40 20% 97%;
-    --popover: 240 8% 8%;
+    --popover: 250 16% 9%;
     --popover-foreground: 40 20% 97%;
     --primary: 40 20% 97%;
     --primary-foreground: 240 9% 6%;
-    --secondary: 240 6% 13%;
+    --secondary: 250 12% 14%;
     --secondary-foreground: 40 20% 97%;
-    --muted: 240 6% 13%;
-    --accent: 240 6% 15%;
+    --muted: 250 12% 14%;
+    --accent: 250 12% 16%;
     --accent-foreground: 40 20% 97%;
     --destructive: 0 63% 45%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 16%;
-    --input: 240 6% 18%;
+    --border: 250 11% 18%;
+    --input: 250 11% 20%;
     --ring: 252 92% 74%;
 
     --hairline: 40 20% 97%;
@@ -91,6 +93,8 @@
     --grain-opacity: 0.05;
     --glow-a: 252 92% 68%;
     --glow-b: 199 90% 55%;
+    --ambient-a: 0.11;
+    --ambient-b: 0.06;
   }
 }
 
@@ -125,6 +129,22 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * A faint brand wash that stays put while the page scrolls: violet from the
+   * top left, cyan from the bottom right. A fixed layer rather than a fixed
+   * background, so the compositor moves it instead of repainting each frame.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 8% -10%, hsl(var(--glow-a) / var(--ambient-a)), transparent 70%),
+      radial-gradient(52rem 36rem at 100% 110%, hsl(var(--glow-b) / var(--ambient-b)), transparent 70%);
   }
 
   ::selection {
@@ -227,6 +247,10 @@
     @apply rounded-2xl border border-border/70 bg-surface transition-colors duration-300;
   }
 
+  .dark .card-surface {
+    background-image: linear-gradient(to bottom, hsl(var(--brand) / 0.04), transparent 50%);
+  }
+
   .card-surface-hover {
     @apply hover:border-brand/30 hover:shadow-glow;
   }
@@ -293,6 +317,11 @@
   .mask-fade-b {
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
     mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+
+  .mask-fade-radial {
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, black, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, black, transparent 75%);
   }
 }
 

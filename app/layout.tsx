@@ -35,8 +35,8 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "James Liu — Trading & AI Product Manager",
-    template: "%s — James Liu",
+    default: "James Liu - Trading & AI Product Manager",
+    template: "%s - James Liu",
   },
   description,
   keywords: [
@@ -64,12 +64,12 @@ export const metadata: Metadata = {
     locale: "en_SG",
     url: siteUrl,
     siteName: "James Liu",
-    title: "James Liu — Trading & AI Product Manager",
+    title: "James Liu - Trading & AI Product Manager",
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "James Liu — Trading & AI Product Manager",
+    title: "James Liu - Trading & AI Product Manager",
     description,
   },
   robots: {
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#faf9f6" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c0c0e" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0c12" },
   ],
 }
 

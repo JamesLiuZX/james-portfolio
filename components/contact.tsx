@@ -31,7 +31,7 @@ export default function Contact() {
       setTimeout(() => setCopied(false), 2000)
       ;(await notify()).success("Email copied to clipboard")
     } catch {
-      ;(await notify()).error("Couldn't copy — you can select the address manually")
+      ;(await notify()).error("Couldn't copy. Select the address manually instead")
     }
   }
 
@@ -43,7 +43,7 @@ export default function Contact() {
     event.preventDefault()
 
     const subject = `Portfolio enquiry from ${form.name}`
-    const body = `${form.message}\n\n—\n${form.name}\n${form.email}`
+    const body = `${form.message}\n\n-\n${form.name}\n${form.email}`
     window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
     ;(await notify()).success("Opening your email client", {
@@ -131,7 +131,7 @@ export default function Contact() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
-                  Résumé
+                  Resume
                 </span>
                 <span className="mt-1 block text-sm font-medium">Download the PDF</span>
               </span>
@@ -211,7 +211,7 @@ export default function Contact() {
             </button>
 
             <p className="text-center text-xs text-subtle">
-              Opens in your email client, pre-filled — nothing is sent from this page.
+              Opens in your email client, pre-filled: nothing is sent from this page.
             </p>
           </form>
         </div>

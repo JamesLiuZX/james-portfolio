@@ -1,18 +1,17 @@
 "use client"
 
-import { useEffect, useRef, useState, type CSSProperties } from "react"
-import Link from "next/link"
+import { useEffect, useRef, type CSSProperties } from "react"
 
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
 import { RESUME_PATH } from "@/lib/site"
 
 const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
 
-const facts = [
-  { label: "Now", value: "Product Manager, Revolut" },
-  { label: "Focus", value: "Wealth, trading & applied AI" },
-  { label: "Experience", value: "4 yrs in product · 6 as a founder" },
-  { label: "Studied", value: "Computer Science, NUS" },
+// James's own figures. The ARR is across the companies he founded, not his employers'.
+const stats = [
+  { value: "4 yrs", label: "Product manager" },
+  { value: "6 yrs", label: "Founder" },
+  { value: "$800K", label: "Cumulative ARR as a founder" },
 ]
 
 const headline = ["Trading", "products,", "with", "AI."]
@@ -22,24 +21,6 @@ const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSPr
 
 export default function HeroAbout() {
   const heroRef = useRef<HTMLElement>(null)
-  const [clock, setClock] = useState<string | null>(null)
-
-  useEffect(() => {
-    const tick = () => {
-      setClock(
-        new Intl.DateTimeFormat("en-GB", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-          timeZone: "Asia/Singapore",
-        }).format(new Date()),
-      )
-    }
-    tick()
-    const interval = setInterval(tick, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   /*
    * The hero body fades and drifts as it scrolls away. One passive listener
@@ -124,42 +105,18 @@ export default function HeroAbout() {
       ref={heroRef}
       className="grain relative flex min-h-[100svh] items-center overflow-hidden"
     >
-      {/* Backdrop: grid, drifting brand glows, pointer spotlight, bottom fade */}
+      {/* Backdrop: a wide grid fading out from the headline, two brand glows, pointer spotlight */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-grid-sm mask-fade-b" />
-        <div className="orb -left-32 top-1/4 h-[38rem] w-[38rem] bg-brand/20 animate-drift-slow dark:bg-brand/15" />
-        <div className="orb -right-24 bottom-0 h-[32rem] w-[32rem] bg-brand-alt/15 animate-drift dark:bg-brand-alt/10" />
+        <div className="absolute inset-0 bg-grid mask-fade-radial" />
+        <div className="orb -left-32 top-1/4 h-[38rem] w-[38rem] bg-brand/25 animate-drift-slow dark:bg-brand/20" />
+        <div className="orb -right-24 -top-24 h-[30rem] w-[30rem] bg-brand-alt/15 animate-drift dark:bg-brand-alt/[0.12]" />
         <div className="hero-spotlight absolute inset-0" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
-      <div data-hero-body className="shell relative z-10 pb-24 pt-32 md:pb-32 md:pt-36">
-        {/* Status line */}
-        <div
-          className="enter flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground"
-          style={{ ...delay(0), "--enter-y": "12px", "--enter-duration": "0.6s" } as CSSProperties}
-        >
-          {/* Points at the newest proof rather than at job-seeking. */}
-          <Link
-            href="/projects/quorum"
-            className="group inline-flex items-center gap-2 transition-colors duration-300 hover:text-foreground"
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500/70 [animation:pulse-ring_2.4s_ease-out_infinite]" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            </span>
-            Latest build: Quorum AI trading desk
-            <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-          <span className="hidden text-border sm:inline">/</span>
-          <span>Singapore</span>
-          <span className="hidden text-border sm:inline">/</span>
-          {/* Rendered client-side only, so SSR and hydration stay in sync. */}
-          <span className="tabular-nums">{clock ?? "--:--:--"} SGT</span>
-        </div>
-
+      <div data-hero-body className="shell relative z-10 pb-20 pt-32 md:pb-24 md:pt-36">
         {/* Headline */}
-        <h1 className="mt-8 max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:mt-10 md:text-display-lg lg:text-display-xl">
+        <h1 className="max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:text-display-lg lg:text-display-xl">
           <span className="sr-only">
             James Liu, product manager for wealth and trading at Revolut: trading products, with AI.
           </span>
@@ -169,7 +126,7 @@ export default function HeroAbout() {
                 <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
                   {word.startsWith("AI") ? (
                     <>
-                      <em className="font-display not-italic text-brand">AI</em>
+                      <em className="text-gradient-brand font-display not-italic">AI</em>
                       {word.slice(2)}
                     </>
                   ) : (
@@ -183,24 +140,24 @@ export default function HeroAbout() {
 
         {/* Lede */}
         <p
-          className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl"
-          style={{ ...delay(0.34), "--enter-y": "16px" } as CSSProperties}
+          className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:mt-10 md:text-xl"
+          style={{ ...delay(0.3), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span>, a product manager
-          who started out as an engineer, now on wealth and trading at Revolut. Before that I was{" "}
-          <span className="serif-accent text-[1.15em] text-foreground">product lead</span> for
-          derivative products at Crypto.com, and worked at ByteDance AI. On the side I build agent
-          desks and AI video tools.
+          who started out as an engineer. I work on wealth and trading at Revolut, after leading{" "}
+          <span className="serif-accent text-[1.15em] text-foreground">derivative products</span>{" "}
+          at Crypto.com and building AI products at ByteDance. On the side I build AI agents and
+          video tools.
         </p>
 
         {/* Actions */}
         <div
           className="enter mt-10 flex flex-wrap items-center gap-3"
-          style={{ ...delay(0.42), "--enter-y": "16px" } as CSSProperties}
+          style={{ ...delay(0.38), "--enter-y": "16px" } as CSSProperties}
         >
           <a
             href="#experience"
-            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-lifted"
+            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-all duration-300 hover:shadow-glow"
           >
             Explore my work
             <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
@@ -219,53 +176,42 @@ export default function HeroAbout() {
             download
             className="group inline-flex items-center gap-2 rounded-full px-4 py-3.5 text-sm font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground"
           >
-            <Download className="h-4 w-4" />
-            Résumé (PDF)
+            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+            Resume
           </a>
         </div>
 
-        {/* Companies */}
+        {/* Proof: the headline numbers, then where they were earned */}
         <div
-          className="enter-fade mt-16 space-y-4"
-          style={{ ...delay(0.5), "--enter-duration": "0.8s" } as CSSProperties}
+          className="enter mt-16 grid gap-10 border-t border-border/70 pt-8 md:mt-20 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-end lg:gap-16"
+          style={{ ...delay(0.46), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
         >
-          <p className="eyebrow">Experience with</p>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {companies.map((company) => (
-              <span
-                key={company}
-                className="text-base font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground md:text-lg"
-              >
-                {company}
-              </span>
+          <dl className="grid grid-cols-3 gap-6 sm:grid-cols-[repeat(3,auto)] sm:justify-start sm:gap-12">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col-reverse justify-end gap-1.5">
+                <dt className="font-mono text-[10px] uppercase leading-snug tracking-[0.14em] text-subtle">
+                  {stat.label}
+                </dt>
+                <dd className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+                  {stat.value}
+                </dd>
+              </div>
             ))}
+          </dl>
+
+          <div className="space-y-3 lg:text-right">
+            <p className="eyebrow">Experience with</p>
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 lg:justify-end">
+              {companies.map((company) => (
+                <li
+                  key={company}
+                  className="text-base font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                >
+                  {company}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-
-        {/* Facts strip */}
-        <dl
-          className="enter mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-4"
-          style={{ ...delay(0.58), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
-        >
-          {facts.map((fact) => (
-            <div key={fact.label} className="bg-background/70 p-5 backdrop-blur-sm">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-subtle">
-                {fact.label}
-              </dt>
-              <dd className="mt-2 text-sm font-medium leading-snug">{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-
-      {/* Scroll cue */}
-      <div
-        className="enter-fade pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
-        style={{ ...delay(0.9), "--enter-duration": "0.8s" } as CSSProperties}
-      >
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-subtle">Scroll</span>
-        <div className="h-10 w-px overflow-hidden bg-border">
-          <div className="scroll-cue h-4 w-px bg-foreground/60" />
         </div>
       </div>
     </section>

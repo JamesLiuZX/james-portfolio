@@ -15,7 +15,8 @@ interface Education {
   period: string
   location: string
   description: string[]
-  image: string
+  /** Logo shown beside the entry; without one the entry gets a plain plate. */
+  image?: string
 }
 
 interface AwardItem {
@@ -35,7 +36,7 @@ export default function Academic() {
       period: "Aug 2021 - May 2025",
       location: "Singapore",
       description: [
-        "NUS Overseas College: Silicon Valley – Top 0.3% student tech and entrepreneurship program in Singapore.",
+        "NUS Overseas College, Silicon Valley: a top 0.3% student tech and entrepreneurship programme in Singapore.",
         "Recipient of NUS Enterprise Venture Initiation Programme $10,000 award for technical startup.",
         "Student mentor (Top 5%) for CS2103T, Software Engineering.",
         "Selected for Meta Above and Beyond CS Program and JP Morgan Finance for Non-Finance Program.",
@@ -44,15 +45,15 @@ export default function Academic() {
     },
     {
       institution: "Stanford University",
-      degree: "Management Science & Engineering, Fall Quarter",
-      period: "Sep 2023 - Dec 2023",
-      location: "California, USA",
+      degree: "Graduate coursework, Management Science & Engineering",
+      period: "2023 - 2024",
+      location: "Stanford, California",
       description: [
-        "Achieved 2nd place in internal hackathon and grant funding from Stanford Startup Society.",
-        "Shortlisted for best project in Stanford Treehacks Hackathon under YCombinator category.",
-        "3.7/4.0 GPA",
+        "Graduate classes in AI, computer science and entrepreneurship, during the Silicon Valley year with NUS Overseas Colleges.",
+        "GPA 3.7/4.0.",
+        "2nd place in the Stanford Startup Society hackathon, with grant funding.",
+        "Shortlisted for best project in the Y Combinator category at Stanford TreeHacks.",
       ],
-      image: "/placeholder.svg?height=400&width=600",
     },
   ]
 
@@ -94,7 +95,7 @@ export default function Academic() {
               <span className="serif-accent text-brand">awards</span> along the way.
             </>
           }
-          lede="Computer Science at NUS, a quarter at Stanford, and the programmes and competitions that shaped how I build."
+          lede="Computer Science at NUS, graduate classes at Stanford, and the programmes and competitions that shaped how I build."
         />
 
       <section className="pb-24 md:pb-32">
@@ -111,15 +112,25 @@ export default function Academic() {
                   <div key={index} className="enter grid grid-cols-1 md:grid-cols-3 gap-8 items-start" style={{ "--enter-duration": "0.5s" } as CSSProperties}>
                     <div className="md:col-span-1">
                       <div className="rounded-lg overflow-hidden">
-                        <img
-                          src={edu.image || "/placeholder.svg"}
-                          alt={edu.institution}
-                          width={600}
-                          height={400}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-auto object-cover"
-                        />
+                        {edu.image ? (
+                          <img
+                            src={edu.image}
+                            alt={edu.institution}
+                            width={600}
+                            height={400}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-auto object-cover"
+                          />
+                        ) : (
+                          <div className="relative grid aspect-[3/2] place-items-center border border-border/70 bg-surface-muted">
+                            <div className="absolute inset-0 bg-dots opacity-60" aria-hidden="true" />
+                            <div className="relative flex flex-col items-center gap-3 text-center">
+                              <GraduationCap className="h-8 w-8 text-brand" aria-hidden="true" />
+                              <span className="font-display text-2xl">{edu.institution}</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 

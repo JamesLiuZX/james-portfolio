@@ -107,7 +107,7 @@ export default function Navbar() {
           <Link
             href="/"
             className="group flex shrink-0 items-center gap-2.5 rounded-full px-2 py-1"
-            aria-label="James Liu — home"
+            aria-label="James Liu, home"
           >
             <span className="relative grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-foreground text-[13px] font-semibold text-background transition-transform duration-500 ease-out-expo group-hover:scale-105">
               JL
@@ -149,7 +149,7 @@ export default function Navbar() {
               className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground lg:inline-flex"
             >
               <Download className="h-3.5 w-3.5" />
-              Résumé
+              Resume
             </a>
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"
@@ -237,7 +237,7 @@ export default function Navbar() {
               }
             >
               <Download className="h-4 w-4" />
-              Download résumé (PDF)
+              Download resume (PDF)
             </a>
           </div>
         </div>

@@ -99,7 +99,7 @@ export default async function Blog() {
           ) : (
             <div className="card-surface px-6 py-20 text-center">
               <p className="text-muted-foreground">
-                No posts yet — check back soon for new writing.
+                No posts yet. Check back soon for new writing.
               </p>
             </div>
           )}
