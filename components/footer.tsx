@@ -40,7 +40,7 @@ export default function Footer() {
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               Product manager for trading and AI, based in Singapore. Now on wealth and
-              trading at Revolut, building AI agents and video tools on the side.
+              trading at Revolut, building AI agents and tools for trading and multimodal generation on the side.
             </p>
             <a
               href="mailto:jamesliuzx@outlook.com"

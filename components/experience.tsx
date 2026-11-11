@@ -24,10 +24,10 @@ interface Role {
 const experiences: Role[] = [
   {
     company: "Revolut",
-    role: "Product Owner, Wealth & Trading",
+    role: "Product Owner (Technical)",
     period: "Nov 2026 - Present",
     current: true,
-    description: ["Product owner for wealth and trading inside the main Revolut app."],
+    description: ["Technical product owner for wealth and trading inside the main Revolut app."],
     tags: ["Wealth & trading", "Technical product"],
   },
   {
@@ -78,20 +78,22 @@ const experiences: Role[] = [
   },
   {
     company: "ByteDance",
-    role: "Product Manager, Lark",
+    role: "AI Product Manager",
     period: "Jul 2024 - Sep 2025",
+    // Follows the LinkedIn copy for this role.
     metrics: [
-      { value: "$24M", label: "Enterprise AI deal" },
-      { value: "200K+", label: "User licences" },
+      { value: "$20M+", label: "Perplexity AI collaboration" },
+      { value: "20+", label: "Core pages redesigned" },
       { value: ">20%", label: "Lead conversion, per page" },
     ],
     description: [
-      "Converted to full time in 2024 and received a spot bonus in Q2 2025.",
-      "Ran the Perplexity AI partnership end to end, from model evaluation and commercial negotiation to technical integration, closing a $24M enterprise deal covering 200,000+ user licences.",
-      "Co-led a 16-person team building a multi-modal AI content generation platform for SEO: the vector embedding pipeline over the Lark knowledge base, the semantic retrieval layer and the generation workflow. It drove 20% of organic SEO traffic and lifted unique monthly visitors 20% in 3 months.",
-      "Redesigned 20+ core high-traffic web pages, lifting lead conversion by more than 20% per page on average, and grew ARR 7% through modular B2B SaaS referral initiatives.",
+      "Received a full-time conversion in 2024 and a Spot Bonus award in Q2 2025.",
+      "Built an AI generative content pipeline.",
+      "Growth product: ran a B2B referral campaign.",
+      "Led partnerships, including the Perplexity AI collaboration, worth over US$20 million.",
+      "Redesigned 20+ core high-traffic website pages, lifting lead conversion by more than 20% per page on average.",
     ],
-    tags: ["Multimodal AI", "RAG", "AI partnerships", "B2B SaaS"],
+    tags: ["Generative AI", "AI partnerships", "Growth", "B2B SaaS"],
   },
   {
     company: "Trendsi",
@@ -198,7 +200,7 @@ export default function Experience() {
               applied AI.
             </>
           }
-          lede="Four years as a product manager, from AI at ByteDance to trading products for 140 million users, after starting out as an engineer. Six years as a founder alongside, with $800K in cumulative ARR. The through-line is shipping things that move a number."
+          lede="Three years as a product manager, from AI at ByteDance to trading products for 140 million users, after starting out as an engineer. Alongside it, six years as a founder: $800K in cumulative ARR before I handed the business over. The through-line is shipping things that move a number."
           action={
             <a
               href="https://www.linkedin.com/in/james-liu-zx/"

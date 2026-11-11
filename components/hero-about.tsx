@@ -5,12 +5,17 @@ import { useEffect, useRef, type CSSProperties } from "react"
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
 import { RESUME_PATH } from "@/lib/site"
 
-const companies = ["Revolut", "Crypto.com", "ByteDance", "Trendsi", "Ernst & Young"]
+// Full-time roles only; the internships are on the Experience timeline.
+const companies = ["Revolut", "Crypto.com", "ByteDance"]
 
 // James's own figures. The ARR is across the companies he founded, not his employers'.
-const stats = [
-  { value: "4 yrs", label: "Product manager" },
-  { value: "6 yrs", label: "Founder", note: "$800K cumulative ARR" },
+const stats: { value: string; label: string; notes?: string[] }[] = [
+  { value: "3 yrs", label: "Product manager" },
+  {
+    value: "6 yrs",
+    label: "Ex-founder",
+    notes: ["$800K cumulative ARR", "Handed over to new leadership"],
+  },
 ]
 
 const headline = ["Trading", "products,", "with", "AI."]
@@ -117,7 +122,7 @@ export default function HeroAbout() {
         {/* Headline */}
         <h1 className="max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:text-display-lg lg:text-display-xl">
           <span className="sr-only">
-            James Liu, product manager for wealth and trading at Revolut: trading products, with AI.
+            James Liu, technical product owner for wealth and trading at Revolut: trading products, with AI.
           </span>
           <span aria-hidden="true" className="flex flex-wrap gap-x-[0.28em] gap-y-1">
             {headline.map((word, index) => (
@@ -139,14 +144,16 @@ export default function HeroAbout() {
 
         {/* Lede */}
         <p
-          className="enter mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:mt-10 md:text-xl"
+          className="enter mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           style={{ ...delay(0.3), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span>, a product manager
           who started out as an engineer. I work on wealth and trading at Revolut, after leading{" "}
           <span className="serif-accent text-[1.15em] text-foreground">derivative products</span>{" "}
-          at Crypto.com and building AI products at ByteDance. On the side I build AI agents and
-          video tools.
+          at Crypto.com and building AI products at ByteDance. I also spent a year in Silicon
+          Valley, working at a fast-growing tech startup while studying CS, AI and entrepreneurship
+          at Stanford. On the side, I build AI agents and tools for trading and multimodal
+          generation.
         </p>
 
         {/* Actions */}
@@ -182,7 +189,7 @@ export default function HeroAbout() {
 
         {/* Proof: the headline numbers, then where they were earned */}
         <div
-          className="enter mt-16 grid gap-10 border-t border-border/70 pt-8 md:mt-20 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-end lg:gap-16"
+          className="enter mt-14 grid gap-10 border-t border-border/70 pt-8 md:mt-16 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-end lg:gap-16"
           style={{ ...delay(0.46), "--enter-y": "16px", "--enter-duration": "0.8s" } as CSSProperties}
         >
           <dl className="grid grid-cols-2 gap-6 sm:grid-cols-[repeat(2,auto)] sm:justify-start sm:gap-16">
@@ -194,9 +201,11 @@ export default function HeroAbout() {
                 <dd className="order-1 text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
                   {stat.value}
                 </dd>
-                {stat.note && (
-                  <dd className="order-3 text-xs text-muted-foreground">{stat.note}</dd>
-                )}
+                {stat.notes?.map((note) => (
+                  <dd key={note} className="order-3 text-xs leading-snug text-muted-foreground">
+                    {note}
+                  </dd>
+                ))}
               </div>
             ))}
           </dl>

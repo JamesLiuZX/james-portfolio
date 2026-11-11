@@ -30,7 +30,7 @@ const display = Instrument_Serif({
 })
 
 const description =
-  "James Liu, product manager for wealth and trading at Revolut. Previously product lead for derivative products at Crypto.com, where he owned Prediction Markets. Builds multi-agent trading desks and AI video tools in Singapore."
+  "James Liu, technical product owner for wealth and trading at Revolut. Previously product lead for derivative products at Crypto.com, where he owned Prediction Markets, and AI product manager at ByteDance. Builds AI agents and tools for trading and multimodal generation in Singapore."
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -42,6 +42,7 @@ export const metadata: Metadata = {
   keywords: [
     "James Liu",
     "Product Owner",
+    "Technical Product Owner",
     "Product Manager",
     "Revolut",
     "wealth and trading",
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     "prediction markets",
     "AI agents",
     "multimodal AI",
-    "AI video generation",
+    "multimodal generation",
     "ByteDance",
     "Singapore",
   ],
