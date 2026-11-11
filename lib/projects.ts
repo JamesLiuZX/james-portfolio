@@ -145,15 +145,6 @@ export const earlierWork: Project[] = [
       { label: "Code", href: "https://github.com/JamesLiuZX/AI-Chatbot" },
     ],
   },
-  {
-    id: "ey-dashboard",
-    title: "EY Client Dashboard",
-    category: "Enterprise",
-    image: "",
-    description:
-      "Frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
-    technologies: ["ReactJS", ".NET Framework", "JQuery", "C#", "SQL", "Microsoft Azure"],
-  },
 ]
 
 /** Where the card itself goes: the case study, else the first link, else nowhere. */

@@ -5,7 +5,7 @@ import { useEffect, useRef, type CSSProperties } from "react"
 import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
 import { RESUME_PATH } from "@/lib/site"
 
-// Full-time roles only; the internships are on the Experience timeline.
+// The three most recent employers; the rest of the history is on the Experience timeline.
 const companies = ["Revolut", "Crypto.com", "ByteDance"]
 
 // James's own figures. The ARR is across the companies he founded, not his employers'.
@@ -18,7 +18,8 @@ const stats: { value: string; label: string; notes?: string[] }[] = [
   },
 ]
 
-const headline = ["Trading", "products,", "with", "AI."]
+// "with AI." is one unit, so the line never breaks before the payoff.
+const headline = ["Trading", "products,", "with AI."]
 
 /** Shorthand for the `--enter-delay` custom property the CSS entrances read. */
 const delay = (seconds: number) => ({ "--enter-delay": `${seconds}s` }) as CSSProperties
@@ -118,9 +119,9 @@ export default function HeroAbout() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
 
-      <div data-hero-body className="shell relative z-10 pb-20 pt-32 md:pb-24 md:pt-36">
+      <div data-hero-body className="shell relative z-10 pb-20 pt-28 md:pb-24 md:pt-32">
         {/* Headline */}
-        <h1 className="max-w-4xl text-[2.15rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:text-display-lg lg:text-display-xl">
+        <h1 className="max-w-4xl text-[2rem] font-semibold leading-[1.04] tracking-[-0.035em] sm:text-display-sm md:text-display-md lg:text-display-lg">
           <span className="sr-only">
             James Liu, technical product owner for wealth and trading at Revolut: trading products, with AI.
           </span>
@@ -128,10 +129,10 @@ export default function HeroAbout() {
             {headline.map((word, index) => (
               <span key={word + index} className="-mb-[0.12em] overflow-hidden pb-[0.18em] pt-[0.06em]">
                 <span className="enter-mask inline-block" style={delay(0.06 + index * 0.05)}>
-                  {word.startsWith("AI") ? (
+                  {word.endsWith("AI.") ? (
                     <>
-                      <em className="text-gradient-brand font-display not-italic">AI</em>
-                      {word.slice(2)}
+                      {word.slice(0, -3)}
+                      <em className="text-gradient-brand font-display not-italic">AI</em>.
                     </>
                   ) : (
                     word
@@ -144,7 +145,7 @@ export default function HeroAbout() {
 
         {/* Lede */}
         <p
-          className="enter mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
+          className="enter mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           style={{ ...delay(0.3), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span>, a product manager
@@ -152,8 +153,8 @@ export default function HeroAbout() {
           <span className="serif-accent text-[1.15em] text-foreground">derivative products</span>{" "}
           at Crypto.com and building AI products at ByteDance. I also spent a year in Silicon
           Valley, working at a fast-growing tech startup while studying CS, AI and entrepreneurship
-          at Stanford. On the side, I build AI agents and tools for trading and multimodal
-          generation.
+          in Stanford&apos;s MS&amp;E master&apos;s program. On the side, I build AI agents and
+          tools for trading and multimodal generation.
         </p>
 
         {/* Actions */}

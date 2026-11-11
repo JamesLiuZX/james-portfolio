@@ -50,25 +50,25 @@ const experiences: Role[] = [
     media: [
       {
         src: "/media/crypto-com/prediction-trading.webp",
-        title: "Prediction trading",
+        title: "Product owner of derivatives and prediction markets",
         alt: "Crypto.com prediction trading: make predictions with greater confidence",
         href: "https://crypto.com/us/product-news/prediction-upgrade-2026",
       },
       {
         src: "/media/crypto-com/ai-search.webp",
-        title: "AI search",
+        title: "Expanded in-app AI search to multi-asset products",
         alt: "Crypto.com: AI-powered search for all things crypto",
         href: "https://crypto.com/en/product-news/delphi-ai-search",
       },
       {
         src: "/media/crypto-com/ai-agent-trading.webp",
-        title: "AI agent trading",
+        title: "AI trading agent",
         alt: "Crypto.com: stay in control while your AI agent does the trading",
         href: "https://crypto.com/sg/product-news/openclaw-integration",
       },
       {
         src: "/media/crypto-com/welcome-bonus.webp",
-        title: "Welcome bonuses",
+        title: "Owned incentives and rewards for all global new users",
         alt: "Crypto.com: play, trade and win welcome bonuses",
         // No launch post for the welcome bonus, so this goes to its help-centre FAQ.
         href: "https://help.crypto.com/en/articles/9575514-welcome-bonus",
@@ -82,43 +82,35 @@ const experiences: Role[] = [
     period: "Jul 2024 - Sep 2025",
     // Follows the LinkedIn copy for this role.
     metrics: [
+      { value: "+30%", label: "SEO and leads" },
       { value: "$20M+", label: "Perplexity AI collaboration" },
-      { value: "20+", label: "Core pages redesigned" },
       { value: ">20%", label: "Lead conversion, per page" },
     ],
     description: [
-      "Received a full-time conversion in 2024 and a Spot Bonus award in Q2 2025.",
-      "Built an AI generative content pipeline.",
+      "Developed an AI generative content pipeline and fine-tuned frontier models for multimodal generation quality, increasing SEO and leads by 30%.",
       "Growth product: ran a B2B referral campaign.",
       "Led partnerships, including the Perplexity AI collaboration, worth over US$20 million.",
       "Redesigned 20+ core high-traffic website pages, lifting lead conversion by more than 20% per page on average.",
+      "Received a full-time conversion in 2024 and a Spot Bonus award in Q2 2025.",
     ],
     tags: ["Generative AI", "AI partnerships", "Growth", "B2B SaaS"],
   },
   {
     company: "Trendsi",
-    role: "Product Manager Intern, San Francisco",
+    role: "Product Manager, San Francisco",
     period: "Aug 2023 - Jul 2024",
     metrics: [
-      { value: "+35%", label: "Cart conversion" },
+      { value: "+25%", label: "Checkout conversion" },
+      { value: "+300%", label: "Weekly app reviews" },
       { value: "−90%", label: "Fraudulent txns" },
-      { value: "$20K", label: "Saved monthly" },
     ],
     description: [
-      "Raised cart conversion 35% by leading development of a product similarity recommendation engine at the #1-ranked Shopify and TikTok App Store startup (Series A).",
-      "Cut fraudulent transactions 90%, saving about US$20,000 a month, with Stripe 3D Secure and Radar risk rules.",
+      "Trendsi is a Series A Silicon Valley e-commerce tech startup with $25M in funding.",
+      "Lead PM for 9 projects, with teams of 10 to 15, across payments, frontend conversion and SEO.",
+      "Lifted funnel checkout conversion 25%, SEO 30% and weekly app reviews 300%, and grew monthly GMV by $2,000+, helping generate over $15K in GMV.",
+      "Reduced fraudulent transactions 90% through data analysis and Stripe 3D Secure and Radar risk rules, saving about US$20,000 a month.",
     ],
-    tags: ["Recommendations", "Payments", "Fraud"],
-  },
-  {
-    company: "Ernst & Young",
-    role: "Software Engineer Intern",
-    period: "May 2023 - Aug 2023",
-    metrics: [{ value: "1M+", label: "Users served / yr" }],
-    description: [
-      "Led frontend development of a real-time analytics dashboard for an international enterprise client serving 1M+ users a year.",
-    ],
-    tags: ["ReactJS", ".NET", "C#", "Azure"],
+    tags: ["Payments", "Conversion", "SEO", "Fraud"],
   },
   {
     company: "HerbalBath",
@@ -377,9 +369,9 @@ export default function Experience() {
                                         loading="lazy"
                                         className="aspect-video w-full rounded-lg border border-border/70 object-cover transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-brand/40 group-hover:shadow-soft"
                                       />
-                                      <span className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.1em] text-subtle transition-colors duration-300 group-hover:text-foreground">
+                                      <span className="flex items-start gap-1 text-xs leading-snug text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
                                         {item.title}
-                                        <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                        <ArrowUpRight className="mt-px h-3 w-3 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                       </span>
                                     </a>
                                   </li>
