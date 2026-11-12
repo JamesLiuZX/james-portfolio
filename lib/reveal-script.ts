@@ -26,7 +26,7 @@ if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}
 },{rootMargin:'0px 0px -80px 0px'});
 var queued=0;
 function scan(){queued=0;
-var els=d.querySelectorAll('.reveal:not(.is-in),.rise:not(.is-in),.observe:not(.is-in)');
+var els=d.querySelectorAll('.reveal:not(.is-in)');
 for(var i=0;i<els.length;i++){io.observe(els[i])}}
 function schedule(){if(queued)return;queued=1;requestAnimationFrame(scan)}
 window.__revealScan=schedule;

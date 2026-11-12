@@ -1,26 +1,27 @@
 import Navbar from "@/components/navbar"
+import HeroAbout from "@/components/hero-about"
+import Experience from "@/components/experience"
+import Projects from "@/components/projects"
+import TechStack from "@/components/tech-stack"
+import AcademicAchievements from "@/components/academic-achievements"
+import Contact from "@/components/contact"
 import Footer from "@/components/footer"
-import Identity from "@/components/kyc/identity"
-import Address from "@/components/kyc/address"
-import Funds from "@/components/kyc/funds"
-import Suitability from "@/components/kyc/suitability"
-import Approval from "@/components/kyc/approval"
+import CursorFollower from "@/components/cursor-follower"
+import ScrollProgress from "@/components/scroll-progress"
 
-/**
- * Know your candidate: the home page is a KYC file on James, in five checks.
- * Identity, proof of address, source of funds, suitability, approval. The
- * navbar doubles as the progress through them.
- */
 export default function Home() {
   return (
     <>
+      <CursorFollower />
+      <ScrollProgress />
       <Navbar />
-      <main className="overflow-x-clip">
-        <Identity />
-        <Address />
-        <Funds />
-        <Suitability />
-        <Approval />
+      <main className="min-h-screen">
+        <HeroAbout />
+        <Experience />
+        <Projects />
+        <TechStack />
+        <AcademicAchievements />
+        <Contact />
       </main>
       <Footer />
     </>
