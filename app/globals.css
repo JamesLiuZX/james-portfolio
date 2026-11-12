@@ -3,98 +3,64 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   Design tokens
-   Warm paper / ink neutrals with a single restrained brand accent.
-   All values are HSL channels so they compose with `hsl(var(--x) / <alpha>)`.
+   Design tokens: "Know your candidate"
+   The site is a KYC file on James. Security paper, midnight ink, intaglio
+   violet (his violet, engraved), teal guilloche, an approval green and a
+   night band for the trading chapter. One theme, tuned by hand.
+   Token names are unchanged so every subpage follows the new identity.
    ========================================================================== */
 
 @layer base {
-  :root {
-    /* Surfaces */
-    --background: 40 24% 98%;
-    --surface: 0 0% 100%;
-    --surface-muted: 40 14% 96%;
-    --elevated: 0 0% 100%;
+  :root,
+  .dark {
+    /* Surfaces: security paper */
+    --background: 80 17% 93%;
+    --surface: 75 22% 96.5%;
+    --surface-muted: 87 17% 90%;
+    --elevated: 75 22% 97.5%;
 
-    /* Ink */
-    --foreground: 240 8% 8%;
-    --muted-foreground: 240 4% 42%;
-    --subtle-foreground: 240 4% 58%;
+    /* Ink: midnight */
+    --foreground: 223 53% 9%;
+    --muted-foreground: 223 16% 35%;
+    --subtle-foreground: 225 11% 44%;
 
-    /* Brand */
-    --brand: 252 76% 58%;
+    /* Brand: intaglio violet and teal guilloche */
+    --brand: 246 68% 53%;
     --brand-foreground: 0 0% 100%;
-    --brand-soft: 252 80% 96%;
-    --brand-2: 199 89% 48%;
+    --brand-soft: 246 66% 94%;
+    --brand-2: 175 77% 26%;
 
     /* shadcn compatibility layer */
-    --card: 0 0% 100%;
-    --card-foreground: 240 8% 8%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 8% 8%;
-    --primary: 240 8% 8%;
-    --primary-foreground: 40 24% 98%;
-    --secondary: 40 14% 95%;
-    --secondary-foreground: 240 8% 12%;
-    --muted: 40 14% 95%;
-    --accent: 40 14% 94%;
-    --accent-foreground: 240 8% 12%;
-    --destructive: 0 72% 51%;
+    --card: 75 22% 96.5%;
+    --card-foreground: 223 53% 9%;
+    --popover: 75 22% 97.5%;
+    --popover-foreground: 223 53% 9%;
+    --primary: 223 53% 9%;
+    --primary-foreground: 80 17% 96%;
+    --secondary: 87 17% 90%;
+    --secondary-foreground: 223 53% 9%;
+    --muted: 87 17% 90%;
+    --accent: 87 17% 88%;
+    --accent-foreground: 223 53% 9%;
+    --destructive: 4 74% 49%;
     --destructive-foreground: 0 0% 98%;
-    --border: 40 10% 89%;
-    --input: 40 10% 89%;
-    --ring: 252 76% 58%;
+    --border: 86 16% 82%;
+    --input: 86 16% 80%;
+    --ring: 246 68% 53%;
     --radius: 0.75rem;
 
     /* Decorative */
-    --hairline: 240 6% 10%;
+    --hairline: 223 53% 9%;
     --hairline-opacity: 0.08;
     --grain-opacity: 0.035;
-    --glow-a: 252 76% 58%;
-    --glow-b: 199 89% 48%;
-    --ambient-a: 0.06;
-    --ambient-b: 0.04;
-  }
+    --glow-a: 246 68% 53%;
+    --glow-b: 175 77% 26%;
+    --ambient-a: 0.035;
+    --ambient-b: 0.025;
 
-  .dark {
-    --background: 250 20% 6%;
-    --surface: 250 16% 9%;
-    --surface-muted: 250 14% 11%;
-    --elevated: 250 14% 11%;
-
-    --foreground: 40 20% 97%;
-    --muted-foreground: 240 5% 64%;
-    --subtle-foreground: 240 5% 48%;
-
-    --brand: 252 92% 74%;
-    --brand-foreground: 240 9% 6%;
-    --brand-soft: 252 40% 16%;
-    --brand-2: 199 90% 62%;
-
-    --card: 250 16% 9%;
-    --card-foreground: 40 20% 97%;
-    --popover: 250 16% 9%;
-    --popover-foreground: 40 20% 97%;
-    --primary: 40 20% 97%;
-    --primary-foreground: 240 9% 6%;
-    --secondary: 250 12% 14%;
-    --secondary-foreground: 40 20% 97%;
-    --muted: 250 12% 14%;
-    --accent: 250 12% 16%;
-    --accent-foreground: 40 20% 97%;
-    --destructive: 0 63% 45%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 250 11% 18%;
-    --input: 250 11% 20%;
-    --ring: 252 92% 74%;
-
-    --hairline: 40 20% 97%;
-    --hairline-opacity: 0.1;
-    --grain-opacity: 0.05;
-    --glow-a: 252 92% 68%;
-    --glow-b: 199 90% 55%;
-    --ambient-a: 0.11;
-    --ambient-b: 0.06;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+    --nav-h: 3.75rem;
   }
 }
 
@@ -105,6 +71,7 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: var(--nav-h);
   }
 
   /* Lenis drives scrolling; native smooth-scroll would fight it. */
@@ -127,15 +94,10 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     text-rendering: optimizeLegibility;
   }
 
-  /*
-   * A faint brand wash that stays put while the page scrolls: violet from the
-   * top left, cyan from the bottom right. A fixed layer rather than a fixed
-   * background, so the compositor moves it instead of repainting each frame.
-   */
+  /* Barely-there wash: violet from the top left, teal from the bottom right. */
   body::before {
     content: "";
     position: fixed;
@@ -148,7 +110,7 @@
   }
 
   ::selection {
-    background-color: hsl(var(--brand) / 0.22);
+    background-color: hsl(var(--brand) / 0.2);
     color: hsl(var(--foreground));
   }
 
@@ -169,120 +131,69 @@
     text-wrap: pretty;
   }
 
-  /* Scrollbar */
   * {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--border)) transparent;
   }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--border));
-    border-radius: 999px;
-    border: 3px solid transparent;
-    background-clip: content-box;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--muted-foreground) / 0.5);
-    background-clip: content-box;
-  }
 }
 
 /* ==========================================================================
-   Component utilities
+   Components (names kept for the subpages)
    ========================================================================== */
 
 @layer components {
-  /* Small uppercase mono label used above every section title. */
   .eyebrow {
     @apply inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground;
   }
 
-  /*
-   * Serif italic used to emphasise a single word inside a sans headline.
-   * The trailing padding keeps the italic's overhang off following punctuation.
-   */
   .serif-accent {
     font-family: var(--font-display), Georgia, serif;
     font-style: italic;
+    font-weight: 400;
     padding-right: 0.06em;
   }
 
-  /* Frosted pill used for eyebrows, chips and tags. */
   .pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface/60 px-3 py-1.5 backdrop-blur-md;
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-surface/70 px-3 py-1.5;
   }
 
-  /*
-   * The floating nav once it lifts off the top of the page.
-   *
-   * `backdrop-filter` on a fixed element means the compositor re-blurs
-   * whatever is behind it on every scrolled frame — the single most
-   * expensive thing on this page while a phone is actually scrolling. Small
-   * screens get an opaque bar instead, which reads the same over content.
-   */
   .nav-scrolled {
     background-color: hsl(var(--background) / 0.94);
   }
 
   @media (min-width: 768px) {
     .nav-scrolled {
-      background-color: hsl(var(--background) / 0.7);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background-color: hsl(var(--background) / 0.78);
+      backdrop-filter: blur(18px) saturate(1.2);
+      -webkit-backdrop-filter: blur(18px) saturate(1.2);
     }
   }
 
-  /* Standard surface card. */
+  /* A document card: paper, hairline, small corners. */
   .card-surface {
-    @apply rounded-2xl border border-border/70 bg-surface transition-colors duration-300;
-  }
-
-  .dark .card-surface {
-    background-image: linear-gradient(to bottom, hsl(var(--brand) / 0.04), transparent 50%);
+    @apply rounded-xl border border-border bg-surface transition-[border-color,box-shadow,transform] duration-300;
   }
 
   .card-surface-hover {
-    @apply hover:border-brand/30 hover:shadow-glow;
+    @apply hover:border-brand/35 hover:shadow-lifted;
   }
 
-  /* Hairline rule that adapts to theme. */
   .hairline {
-    background: linear-gradient(
-      to right,
-      transparent,
-      hsl(var(--hairline) / calc(var(--hairline-opacity) * 3)),
-      transparent
-    );
+    background: linear-gradient(to right, transparent, hsl(var(--hairline) / 0.2), transparent);
   }
 
   .text-gradient {
-    @apply bg-gradient-to-br from-foreground via-foreground to-foreground/55 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-foreground via-foreground to-foreground/60 bg-clip-text text-transparent;
   }
 
   .text-gradient-brand {
-    background-image: linear-gradient(
-      110deg,
-      hsl(var(--brand)),
-      hsl(var(--brand-2)),
-      hsl(var(--brand))
-    );
+    background-image: linear-gradient(110deg, hsl(var(--brand)), hsl(var(--brand-2)), hsl(var(--brand)));
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Animated underline for inline links. */
   .link-underline {
     @apply relative inline-flex items-center;
   }
@@ -296,22 +207,9 @@
     @apply origin-left scale-x-100;
   }
 
-  /* Fades long scrollable / marquee rows out at their edges. */
   .mask-fade-x {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 8%,
-      black 92%,
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 8%,
-      black 92%,
-      transparent
-    );
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
 
   .mask-fade-b {
@@ -323,55 +221,46 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, black, transparent 75%);
     mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, black, transparent 75%);
   }
+
+  /* Archivo's width axis: expanded for document heads, condensed for figures. */
+  .stretch-wide {
+    font-stretch: 122%;
+  }
+
+  .stretch-semi {
+    font-stretch: 108%;
+  }
+
+  .stretch-cond {
+    font-stretch: 76%;
+  }
+
+  /* Small spaced capitals for field labels. */
+  .field {
+    @apply font-mono text-[10px] uppercase tracking-[0.2em];
+  }
 }
 
 @layer utilities {
-  /* Blueprint grid + dot backgrounds that read correctly in both themes. */
   .bg-grid {
-    background-image: linear-gradient(
-        to right,
-        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        to bottom,
-        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
-        transparent 1px
-      );
+    background-image:
+      linear-gradient(to right, hsl(var(--hairline) / var(--hairline-opacity)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--hairline) / var(--hairline-opacity)) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
   .bg-grid-sm {
-    background-image: linear-gradient(
-        to right,
-        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        to bottom,
-        hsl(var(--hairline) / var(--hairline-opacity)) 1px,
-        transparent 1px
-      );
+    background-image:
+      linear-gradient(to right, hsl(var(--hairline) / var(--hairline-opacity)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--hairline) / var(--hairline-opacity)) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
   .bg-dots {
-    background-image: radial-gradient(
-      hsl(var(--hairline) / calc(var(--hairline-opacity) * 2.5)) 1px,
-      transparent 1px
-    );
+    background-image: radial-gradient(hsl(var(--hairline) / calc(var(--hairline-opacity) * 2.5)) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
-  /*
-   * Big soft brand glows behind the hero and section headers.
-   *
-   * A 600px element under a 120px blur is one of the most expensive things a
-   * phone GPU can be asked to composite, and these two drift on an infinite
-   * loop, so the cost is paid every frame for the life of the page. Small
-   * screens get a much tighter blur and no drift; the look survives because
-   * the orbs are low-opacity wash to begin with.
-   */
   .orb {
     position: absolute;
     border-radius: 9999px;
@@ -385,25 +274,18 @@
     }
   }
 
-  /* Pointer-tracked spotlight; the coordinates are set by the hero on mouse move. */
   .hero-spotlight {
-    background: radial-gradient(
-      600px circle at var(--spot-x, 50%) var(--spot-y, 35%),
-      hsl(var(--brand) / 0.1),
-      transparent 65%
-    );
+    background: radial-gradient(600px circle at var(--spot-x, 50%) var(--spot-y, 35%), hsl(var(--brand) / 0.08), transparent 65%);
   }
 
   .scroll-cue {
     animation: scroll-cue 1.8s ease-in-out infinite;
   }
 
-  /* Sun/moon swapping in on the theme toggle. */
   .theme-swap {
     animation: theme-swap 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  /* Fine film grain layered over hero surfaces. */
   .grain::after {
     content: "";
     position: absolute;
@@ -413,11 +295,6 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /*
-   * That grain is an feTurbulence filter the browser has to rasterise before
-   * it can paint the hero. It is a 3.5%-opacity texture — invisible at phone
-   * pixel densities, and not worth blocking the first paint for.
-   */
   @media (max-width: 767px) {
     .grain::after {
       display: none;
@@ -432,9 +309,8 @@
     transform-style: preserve-3d;
   }
 
-  /* Section rhythm — one source of truth for vertical spacing. */
   .section-y {
-    @apply py-24 md:py-32 lg:py-40;
+    @apply py-24 md:py-32 lg:py-36;
   }
 
   .shell {
@@ -444,17 +320,21 @@
   .shell-wide {
     @apply mx-auto w-full max-w-7xl px-6 md:px-8;
   }
+
+  /* Banknote microprint: a line of tiny repeated text used as a rule. */
+  .microtext {
+    @apply select-none overflow-hidden whitespace-nowrap font-mono uppercase;
+    font-size: 6.5px;
+    letter-spacing: 0.32em;
+    line-height: 1;
+  }
 }
 
 /* ==========================================================================
-   Entrances
-
-   Entrance and scroll-reveal motion is CSS, not JS. The distinction matters
-   for the first paint: a JS-driven entrance leaves its content invisible
-   until the animation library has downloaded, parsed and hydrated, which on
-   a phone pushes the largest contentful paint several seconds past the point
-   where the markup was already sitting in the document. These animations
-   start with the stylesheet instead.
+   Motion
+   Above the fold animates from the stylesheet (.enter, .enter-mask). Below
+   it, an inline observer (lib/reveal-script.ts) adds .is-in to .reveal, .rise
+   and .observe elements as they arrive. Nothing waits on hydration.
    ========================================================================== */
 
 @keyframes enter-rise {
@@ -488,7 +368,6 @@
   }
 }
 
-/* Word climbing out of an `overflow-hidden` mask — used by the hero headline. */
 @keyframes enter-mask-up {
   from {
     transform: translateY(110%);
@@ -498,14 +377,24 @@
   }
 }
 
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer utilities {
-  /*
-   * Above-the-fold entrances. These play once, immediately, driven only by
-   * the stylesheet. `--enter-delay` staggers siblings.
-   */
   .enter {
-    animation: enter-rise var(--enter-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1)
-      var(--enter-delay, 0s) both;
+    animation: enter-rise var(--enter-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) var(--enter-delay, 0s) both;
   }
 
   .enter-fade {
@@ -513,42 +402,312 @@
   }
 
   .enter-mask {
-    animation: enter-mask-up var(--enter-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1)
-      var(--enter-delay, 0s) both;
+    animation: enter-mask-up var(--enter-duration, 0.9s) cubic-bezier(0.16, 1, 0.3, 1) var(--enter-delay, 0s) both;
   }
 
-  /*
-   * Below-the-fold reveals. The bootstrap observer adds `.is-in` on entry.
-   *
-   * Deliberately an animation rather than a transition: most reveal targets
-   * also carry Tailwind `transition-*` utilities, and those set
-   * `transition-property` in the same cascade layer — a transition-based
-   * reveal would be silently cancelled depending on class order. Animations
-   * do not share that property.
-   */
   .reveal {
     opacity: 0;
   }
 
   .reveal.is-in {
-    animation: reveal-rise var(--reveal-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1)
-      var(--reveal-delay, 0s) both;
+    animation: reveal-rise var(--reveal-duration, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s) both;
   }
 
-  /*
-   * Without scripting — or without IntersectionObserver — nothing ever adds
-   * `.is-in`, so the reveal must not be the thing that hides the page.
-   */
+  /* Headlines whose words climb out of their own masks on arrival. */
+  .rise .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0.06em 0.08em 0.14em 0;
+    margin: -0.06em -0.08em -0.14em 0;
+  }
+
+  .rise .w > span {
+    display: inline-block;
+    transform: translateY(110%);
+  }
+
+  .rise.is-in .w > span {
+    animation: enter-mask-up 1s var(--ease-out) calc(var(--i, 0) * 55ms + var(--delay, 0s)) both;
+  }
+
   .no-js .reveal,
   .reveal-all .reveal {
     opacity: 1;
     transform: none;
     transition: none;
   }
+
+  .no-js .rise .w > span,
+  .reveal-all .rise .w > span {
+    transform: none;
+  }
+
+  /* Strokes that draw in: straight away, or once the parent arrives. */
+  .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw var(--dur, 1.6s) var(--ease-in-out) var(--delay, 0s) forwards;
+  }
+
+  .draw-later {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .is-in .draw-later,
+  .is-in.draw-later {
+    animation: draw var(--dur, 1.4s) var(--ease-in-out) var(--delay, 0.15s) forwards;
+  }
+
+  .spin-slow {
+    animation: spin var(--dur, 120s) linear infinite;
+  }
 }
 
 /* ==========================================================================
-   Keyframes
+   Status chips: "Reviewing" turns into the verdict once the chapter arrives
+   ========================================================================== */
+
+.status-chip {
+  min-width: 9.5rem;
+}
+
+.status-chip .chip-done {
+  transform: translateY(110%);
+}
+
+.is-in .status-chip .chip-pending {
+  animation: chip-out 0.35s var(--ease-out) var(--chip-delay, 1.3s) forwards;
+}
+
+.is-in .status-chip .chip-done {
+  animation: chip-in 0.45s var(--ease-out) calc(var(--chip-delay, 1.3s) + 0.1s) forwards;
+}
+
+@keyframes chip-out {
+  to {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+}
+
+@keyframes chip-in {
+  to {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   01 · The identity document
+   ========================================================================== */
+
+/* The hologram: an iridescent foil whose sheen follows the pointer (--mx,
+   --my set by the card) and drifts on its own on touch screens. */
+.holo {
+  background:
+    radial-gradient(
+      28rem circle at var(--mx, 30%) var(--my, 20%),
+      rgba(255, 255, 255, 0.55),
+      transparent 42%
+    ),
+    conic-gradient(
+      from var(--holo-angle, 0deg) at 50% 50%,
+      #7cf7e8,
+      #a59bff,
+      #f7a8d8,
+      #ffe38f,
+      #8ef0b0,
+      #7cf7e8
+    );
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+}
+
+@media (hover: none) {
+  .holo {
+    animation: holo-drift 9s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes holo-drift {
+  from {
+    --mx: 20%;
+    --my: 10%;
+    --holo-angle: 0deg;
+  }
+  to {
+    --mx: 80%;
+    --my: 90%;
+    --holo-angle: 140deg;
+  }
+}
+
+@property --holo-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --mx {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 30%;
+}
+
+@property --my {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 20%;
+}
+
+/* The MRZ: each line types out in OCR order, one character per step. */
+.mrz-line {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: mrz-type var(--dur, 1.8s) steps(44, end) var(--delay, 0s) forwards;
+}
+
+@keyframes mrz-type {
+  to {
+    width: 44ch;
+  }
+}
+
+/* Stickers pressed onto the page at a set moment. */
+.sticker {
+  animation: sticker 0.6s cubic-bezier(0.2, 1.5, 0.4, 1) var(--d, 0s) both;
+}
+
+@keyframes sticker {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(1.6);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(6deg) scale(1);
+  }
+}
+
+/* Liveness check: one pass of a scan line over the photo. */
+.scan-pass {
+  animation: scan-pass 1.6s var(--ease-in-out) var(--delay, 0.9s) 1 both;
+}
+
+@keyframes scan-pass {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   02 · The passport and its stamps
+   ========================================================================== */
+
+.stamp {
+  opacity: 0;
+  transform: rotate(calc(var(--r, 0deg) - 10deg)) scale(1.35);
+  transform-origin: center;
+}
+
+.is-in .stamp {
+  animation: stamp-down 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) var(--d, 0s) forwards;
+}
+
+@keyframes stamp-down {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--r, 0deg) - 10deg)) scale(1.35);
+  }
+  60% {
+    opacity: 0.92;
+    transform: rotate(var(--r, 0deg)) scale(0.97);
+  }
+  100% {
+    opacity: 0.88;
+    transform: rotate(var(--r, 0deg)) scale(1);
+  }
+}
+
+/* ==========================================================================
+   03 · Positions and the split-flap figures
+   ========================================================================== */
+
+.flap {
+  display: inline-block;
+  min-width: 0.62em;
+  text-align: center;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 0 50%, rgba(255, 255, 255, 0.025) 50% 100%);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  margin-right: 1px;
+  position: relative;
+}
+
+.flap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.flap.flipping {
+  animation: flap 0.09s linear;
+}
+
+@keyframes flap {
+  50% {
+    transform: perspective(200px) rotateX(-70deg);
+  }
+}
+
+/* ==========================================================================
+   05 · Approval
+   ========================================================================== */
+
+.approve-stamp {
+  opacity: 0;
+  transform: rotate(-14deg) scale(1.6);
+}
+
+.is-in .approve-stamp {
+  animation: approve 0.6s cubic-bezier(0.2, 1.5, 0.4, 1) var(--d, 1.2s) forwards;
+}
+
+@keyframes approve {
+  0% {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.6);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-8deg) scale(1);
+  }
+}
+
+/* ==========================================================================
+   Keyframes kept for the subpages
    ========================================================================== */
 
 @keyframes marquee {
@@ -632,9 +791,16 @@
     scroll-behavior: auto !important;
   }
 
-  /* Show entrances outright rather than snapping them in on scroll. */
   .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .rise .w > span {
+    transform: none;
+  }
+
+  .mrz-line {
+    width: 44ch;
   }
 }

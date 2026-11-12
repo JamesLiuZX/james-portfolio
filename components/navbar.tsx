@@ -1,244 +1,236 @@
 "use client"
 
-import { useCallback, useEffect, useState, type CSSProperties } from "react"
+import { useEffect, useRef, useState, type CSSProperties } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, Download, Menu, X } from "lucide-react"
-import ThemeToggle from "@/components/theme-toggle"
-import { cn } from "@/lib/utils"
+import { ArrowUpRight, Check, Download, Menu, X } from "lucide-react"
 import { RESUME_PATH } from "@/lib/site"
+import { steps } from "@/lib/kyc"
+import { cn } from "@/lib/utils"
 
-type NavLink = {
-  name: string
-  href: string
-  /** Present when the link targets a section on the home page. */
-  sectionId?: string
-}
-
-const navLinks: NavLink[] = [
-  { name: "Work", href: "/#experience", sectionId: "experience" },
-  { name: "Projects", href: "/#projects", sectionId: "projects" },
-  { name: "Toolkit", href: "/#toolkit", sectionId: "toolkit" },
-  { name: "Academic", href: "/#academic", sectionId: "academic" },
-  { name: "Contact", href: "/#contact", sectionId: "contact" },
+const links = [
+  { name: "Work", href: "/#funds" },
+  { name: "Projects", href: "/projects" },
+  { name: "Writing", href: "/blog" },
+  { name: "Academic", href: "/academic" },
 ]
 
+/** His mark: initials in a guilloche ring. */
+function Roundel() {
+  const rings = [0, 1, 2].map((k) => {
+    let d = ""
+    for (let i = 0; i <= 120; i++) {
+      const t = (i / 120) * Math.PI * 2
+      const r = 15.5 + 1.6 * Math.sin(9 * t + k * 0.7)
+      d += `${i ? " " : "M"}${(18 + r * Math.cos(t)).toFixed(2)} ${(18 + r * Math.sin(t)).toFixed(2)}`
+    }
+    return d + "Z"
+  })
+  return (
+    <span className="relative grid h-9 w-9 shrink-0 place-items-center">
+      <svg viewBox="0 0 36 36" aria-hidden="true" className="absolute inset-0 text-violet transition-transform duration-700 group-hover:rotate-45">
+        {rings.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke="currentColor" strokeOpacity={0.55} strokeWidth={0.6} />
+        ))}
+      </svg>
+      <span className="serif-accent relative text-[15px] leading-none text-ink">JL</span>
+    </span>
+  )
+}
+
+/**
+ * The top bar. On the home page it is also the KYC progress: five segments
+ * that fill as each check is read, with the current step named.
+ */
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState<string | null>(null)
   const pathname = usePathname()
   const isHome = pathname === "/"
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState(0)
+  const fills = useRef<(HTMLSpanElement | null)[]>([])
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24)
-    handleScroll()
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 16)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Scroll spy — highlights whichever section currently owns the upper viewport.
   useEffect(() => {
-    if (!isHome) {
-      setActiveSection(null)
-      return
-    }
-
-    const ids = navLinks.map((link) => link.sectionId).filter(Boolean) as string[]
-    const sections = ids
-      .map((id) => document.getElementById(id))
+    if (!isHome) return
+    const sections = steps
+      .map((step) => document.getElementById(step.id))
       .filter((el): el is HTMLElement => el !== null)
-
-    if (sections.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
-        if (visible) setActiveSection(visible.target.id)
-      },
-      { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
-    )
-
-    sections.forEach((section) => observer.observe(section))
-
-    // While the hero fills the viewport no nav item should read as active.
-    const clearOverHero = () => {
-      if (window.scrollY < window.innerHeight * 0.6) setActiveSection(null)
+    let frame = 0
+    let last = -1
+    const paint = () => {
+      frame = 0
+      const line = window.innerHeight * 0.4
+      let current = 0
+      sections.forEach((el, i) => {
+        if (el.getBoundingClientRect().top <= line) current = i
+      })
+      const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+      if (atEnd) current = sections.length - 1
+      sections.forEach((el, i) => {
+        const rect = el.getBoundingClientRect()
+        const progress = i < current ? 1 : i > current ? 0 : atEnd ? 1 : Math.min(1, Math.max(0, (line - rect.top) / rect.height))
+        const fill = fills.current[i]
+        if (fill) fill.style.transform = `scaleX(${progress})`
+      })
+      if (current !== last) {
+        last = current
+        setActive(current)
+      }
     }
-    clearOverHero()
-    window.addEventListener("scroll", clearOverHero, { passive: true })
-
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+    paint()
+    window.addEventListener("scroll", schedule, { passive: true })
+    window.addEventListener("resize", schedule, { passive: true })
     return () => {
-      observer.disconnect()
-      window.removeEventListener("scroll", clearOverHero)
+      window.removeEventListener("scroll", schedule)
+      window.removeEventListener("resize", schedule)
+      if (frame) cancelAnimationFrame(frame)
     }
   }, [isHome])
 
-  // Lock body scroll while the mobile sheet is open.
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : ""
+    document.body.style.overflow = open ? "hidden" : ""
     return () => {
       document.body.style.overflow = ""
     }
-  }, [isOpen])
+  }, [open])
 
-  const isActive = useCallback(
-    (link: NavLink) => {
-      if (link.sectionId) return isHome && activeSection === link.sectionId
-      return pathname === link.href
-    },
-    [activeSection, isHome, pathname],
-  )
+  const step = steps[active]
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:pt-5">
-        <nav
-          style={{ "--enter-y": "-24px", "--enter-duration": "0.6s" } as CSSProperties}
-          className={cn(
-            "enter flex w-full max-w-5xl items-center justify-between gap-4 rounded-full px-3 py-2 transition-[background-color,border-color,box-shadow] duration-500 md:px-4",
-            scrolled
-              ? "nav-scrolled border border-border/70 shadow-soft"
-              : "border border-transparent bg-transparent",
-          )}
-        >
-          <Link
-            href="/"
-            className="group flex shrink-0 items-center gap-2.5 rounded-full px-2 py-1"
-            aria-label="James Liu, home"
-          >
-            <span className="relative grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-foreground text-[13px] font-semibold text-background transition-transform duration-500 ease-out-expo group-hover:scale-105">
-              JL
-            </span>
-            <span className="hidden text-sm font-medium tracking-tight sm:block">James Liu</span>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 h-[var(--nav-h)] border-b transition-[background-color,border-color] duration-500",
+          scrolled ? "nav-scrolled border-ink/10" : "border-transparent",
+        )}
+      >
+        <nav aria-label="Main" className="shell flex h-full items-center gap-6">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="James Liu, home">
+            <Roundel />
+            <span className="hidden text-sm font-semibold tracking-tight text-ink sm:block">James Liu</span>
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link) => {
-              const active = isActive(link)
-              return (
+          {isHome ? (
+            <div className="flex min-w-0 flex-1 items-center justify-center gap-4">
+              <ol className="hidden items-center gap-1.5 md:flex" aria-label="KYC steps">
+                {steps.map((item, index) => (
+                  <li key={item.id}>
+                    <a href={`#${item.id}`} aria-label={`Step ${index + 1}: ${item.name}`} aria-current={index === active ? "step" : undefined} className="group/seg block py-3">
+                      <span className="relative block h-[3px] w-7 overflow-hidden rounded-full bg-ink/10 transition-colors group-hover/seg:bg-ink/25 lg:w-9">
+                        <span
+                          ref={(el) => {
+                            fills.current[index] = el
+                          }}
+                          className="absolute inset-0 origin-left scale-x-0 rounded-full bg-violet"
+                        />
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              <p className="field min-w-0 truncate text-ink-soft" aria-live="polite">
+                <span className="text-violet">Step {String(active + 1).padStart(2, "0")}</span>
+                <span className="mx-1.5 opacity-40">/05</span>
+                <span className="text-ink">{step.name}</span>
+              </p>
+            </div>
+          ) : (
+            <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
+              {links.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "relative rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300",
-                    active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                    "rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300",
+                    pathname.startsWith(link.href) && link.href !== "/#funds" ? "text-ink" : "text-ink-soft hover:text-ink",
                   )}
                 >
-                  {active && (
-                    <span
-                      aria-hidden="true"
-                      className="enter-fade absolute inset-0 rounded-full bg-foreground/[0.06] dark:bg-foreground/[0.09]"
-                      style={{ "--enter-duration": "0.25s" } as CSSProperties}
-                    />
-                  )}
-                  <span className="relative">{link.name}</span>
+                  {link.name}
                 </Link>
-              )
-            })}
-          </div>
+              ))}
+            </div>
+          )}
 
-          <div className="flex shrink-0 items-center gap-2">
-            <ThemeToggle />
-            <a
-              href={RESUME_PATH}
-              download
-              className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground lg:inline-flex"
-            >
+          <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0">
+            {isHome && (
+              <div className="hidden items-center gap-1 lg:flex">
+                <Link href="/projects" className="rounded-full px-3 py-1.5 text-sm text-ink-soft transition-colors hover:text-ink">
+                  Projects
+                </Link>
+                <Link href="/blog" className="rounded-full px-3 py-1.5 text-sm text-ink-soft transition-colors hover:text-ink">
+                  Writing
+                </Link>
+              </div>
+            )}
+            <a href={RESUME_PATH} download className="hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-sm text-ink-soft transition-colors hover:text-ink sm:inline-flex">
               <Download className="h-3.5 w-3.5" />
-              Resume
+              Résumé
             </a>
-            <a
-              href="https://www.linkedin.com/in/james-liu-zx/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group hidden items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-all duration-300 hover:opacity-90 sm:inline-flex"
+            <Link
+              href="/#approval"
+              className="group ml-1 hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-deep sm:inline-flex"
             >
-              Connect
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-
+              Contact
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
             <button
               type="button"
-              onClick={() => setIsOpen((open) => !open)}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
-              className="grid h-9 w-9 place-items-center rounded-full border border-border/70 bg-surface/60 md:hidden"
+              onClick={() => setOpen((value) => !value)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              className="ml-1 grid h-9 w-9 place-items-center rounded-full border border-ink/15 md:hidden"
             >
-              {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile sheet */}
-      {isOpen && (
-        <div
-          className="enter-fade fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden"
-          style={{ "--enter-duration": "0.25s" } as CSSProperties}
-        >
-          <div className="flex h-full flex-col justify-center px-8">
-            <nav className="flex flex-col gap-2">
-              {navLinks.map((link, index) => (
-                <div
-                  key={link.name}
-                  className="enter"
-                  style={
-                    {
-                      "--enter-delay": `${0.06 * index + 0.08}s`,
-                      "--enter-y": "16px",
-                      "--enter-duration": "0.5s",
-                    } as CSSProperties
-                  }
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-baseline gap-4 border-b border-border/60 py-4 text-3xl font-medium tracking-tight"
-                  >
-                    <span className="font-mono text-xs text-subtle">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {link.name}
-                  </Link>
-                </div>
+      {open && (
+        <div className="enter-fade fixed inset-0 z-40 overflow-y-auto bg-paper/95 backdrop-blur-xl md:hidden" style={{ "--enter-duration": "0.25s" } as CSSProperties}>
+          <div className="flex min-h-full flex-col px-7 pb-10 pt-[calc(var(--nav-h)+2rem)]">
+            <p className="field text-ink-faint">The file</p>
+            <ol className="mt-3">
+              {steps.map((item, index) => {
+                const done = isHome && index < active
+                return (
+                  <li key={item.id}>
+                    <a href={`/#${item.id}`} onClick={() => setOpen(false)} className="flex items-center gap-4 border-b border-ink/10 py-3.5">
+                      <span className={cn("grid h-6 w-6 place-items-center rounded-full border font-mono text-[10px]", done ? "border-signal bg-signal text-white" : "border-ink/25 text-ink-soft")}>
+                        {done ? <Check className="h-3 w-3" strokeWidth={3} /> : index + 1}
+                      </span>
+                      <span className="stretch-semi text-xl font-medium text-ink">{item.name}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ol>
+            <p className="field mt-10 text-ink-faint">Documents</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {links.slice(1).map((link) => (
+                <Link key={link.name} href={link.href} onClick={() => setOpen(false)} className="rounded-full border border-ink/15 px-4 py-2 text-sm text-ink">
+                  {link.name}
+                </Link>
               ))}
-            </nav>
-
-            <a
-              href="https://www.linkedin.com/in/james-liu-zx/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="enter mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background"
-              style={
-                {
-                  "--enter-delay": "0.42s",
-                  "--enter-y": "16px",
-                  "--enter-duration": "0.5s",
-                } as CSSProperties
-              }
-            >
-              Let&apos;s connect
+              <a href={RESUME_PATH} download className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-4 py-2 text-sm text-ink">
+                <Download className="h-3.5 w-3.5" />
+                Résumé
+              </a>
+            </div>
+            <Link href="/#approval" onClick={() => setOpen(false)} className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-white">
+              Contact James
               <ArrowUpRight className="h-4 w-4" />
-            </a>
-            <a
-              href={RESUME_PATH}
-              download
-              className="enter mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium"
-              style={
-                {
-                  "--enter-delay": "0.48s",
-                  "--enter-y": "16px",
-                  "--enter-duration": "0.5s",
-                } as CSSProperties
-              }
-            >
-              <Download className="h-4 w-4" />
-              Download resume (PDF)
-            </a>
+            </Link>
           </div>
         </div>
       )}

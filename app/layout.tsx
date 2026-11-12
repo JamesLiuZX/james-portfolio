@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google"
+import { Archivo, JetBrains_Mono, Instrument_Serif } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import SmoothScroll from "@/components/smooth-scroll"
@@ -9,8 +9,10 @@ import RevealRescan from "@/components/reveal-rescan"
 import { REVEAL_BOOTSTRAP } from "@/lib/reveal-script"
 import { siteUrl } from "@/lib/site"
 
-const sans = Inter({
+// Archivo with its width axis: expanded for document heads, condensed for figures.
+const sans = Archivo({
   subsets: ["latin"],
+  axes: ["wdth"],
   variable: "--font-sans",
   display: "swap",
 })
@@ -81,8 +83,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#faf9f6" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d0c12" },
+    { media: "(prefers-color-scheme: light)", color: "#eef0ea" },
+    { media: "(prefers-color-scheme: dark)", color: "#eef0ea" },
   ],
 }
 
@@ -101,7 +103,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOTSTRAP }} />
       </head>
       <body className={`${sans.variable} ${mono.variable} ${display.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        {/* One hand-tuned theme: the KYC file is printed on paper. */}
+        <ThemeProvider attribute="class" forcedTheme="light" disableTransitionOnChange>
           <SmoothScroll>{children}</SmoothScroll>
           <RevealRescan />
           <Toaster />

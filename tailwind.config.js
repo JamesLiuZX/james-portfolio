@@ -30,6 +30,15 @@ module.exports = {
         "display-xl": ["7rem", { lineHeight: "0.9", letterSpacing: "-0.045em" }],
       },
       colors: {
+        // The KYC identity, used by name on the home page. Security paper,
+        // intaglio violet, teal guilloche, an approval green and a night band.
+        paper: { DEFAULT: "#eef0ea", card: "#f7f8f4", deep: "#e5e9e0", edge: "#d3d9cb" },
+        ink: { DEFAULT: "#0b1224", soft: "#4a5266", faint: "#646b7e" },
+        violet: { DEFAULT: "#4434d9", soft: "#e6e4fa", deep: "#2f22a8", bright: "#8f86ff" },
+        teal: { DEFAULT: "#0f766e", bright: "#2dd4bf" },
+        signal: { DEFAULT: "#138a4a", bright: "#3ddc84" },
+        risk: { DEFAULT: "#d92d20", bright: "#ff6b5e" },
+        night: { DEFAULT: "#070c18", soft: "#0e1526", line: "#1e2740" },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
