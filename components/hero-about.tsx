@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, type CSSProperties } from "react"
 
-import { ArrowDown, ArrowUpRight, Download } from "lucide-react"
-import { RESUME_PATH } from "@/lib/site"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
 
 // The three most recent employers; the rest of the history is on the Experience timeline.
 const companies = ["Revolut", "Crypto.com", "ByteDance"]
@@ -176,14 +175,6 @@ export default function HeroAbout() {
           >
             Let&apos;s connect
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-          <a
-            href={RESUME_PATH}
-            download
-            className="group inline-flex items-center gap-2 rounded-full px-4 py-3.5 text-sm font-medium text-muted-foreground transition-colors duration-300 hover:text-foreground"
-          >
-            <Download className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-            Resume
           </a>
         </div>
 

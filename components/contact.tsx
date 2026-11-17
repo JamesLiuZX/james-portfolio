@@ -1,9 +1,8 @@
 "use client"
 
 import { useState, type CSSProperties, type FormEvent } from "react"
-import { Check, CircleCheck, Copy, FileDown, Github, Instagram, Linkedin, Loader2, Mail, Send } from "lucide-react"
+import { Check, CircleCheck, Copy, Github, Instagram, Linkedin, Loader2, Mail, Send } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section"
-import { RESUME_PATH } from "@/lib/site"
 
 /*
  * Fetched on first use rather than imported at module scope: a toast can only
@@ -158,21 +157,6 @@ export default function Contact() {
               </div>
             </div>
 
-            <a
-              href={RESUME_PATH}
-              download
-              className="card-surface group flex items-center gap-4 p-6 transition-colors duration-300 hover:border-brand/30"
-            >
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border/70 bg-surface-muted text-muted-foreground transition-colors group-hover:text-foreground">
-                <FileDown className="h-4 w-4" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
-                  Resume
-                </span>
-                <span className="mt-1 block text-sm font-medium">Download the PDF</span>
-              </span>
-            </a>
           </div>
 
           {/* Form */}
