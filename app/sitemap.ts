@@ -9,7 +9,6 @@ const staticPaths = [
   "",
   "/blog",
   "/projects",
-  "/academic",
   "/projects/quorum",
   "/demos/quorum/",
   "/projects/kino",
