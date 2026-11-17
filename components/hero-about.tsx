@@ -149,12 +149,11 @@ export default function HeroAbout() {
           style={{ ...delay(0.3), "--enter-y": "16px" } as CSSProperties}
         >
           I&apos;m <span className="font-medium text-foreground">James</span>, a product manager
-          who started out as an engineer. I work on wealth and trading at Revolut, after leading{" "}
-          <span className="serif-accent text-[1.15em] text-foreground">derivative products</span>{" "}
+          who started out as an engineer. I work on wealth and trading at Revolut, after owning{" "}
+          <span className="serif-accent text-[1.15em] text-foreground">crypto and derivative products</span>{" "}
           at Crypto.com and building AI products at ByteDance. I also spent a year in Silicon
           Valley, working at a fast-growing tech startup while studying CS, AI and entrepreneurship
-          in Stanford&apos;s MS&amp;E master&apos;s program. On the side, I build AI agents and
-          tools for trading and multimodal generation.
+          in Stanford&apos;s MS&amp;E master&apos;s program.
         </p>
 
         {/* Actions */}

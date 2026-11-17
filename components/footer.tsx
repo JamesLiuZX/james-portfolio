@@ -3,7 +3,6 @@ import { ArrowUpRight, Github, Instagram, Linkedin, Mail } from "lucide-react"
 
 const sitemap = [
   { name: "Work", href: "/#experience" },
-  { name: "Projects", href: "/projects" },
   { name: "Quorum", href: "/projects/quorum" },
   { name: "Academic", href: "/academic" },
   { name: "Contact", href: "/#contact" },

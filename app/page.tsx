@@ -1,7 +1,6 @@
 import Navbar from "@/components/navbar"
 import HeroAbout from "@/components/hero-about"
 import Experience from "@/components/experience"
-import Projects from "@/components/projects"
 import TechStack from "@/components/tech-stack"
 import AcademicAchievements from "@/components/academic-achievements"
 import Contact from "@/components/contact"
@@ -18,7 +17,6 @@ export default function Home() {
       <main className="min-h-screen">
         <HeroAbout />
         <Experience />
-        <Projects />
         <TechStack />
         <AcademicAchievements />
         <Contact />

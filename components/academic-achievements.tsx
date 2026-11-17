@@ -7,7 +7,6 @@ interface School {
   href: string
   /** Logo on a white plate; schools without one get a neutral icon plate. */
   logo?: string
-  years: string
   programme: string
   /** The one line worth colouring, such as honours. */
   distinction?: string
@@ -20,7 +19,6 @@ const schools: School[] = [
     name: "National University of Singapore",
     href: "https://www.comp.nus.edu.sg/",
     logo: "/nuslogo.webp",
-    years: "2021 - 2025",
     programme: "Bachelor of Computing, Computer Science",
     distinction: "Honours (Distinction)",
     place: "Singapore",
@@ -28,7 +26,6 @@ const schools: School[] = [
   {
     name: "Stanford University",
     href: "https://msande.stanford.edu/",
-    years: "2023 - 2024",
     programme: "Graduate coursework, Management Science & Engineering",
     note: "Graduate classes in AI, computer science and entrepreneurship, during the Silicon Valley year with NUS Overseas Colleges.",
     place: "Stanford, California",
@@ -155,9 +152,6 @@ export default function AcademicAchievements() {
                         )}
                       </div>
                       <div className="min-w-0 space-y-1">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-subtle">
-                          {school.years}
-                        </span>
                         <h3 className="text-base font-semibold leading-snug tracking-tight">
                           <a
                             href={school.href}
