@@ -42,7 +42,7 @@ const experiences: Role[] = [
     description: [
       "AI and trading for 140 million users worldwide. PM for the main app's trading surface and the infrastructure beneath it, focused on derivatives: options, futures and prediction markets.",
       "Prediction Markets: owned market mechanics, pricing and quotation logic, market operations and rewards. Grew monthly active users 60% quarter on quarter with market launches and lifecycle campaigns tied to the FIFA World Cup and NBA Finals.",
-      "Worked with engineering on an AI trading agent that lets users place and manage trades in natural language through OpenClaw and third-party bot integrations: the tool-calling surface, the context passed to the model and the safety constraints. Contributed code via PRs.",
+      "Worked with engineering on parts of an AI trading agent that lets users place and manage trades in natural language through OpenClaw and third-party bot integrations: the tool-calling surface, the context passed to the model and the safety constraints.",
       "Designed and automated the team's internal AI workflows (RAG retrieval, multi-agent orchestration, PRD drafting and working prototypes hosted on the company domain), cutting turnaround on that work by 90%. Built on Claude Code, MCP and the Google Workspace CLI.",
       "Spearheaded the main referral programme and the welcome bonus, lifting new-user trading volume 90% and 15% respectively.",
       "Compliance for app onboarding, KYC, AML and anti-fraud, alongside the geographic expansion of trading products into the EEA and additional US states.",
